@@ -1,6 +1,7 @@
 using Bloggy.Domain.Entites;
 using Bloggy.Infrastructure;
 using Bloggy.Infrastructure.Persistense;
+using Bloggy.Infrastructure.Services.MeiliSearch;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +42,20 @@ var builder = WebApplication.CreateBuilder(args);
         };
 
         options.AddSecurityRequirement(securityRequirement);
+    });
+
+    builder.Services.AddSingleton<MeiliSearchService>(serviceProvider =>
+    {
+        var configuration = builder.Configuration;
+        // var meiliSearchUrl = configuration["MeiliSearch:Url"];
+        // var apiKey = configuration["MeiliSearch:ApiKey"];
+
+        var meiliSearchUrl = configuration["MeiliSearch:Url"] 
+        ?? throw new InvalidOperationException("MeiliSearch:Url is not configured");
+        var apiKey = configuration["MeiliSearch:ApiKey"] 
+        ?? throw new InvalidOperationException("MeiliSearch:ApiKey is not configured");
+
+        return new MeiliSearchService(meiliSearchUrl, apiKey); // Pass configuration into the service
     });
 
     builder.Services.AddControllers();
@@ -291,4 +306,18 @@ The Daily Beast and Better Homes and Gardens.
     app.UseAuthorization();
     app.MapControllers();
 }
+
+var meiliSearchService = app.Services.GetRequiredService<MeiliSearchService>();
+
+try
+{
+    await meiliSearchService.TestConnection();
+    
+} catch (Exception ex)
+{
+    Console.WriteLine($"MeiliSearch connection failed: {ex.Message}");
+    // Optionally, you can exit the application if the connection fails
+    Environment.Exit(1);  // Exit with an error code (optional)
+}
+
 app.Run();

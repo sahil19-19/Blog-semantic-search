@@ -13,4 +13,5 @@ public interface IPostRepository
     IEnumerable<Post> Search(int page, int limit, string searchString);
     IEnumerable<Post> GetByTopicId(int page, int limit, int topicId);
     IEnumerable<Post> GetByTopic(int page, int limit, string topic);
+    IEnumerable<Post> GetBySemanticSearch(int page, int limit, string searchString);
 }

@@ -84,6 +84,22 @@ public class PostRepository(
             .ToList();
     }
 
+    public IEnumerable<Post> GetBySemanticSearch(int page, int limit, string searchString)
+    {
+        return _appDbContext.Posts
+            .Include(p => p.Author)
+            .Include(p => p.Topics)
+            .Where(p => p.Title.ToUpper().Contains(searchString.ToUpper()) ||
+                        p.Description.ToUpper().Contains(searchString.ToUpper()))
+            .OrderByDescending(p => p.Title.ToUpper().Contains(searchString.ToUpper()))
+            .ThenByDescending(p => p.DateCreated)
+            .ThenByDescending(p => p.Description.ToUpper().Contains(searchString.ToUpper()))
+            .ThenByDescending(p => p.DateCreated)
+            .Skip(page * limit)
+            .Take(limit)
+            .ToList();
+    }
+
     public IEnumerable<Post> GetPopular(int page, int limit)
     {
         return _appDbContext.Posts
