@@ -1,0 +1,49 @@
+.account {
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 50px;
+
+        span {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &__box {
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+    }
+
+    &__columns {
+        width: 100%;
+    }
+
+    &__sub_title {
+        font-size: 21px;
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+}
+
+@media(max-width:1420px) {
+    .account {
+        padding-bottom: 80px;
+
+        &__box {
+            flex-direction: column;
+        }
+    }
+}
+@media(max-width:990px){
+    .account {
+        &__title{
+            font-size: 24px;
+        }
+    }
+}
