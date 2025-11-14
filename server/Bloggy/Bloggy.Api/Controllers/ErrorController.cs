@@ -6,6 +6,7 @@ namespace Bloggy.Api.Controllers;
 public class ErrorController : ControllerBase
 {
     [Route("/error")]
+    [HttpGet]
     public IActionResult Errors()
     {
         Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;

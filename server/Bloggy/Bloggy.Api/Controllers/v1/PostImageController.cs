@@ -16,7 +16,7 @@ public class PostImageController(
     public IActionResult Upload([FromRoute] Guid postId, IFormFile image)
         => Ok(_mediator.Send(new UploadRequest(postId, image)));
 
-    [HttpPost]
+    [HttpDelete]
     public IActionResult Delete([FromRoute] Guid postId)
         => Ok(_mediator.Send(new DeleteRequest(postId)));
 }
