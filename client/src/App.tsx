@@ -13,6 +13,7 @@ import AccountPage from './pages/AccountPage/AccountPage';
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
 import SinglePage from './pages/SinglePage/SinglePage';
 import SearchPage from './pages/SearchPage/SearchPage';
+import SemanticSearch from './pages/SemanticSearch/SemanticSearch';
 
 const App: FC = () => {
   const { store } = useContext(Context)
@@ -32,6 +33,7 @@ const App: FC = () => {
         <Sidebar>
           <Routes>
             <Route path="/posts/search/:id" element={<SearchPage type={'search'} />} />
+            <Route path="/posts/semantic-search" element={<SemanticSearch/>} />
             <Route path="/posts/search/:id" element={<SearchPage type={'search'} />} />
             <Route path="/posts/category/:id" element={<SearchPage type={'category'} />} />
             <Route path="/post/:id" element={<SinglePage />} />

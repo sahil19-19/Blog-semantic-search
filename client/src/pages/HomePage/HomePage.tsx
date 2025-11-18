@@ -5,10 +5,12 @@ import Post from '../../components/Post/Post';
 import { useContext, useEffect, useState } from 'react';
 import { Context } from '../../main';
 import { useInView } from 'react-intersection-observer'
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const { store } = useContext(Context)
   const [page, setPage] = useState<number>(0)
+  const navigate = useNavigate()
 
   const [ref, inView] = useInView({
     threshold: 0.6,
@@ -33,6 +35,12 @@ const HomePage = () => {
     <section className={s.home}>
       <div className="container">
         <div className={s.home__top}>
+        <button
+          className={s.semanticButton}
+          onClick={() => navigate("/posts/semantic-search")}
+        >
+          Try Semantic Search
+        </button>
           <SearchBox />
         </div>
         <div className={s.home__items}>
