@@ -24,7 +24,7 @@ public class MeiliSearchService
         {
             // Check the status of MeiliSearch (this assumes MeiliSearch has a "status" endpoint)
             var status = await _client.HealthAsync();
-            Console.WriteLine(status);
+            
             if (status.Status == "available")
             {
                 Console.WriteLine("MeiliSearch is available and connected.");

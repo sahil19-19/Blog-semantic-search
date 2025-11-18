@@ -2,6 +2,7 @@ using Bloggy.Application.Commands.Posts.Create;
 using Bloggy.Application.Commands.Posts.GetAll;
 using Bloggy.Application.Commands.Posts.GetById;
 using Bloggy.Application.Commands.Posts.SemanticSearch;
+using Bloggy.Application.Commands.Posts.SyncToMeili;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,13 @@ public class PostController(
     [HttpPost]
     public IActionResult Create([FromBody] CreateRequest request) => Ok(_mediator.Send(request));
 
+    [HttpPost("sync-meili")]
+    public async Task<IActionResult> SyncToMeili() {
+        var result = await _mediator.Send(new SyncPostsToMeiliRequest());
+
+        return Ok(new { result });
+    }
+    
     [HttpPost("semantic")]
     public IActionResult GetBySemanticSearch(
         [FromBody] string search = "",

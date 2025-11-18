@@ -9,6 +9,7 @@ public interface IPostRepository
     void Update(Post post);
     Post? GetById(Guid postId);
     IEnumerable<Post> GetAll(int page, int limit);
+    IEnumerable<Post> GetAllWithoutPaging();
     IEnumerable<Post> GetPopular(int page, int limit);
     IEnumerable<Post> Search(int page, int limit, string searchString);
     IEnumerable<Post> GetByTopicId(int page, int limit, int topicId);

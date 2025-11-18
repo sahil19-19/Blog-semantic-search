@@ -1,3 +1,4 @@
+using Bloggy.Application.Persistense;
 using Bloggy.Domain.Entites;
 using Bloggy.Infrastructure;
 using Bloggy.Infrastructure.Persistense;
@@ -57,6 +58,8 @@ var builder = WebApplication.CreateBuilder(args);
 
         return new MeiliSearchService(meiliSearchUrl, apiKey); // Pass configuration into the service
     });
+
+    builder.Services.AddScoped<IMeiliSyncService, MeiliSyncService>();
 
     builder.Services.AddControllers();
 

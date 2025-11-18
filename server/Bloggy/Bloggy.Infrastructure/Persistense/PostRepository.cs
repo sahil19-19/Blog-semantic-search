@@ -25,6 +25,14 @@ public class PostRepository(
             .ToList();
     }
 
+    public IEnumerable<Post> GetAllWithoutPaging()
+    {
+        return _appDbContext.Posts
+            .Include(p => p.Author)
+            .Include(p => p.Topics)
+            .ToList();
+    }
+
     public IEnumerable<Post> GetByTopicId(int page, int limit, int topicId)
     {
         return _appDbContext.Posts
