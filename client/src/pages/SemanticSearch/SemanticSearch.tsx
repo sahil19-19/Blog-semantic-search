@@ -1,4 +1,167 @@
+// import React, { useState, useEffect } from "react";
+
+// const API_URL = "http://localhost:5010/api/v1/posts/semantic";
+
+// const SemanticSearch = () => {
+//   const [query, setQuery] = useState("");
+//   const [results, setResults] = useState<any[]>([]);
+//   const [page, setPage] = useState(1);
+//   const [limit] = useState(10);
+//   const [loading, setLoading] = useState(false);
+//   const [debounceTimer, setDebounceTimer] = useState<any>(null);
+
+//   // NEW — slider state
+//   const [semanticRatio, setSemanticRatio] = useState(0.0);
+
+//   // Ensure slider always keeps only ONE decimal place
+//   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const value = parseFloat(e.target.value);
+
+//     // Round to 1 decimal place
+//     const rounded = Math.round(value * 10) / 10;
+
+//     setSemanticRatio(rounded);
+//   };
+
+//   // Function to call backend
+//   const fetchResults = async (searchValue: string, pageNum: number) => {
+//     if (!searchValue.trim()) {
+//       setResults([]);
+//       return;
+//     }
+
+//     setLoading(true);
+
+//     try {
+//       const res = await fetch(
+//         `${API_URL}?page=${pageNum}&limit=${limit}&ratio=${semanticRatio}`,
+//         {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             search: searchValue,
+//           }),
+//         }
+//       );
+
+//       const data = await res.json();
+
+//       const extracted = Array.isArray(data?.result?.hits)
+//         ? data.result.hits
+//         : [];
+
+//       setResults(extracted);
+//     } catch (err) {
+//       console.error("Semantic Search Error:", err);
+//       setResults([]);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Search-as-you-type with debouncing
+//   useEffect(() => {
+//     if (debounceTimer) clearTimeout(debounceTimer);
+
+//     const timer = setTimeout(() => {
+//       fetchResults(query, page);
+//     }, 350);
+
+//     setDebounceTimer(timer);
+//   }, [query, page, semanticRatio]); // also refetch if slider changes
+
+//   return (
+//     <div style={{ width: "600px", margin: "0 auto", padding: "20px" }}>
+//       <h2>Semantic Search</h2>
+
+//       {/* Search Bar */}
+//       <input
+//         type="text"
+//         value={query}
+//         placeholder="Search blogs semantically..."
+//         onChange={(e) => {
+//           setQuery(e.target.value);
+//           setPage(1);
+//         }}
+//         style={{
+//           width: "100%",
+//           padding: "10px",
+//           fontSize: "16px",
+//           marginBottom: "20px",
+//         }}
+//       />
+
+//       {/* SLIDER COMPONENT */}
+//       <div style={{ marginBottom: "20px" }}>
+//         <label style={{ display: "block", marginBottom: "8px" }}>
+//           Semantic Ratio: <b>{semanticRatio.toFixed(1)}</b>
+//         </label>
+
+//         <input
+//           type="range"
+//           min="0"
+//           max="1"
+//           step="0.1"
+//           value={semanticRatio}
+//           onChange={handleSliderChange}
+//           style={{ width: "50%" }}
+//         />
+//       </div>
+
+//       {/* Loading */}
+//       {loading && <p>Searching...</p>}
+
+//       {/* Results */}
+//       <ul style={{ listStyle: "none", padding: 0 }}>
+//         {Array.isArray(results) &&
+//           results.map((item: any, index: number) => (
+//             <li
+//               key={index}
+//               style={{
+//                 marginBottom: "20px",
+//                 borderBottom: "1px solid #ccc",
+//                 paddingBottom: "10px",
+//               }}
+//             >
+//               <h3>{item.title}</h3>
+//               {item.topics && (
+//                 <p>
+//                   <b>Topics:</b> {item.topics}
+//                 </p>
+//               )}
+//               {item.dateCreated && (
+//                 <p>
+//                   <b>Published:</b> {item.dateCreated}
+//                 </p>
+//               )}
+//               <p>{item.description}</p>
+//             </li>
+//           ))}
+
+//         {results.length === 0 && !loading && query && <p>No results found.</p>}
+//       </ul>
+
+//       {/* Pagination */}
+//       {Array.isArray(results) && results.length > 0 && (
+//         <div style={{ display: "flex", gap: "10px" }}>
+//           <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+//             Previous
+//           </button>
+
+//           <button onClick={() => setPage((p) => p + 1)}>Next</button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default SemanticSearch;
+
+
 import React, { useState, useEffect } from "react";
+import "./SemanticSearch.css"; // ← IMPORT CSS
 
 const API_URL = "http://localhost:5010/api/v1/posts/semantic";
 
@@ -10,7 +173,14 @@ const SemanticSearch = () => {
   const [loading, setLoading] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState<any>(null);
 
-  // Function to call backend
+  const [semanticRatio, setSemanticRatio] = useState(0.0);
+
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    const rounded = Math.round(value * 10) / 10;
+    setSemanticRatio(rounded);
+  };
+
   const fetchResults = async (searchValue: string, pageNum: number) => {
     if (!searchValue.trim()) {
       setResults([]);
@@ -20,27 +190,24 @@ const SemanticSearch = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}?page=${pageNum}&limit=${limit}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          search: searchValue,
-        }),
-      });
+      const res = await fetch(
+        `${API_URL}?page=${pageNum}&limit=${limit}&ratio=${semanticRatio}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ search: searchValue }),
+        }
+      );
 
       const data = await res.json();
 
-      // ---- FIX STARTS HERE ----
-      // Safely extract `result.hits`
       const extracted = Array.isArray(data?.result?.hits)
         ? data.result.hits
         : [];
 
       setResults(extracted);
-      // ---- FIX ENDS HERE ----
-
     } catch (err) {
       console.error("Semantic Search Error:", err);
       setResults([]);
@@ -49,81 +216,88 @@ const SemanticSearch = () => {
     }
   };
 
-  // Search-as-you-type with debouncing
   useEffect(() => {
     if (debounceTimer) clearTimeout(debounceTimer);
 
     const timer = setTimeout(() => {
       fetchResults(query, page);
-    }, 350); // user stops typing for 350ms
+    }, 350);
 
     setDebounceTimer(timer);
-  }, [query, page]);
+  }, [query, page, semanticRatio]);
 
   return (
-    <div style={{ width: "600px", margin: "0 auto", padding: "20px" }}>
-      <h2>Semantic Search</h2>
+    <div className="ss-container">
+      <h2 className="ss-title">Semantic Search</h2>
 
-      {/* Search Bar */}
       <input
         type="text"
         value={query}
         placeholder="Search blogs semantically..."
         onChange={(e) => {
           setQuery(e.target.value);
-          setPage(1); // reset page when new search begins
+          setPage(1);
         }}
-        style={{
-          width: "100%",
-          padding: "10px",
-          fontSize: "16px",
-          marginBottom: "20px",
-        }}
+        className="ss-input"
       />
 
-      {/* Loading */}
-      {loading && <p>Searching...</p>}
+      {/* SLIDER */}
+      <div className="ss-slider-container">
+        <label className="ss-slider-label">
+          Semantic Ratio: <b>{semanticRatio.toFixed(1)}</b>
+        </label>
+
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.1"
+          value={semanticRatio}
+          onChange={handleSliderChange}
+          className="ss-slider"
+        />
+      </div>
+
+      {loading && <p className="ss-loading">Searching...</p>}
 
       {/* Results */}
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <ul className="ss-results-list">
         {Array.isArray(results) &&
           results.map((item: any, index: number) => (
-            <li
-              key={index}
-              style={{
-                marginBottom: "20px",
-                borderBottom: "1px solid #ccc",
-                paddingBottom: "10px",
-              }}
-            >
-              <h3>{item.title}</h3>
+            <li key={index} className="ss-result-item">
+              <h3 className="ss-result-title">{item.title}</h3>
               {item.topics && (
-                <p>
+                <p className="ss-result-text">
                   <b>Topics:</b> {item.topics}
                 </p>
               )}
               {item.dateCreated && (
-                <p>
+                <p className="ss-result-text">
                   <b>Published:</b> {item.dateCreated}
                 </p>
               )}
-              <p>{item.description}</p>
+              <p className="ss-result-text">{item.description}</p>
             </li>
           ))}
 
         {results.length === 0 && !loading && query && (
-          <p>No results found.</p>
+          <p className="ss-no-results">No results found.</p>
         )}
       </ul>
 
-      {/* Pagination */}
       {Array.isArray(results) && results.length > 0 && (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+        <div className="ss-pagination">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((p) => p - 1)}
+            className="ss-button"
+          >
             Previous
           </button>
 
-          <button onClick={() => setPage((p) => p + 1)}>Next</button>
+          <button onClick={() => setPage((p) => p + 1)} className="ss-button">
+            Next
+          </button>
         </div>
       )}
     </div>

@@ -21,9 +21,10 @@ public class PostController(
         // [FromBody] string search = "",
         [FromBody] SemanticSearchRequestDto body,
         [FromQuery] int page = 1,
-        [FromQuery] int limit = 10
+        [FromQuery] int limit = 10,
+        [FromQuery] double ratio = 0.5
     ){ 
-        var result = await _mediator.Send(new GetSemanticSearchRequest(page, limit, body.Search));
+        var result = await _mediator.Send(new GetSemanticSearchRequest(page, limit, body.Search, ratio));
         return Ok(result);
     }
 

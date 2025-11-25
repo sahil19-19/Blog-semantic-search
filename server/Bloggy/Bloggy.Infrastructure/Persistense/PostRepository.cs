@@ -97,9 +97,9 @@ public class PostRepository(
             .ToList();
     }
 
-    public async Task<MeiliSearchResponse> GetBySemanticSearch(int page, int limit, string searchString)
+    public async Task<MeiliSearchResponse> GetBySemanticSearch(int page, int limit, string searchString, double ratio)
     {
-        var meiliResult = await _meiliSearchService.SearchPostsBySemantic(searchString, page, limit);
+        var meiliResult = await _meiliSearchService.SearchPostsBySemantic(searchString, page, limit, ratio);
         // if (meiliResult == null || meiliResult.hits == null)
         //     return Enumerable.Empty<MeiliSearchResponse>();
 

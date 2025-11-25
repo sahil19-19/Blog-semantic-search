@@ -10,7 +10,7 @@ public class GetSemanticSearchHandler(
 {
     public async Task<GetSemanticSearchResponse> Handle(GetSemanticSearchRequest request, CancellationToken cancellationToken)
     {
-        var posts = await _postRepository.GetBySemanticSearch(request.Page, request.Limit, request.Search);
+        var posts = await _postRepository.GetBySemanticSearch(request.Page, request.Limit, request.Search, request.Ratio);
         return new GetSemanticSearchResponse(posts);
 
         // var formatted = posts.Select(p => new PostDto
