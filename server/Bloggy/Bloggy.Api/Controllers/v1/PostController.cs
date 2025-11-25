@@ -3,18 +3,29 @@ using Bloggy.Application.Commands.Posts.GetAll;
 using Bloggy.Application.Commands.Posts.GetById;
 using Bloggy.Application.Commands.Posts.SemanticSearch;
 using Bloggy.Application.Commands.Posts.SyncToMeili;
+using Bloggy.Application.Common.Dots;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bloggy.Api.Controllers.v1;
 
+[ApiController]
 [Route("api/v1/posts")]
 public class PostController(
     IMediator _mediator
 ) : BloggyControllerBase
 {
-    [HttpPost]
-    public IActionResult Create([FromBody] CreateRequest request) => Ok(_mediator.Send(request));
+
+    [HttpPost("semantic")]
+    public async Task<IActionResult> GetBySemanticSearch(
+        // [FromBody] string search = "",
+        [FromBody] SemanticSearchRequestDto body,
+        [FromQuery] int page = 1,
+        [FromQuery] int limit = 10
+    ){ 
+        var result = await _mediator.Send(new GetSemanticSearchRequest(page, limit, body.Search));
+        return Ok(result);
+    }
 
     [HttpPost("sync-meili")]
     public async Task<IActionResult> SyncToMeili() {
@@ -22,13 +33,14 @@ public class PostController(
 
         return Ok(new { result });
     }
-    
-    [HttpPost("semantic")]
-    public IActionResult GetBySemanticSearch(
-        [FromBody] string search = "",
-        [FromQuery] int page = 0,
-        [FromQuery] int limit = 3
-    ) => Ok(_mediator.Send(new GetSemanticSearchRequest(page, limit, search)));
+
+    [HttpPost]
+    public IActionResult Create([FromBody] CreateRequest request) => Ok(_mediator.Send(request));
+
+
+    // //_mediator.Send(new GetSemanticSearchRequest(page, limit, body.Search))
+    //         [FromQuery] int page = 0,
+    //     [FromQuery] int limit = 10
 
     [HttpGet("{postId:guid}")]
     public IActionResult GetById(Guid postId) => Ok(_mediator.Send(new GetByIdRequest(postId)));

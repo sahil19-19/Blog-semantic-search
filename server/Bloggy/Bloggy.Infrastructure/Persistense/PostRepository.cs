@@ -1,11 +1,16 @@
+using System.Threading.Tasks;
+using Bloggy.Application.Common.MeiliSearch;
 using Bloggy.Application.Persistense;
 using Bloggy.Domain.Entites;
+using Bloggy.Infrastructure.Services;
+using Bloggy.Infrastructure.Services.MeiliSearch;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bloggy.Infrastructure.Persistense;
 
 public class PostRepository(
-    AppDbContext _appDbContext
+    AppDbContext _appDbContext,
+    MeiliSearchService _meiliSearchService
 ) : IPostRepository
 {
     public void Add(Post post)
@@ -92,20 +97,13 @@ public class PostRepository(
             .ToList();
     }
 
-    public IEnumerable<Post> GetBySemanticSearch(int page, int limit, string searchString)
+    public async Task<MeiliSearchResponse> GetBySemanticSearch(int page, int limit, string searchString)
     {
-        return _appDbContext.Posts
-            .Include(p => p.Author)
-            .Include(p => p.Topics)
-            .Where(p => p.Title.ToUpper().Contains(searchString.ToUpper()) ||
-                        p.Description.ToUpper().Contains(searchString.ToUpper()))
-            .OrderByDescending(p => p.Title.ToUpper().Contains(searchString.ToUpper()))
-            .ThenByDescending(p => p.DateCreated)
-            .ThenByDescending(p => p.Description.ToUpper().Contains(searchString.ToUpper()))
-            .ThenByDescending(p => p.DateCreated)
-            .Skip(page * limit)
-            .Take(limit)
-            .ToList();
+        var meiliResult = await _meiliSearchService.SearchPostsBySemantic(searchString, page, limit);
+        // if (meiliResult == null || meiliResult.hits == null)
+        //     return Enumerable.Empty<MeiliSearchResponse>();
+
+        return meiliResult;
     }
 
     public IEnumerable<Post> GetPopular(int page, int limit)

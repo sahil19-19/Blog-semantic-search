@@ -1,4 +1,4 @@
-.ais-ClearRefinements {
+ .ais-ClearRefinements {
   margin: 1em 0;
 }
 
@@ -31,7 +31,7 @@
   margin-bottom: 1em;
   color : white;
   /* border: 1px solid lightgray; */
-}
+ }
 
 .ais-Hits-item img {
   margin-right: 1em;
@@ -52,4 +52,4 @@
 .hit-info {
   font-size: 90%;
   color: lightgrey;
-}
+} 

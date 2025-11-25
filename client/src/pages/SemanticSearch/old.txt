@@ -1,0 +1,232 @@
+// import { useState, useEffect } from "react";
+// import { Input } from "@/components/ui/input";
+// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+// import { useQuery } from "@tanstack/react-query";
+// import { Loader2 } from "lucide-react";
+
+// interface BlogResult {
+//   id: string;
+//   title: string;
+//   content: string;
+//   author?: string;
+//   createdAt?: string;
+// }
+
+// const highlightText = (text: string, query: string) => {
+//   if (!query.trim()) return text;
+  
+//   const parts = text.split(new RegExp(`(${query})`, "gi"));
+//   return parts.map((part, index) =>
+//     part.toLowerCase() === query.toLowerCase() ? (
+//       <mark key={index} className="bg-primary/20 text-foreground">
+//         {part}
+//       </mark>
+//     ) : (
+//       part
+//     )
+//   );
+// };
+
+// const SemanticSearch = () => {
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [debouncedQuery, setDebouncedQuery] = useState("");
+//   const [page] = useState(1);
+//   const [limit] = useState(10);
+
+//   useEffect(() => {
+//     const timer = setTimeout(() => {
+//       setDebouncedQuery(searchQuery);
+//     }, 300);
+
+//     return () => clearTimeout(timer);
+//   }, [searchQuery]);
+
+//   const { data, isLoading, error } = useQuery({
+//     queryKey: ["semantic-search", debouncedQuery, page, limit],
+//     queryFn: async () => {
+//       if (!debouncedQuery.trim()) return { results: [] };
+      
+//       const response = await fetch(
+//         `http://localhost:7700/semantic?page=${page}&limit=${limit}`,
+//         {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({ Search: debouncedQuery }),
+//         }
+//       );
+
+//       if (!response.ok) {
+//         throw new Error("Search failed");
+//       }
+
+//       return response.json();
+//     },
+//     enabled: debouncedQuery.trim().length > 0,
+//   });
+
+//   return (
+//     <div className="min-h-screen bg-background p-8">
+//       <div className="mx-auto max-w-4xl">
+//         <div className="mb-8">
+//           <h1 className="mb-2 text-4xl font-bold">Blog Semantic Search</h1>
+//           <p className="text-muted-foreground">Search through blogs using semantic understanding</p>
+//         </div>
+
+//         <div className="mb-6">
+//           <Input
+//             type="text"
+//             placeholder="Search for blogs..."
+//             value={searchQuery}
+//             onChange={(e) => setSearchQuery(e.target.value)}
+//             className="text-lg"
+//           />
+//         </div>
+
+//         {isLoading && (
+//           <div className="flex items-center justify-center py-12">
+//             <Loader2 className="h-8 w-8 animate-spin text-primary" />
+//           </div>
+//         )}
+
+//         {error && (
+//           <div className="rounded-lg border border-destructive bg-destructive/10 p-4 text-destructive">
+//             Error: {error instanceof Error ? error.message : "Failed to fetch results"}
+//           </div>
+//         )}
+
+//         {data && data.results && data.results.length > 0 && (
+//           <div className="space-y-4">
+//             {data.results.map((result: BlogResult) => (
+//               <Card key={result.id}>
+//                 <CardHeader>
+//                   <CardTitle>{highlightText(result.title, debouncedQuery)}</CardTitle>
+//                   {result.author && (
+//                     <CardDescription>By {result.author}</CardDescription>
+//                   )}
+//                 </CardHeader>
+//                 <CardContent>
+//                   <p className="text-muted-foreground">
+//                     {highlightText(result.content, debouncedQuery)}
+//                   </p>
+//                 </CardContent>
+//               </Card>
+//             ))}
+//           </div>
+//         )}
+
+//         {data && data.results && data.results.length === 0 && debouncedQuery && (
+//           <div className="py-12 text-center text-muted-foreground">
+//             No results found for "{debouncedQuery}"
+//           </div>
+//         )}
+
+//         {!debouncedQuery && (
+//           <div className="py-12 text-center text-muted-foreground">
+//             Start typing to search for blogs
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default SemanticSearch;
+
+
+
+import React, { useContext } from "react";
+import { 
+  InstantSearch, 
+  SearchBox, 
+  InfiniteHits, 
+  RefinementList, 
+  Configure, 
+  Pagination, 
+  Hits, 
+  ClearRefinements, 
+  SortBy,
+  Highlight,
+  Snippet
+} from "react-instantsearch";
+import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
+import "./SemanticSearch.css";
+
+const { searchClient } = instantMeiliSearch(
+    "http://localhost:7700/",
+    "d5add78b6f3490a2ba7af30a77ee92f405f7cbc8349743b6aa8a41119b58dc31",
+    // "https://ms-adf78ae33284-106.lon.meilisearch.io",
+    // "a63da4928426f12639e19d62886f621130f3fa9ff3c7534c5d179f0f51c4f303"
+);
+
+const SemanticSearch = () => (
+    // <div className="ais-InstantSearch">
+    //     <InstantSearch indexName="blogs" searchClient={searchClient}>
+    //         <SearchBox className="ais-SearchBox" />
+    //         <InfiniteHits
+    //             hitComponent={Hit}
+    //             className="ais-InfiniteHits-list"
+    //         />
+    //     </InstantSearch>
+    // </div>
+    <p>hello</p>
+  //   <div className="ais-InstantSearch">
+  //   <h1>MeiliSearch + React InstantSearch</h1>
+  //   <InstantSearch indexName="blogs" searchClient={searchClient}>
+  //     <div className="left-panel">
+  //       {/* <ClearRefinements />
+  //       <SortBy
+  //       //   defaultRefinement="steam-videogames"
+  //         items={[
+  //           { value: "steam-videogames", label: "Relevant" },
+  //           {
+  //             value: "steam-videogames:recommendationCount:desc",
+  //             label: "Most Recommended",
+  //           },
+  //           {
+  //             value: "steam-videogames:recommendationCount:asc",
+  //             label: "Least Recommended",
+  //           },
+  //         ]}
+  //       />
+  //       <h2>Genres</h2>
+  //       <RefinementList attribute="genres" />
+  //       <h2>Categories</h2>
+  //       <RefinementList attribute="categories" />
+  //       <h2>Platforms</h2>
+  //       <RefinementList attribute="platforms" /> */}
+  //       <Configure
+  //         hitsPerPage={6}
+  //         attributesToSnippet={["description:50"]}
+  //         snippetEllipsisText={"..."}
+  //         highlightPreTag="<mark>"
+  //         highlightPostTag="</mark>"
+  //       />
+  //     </div>
+  //     <div className="right-panel">
+  //       <SearchBox className="ais-SearchBox" />
+  //       <Hits hitComponent={Hit} />
+  //       <Pagination showLast={true} />
+  //     </div>
+  //   </InstantSearch>
+  // </div>
+);
+
+// const Hit = ({ hit }) => (
+//     <article key={hit.id} className="ais-Hits-item">
+//         <h1 className="hit-title">
+//             <Highlight attribute="title" hit={hit} />
+//         </h1>
+
+//         <h3 className="hit-info">{hit.author}</h3>
+//         <h3 className="hit-info">{hit.topics}</h3>
+//         <h3 className="hit-info">{hit.dateCreated}</h3>
+
+//         <p className="hit-description">
+//             <Snippet attribute="description" hit={hit} />
+//         </p>
+//     </article>
+// );
+
+export default SemanticSearch;

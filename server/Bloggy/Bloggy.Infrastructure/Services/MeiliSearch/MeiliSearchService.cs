@@ -1,18 +1,30 @@
 using Meilisearch;
-// using Meilisearch.Exceptions;
+// using Meilisearch.Ex;
 // using Bloggy.Domain.Entities;
-using Bloggy.Domain.Entites; // Assuming Post is an entity in your project
+using Bloggy.Domain.Entites;
+using System.Text;
+using System.Text.Json;
+// using Bloggy.Infrastructure.Services.MeiliSearch;
+using Bloggy.Application.Common.MeiliSearch; // Assuming Post is an entity in your project
 
-namespace Bloggy.Infrastructure.Services.MeiliSearch;
+// namespace Bloggy.Infrastructure.Services.MeiliSearch;
 
 public class MeiliSearchService
 {
     private readonly MeilisearchClient _client;
+    // private readonly string? _meilisearchUrl;
+    private readonly string? searchAPI = "d5add78b6f3490a2ba7af30a77ee92f405f7cbc8349743b6aa8a41119b58dc31";
+    private readonly HttpClient _httpClient;
+
 
     // Constructor that initializes the client with the MeiliSearch server URL
     public MeiliSearchService(string meiliSearchUrl, string apiKey)
     {
         _client = new MeilisearchClient(meiliSearchUrl, apiKey);
+
+        _httpClient = new HttpClient();
+        _httpClient.BaseAddress = new Uri(meiliSearchUrl);
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {searchAPI}");
     }
 
     // Getter for the client
@@ -24,7 +36,7 @@ public class MeiliSearchService
         {
             // Check the status of MeiliSearch (this assumes MeiliSearch has a "status" endpoint)
             var status = await _client.HealthAsync();
-            
+
             if (status.Status == "available")
             {
                 Console.WriteLine("MeiliSearch is available and connected.");
@@ -42,50 +54,42 @@ public class MeiliSearchService
         }
     }
 
-    // Method to index posts
-    // public async Task IndexPosts(IEnumerable<Post> posts)
-    // {
-    //     var index = _client.Index("posts"); // Create or access the 'posts' index
-
-    //     // Convert posts to a structure MeiliSearch can index (custom DTO or model)
-    //     var postsForSearch = posts.Select(post => new
-    //     {
-    //         Id = post.Id.ToString(),
-    //         Title = post.Title,
-    //         Content = post.Content,
-    //         Author = post.Author.Name,  // Assuming Author is an object
-    //         Category = post.Category,
-    //         Description = post.Description,
-    //         DateCreated = post.DateCreated.ToString("yyyy-MM-dd HH:mm:ss")
-    //     });
-
-    //     // try
-    //     // {
-    //         // Add documents to the 'posts' index
-    //         await index.AddDocumentsAsync(postsForSearch);
-    //         Console.WriteLine("Documents indexed successfully.");
-    //     // }
-    //     // catch (MeiliSearchException ex)
-    //     // {
-    //     //     Console.WriteLine($"Error indexing documents: {ex.Message}");
-    //     // }
-    // }
-
     // Method to perform a semantic search
-    // public async Task<IEnumerable<dynamic>> SearchPostsBySemantic(string query)
-    // {
-    //     var index = _client.Index("posts");
+    public async Task<MeiliSearchResponse> SearchPostsBySemantic(string query, int page, int limit)
+    {
+        try
+        {
+            var searchRequest = new
+            {
+                q = query,
+                hybrid = new
+                {
+                    embedder = "blogs-embedder",
+                    semanticRatio = 0.5
+                },
+                limit = limit,
+                offset = (page - 1) * limit
+            };
 
-    //     // try
-    //     // {
-    //         // Search the index with the provided query
-    //         var result = await index.SearchAsync<Post>(query);
-    //         return result.Hits; // Return the search results (posts)
-    //     // }
-    //     // catch (MeiliSearchException ex)
-    //     // {
-    //     //     Console.WriteLine($"Error searching for posts: {ex.Message}");
-    //     //     return new List<dynamic>(); // Return empty list if error occurs
-    //     // }
-    // }
+            var json = JsonSerializer.Serialize(searchRequest);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("/indexes/blogs/search", content);
+            response.EnsureSuccessStatusCode();
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+            // return jsonString;
+
+            // Deserialize to a dynamic object
+            var result = JsonSerializer.Deserialize<MeiliSearchResponse>(jsonString);
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error searching for posts: {ex.Message}");
+            return new MeiliSearchResponse { hits = new List<dynamic>() };// Return empty list if error occurs
+            // throw;
+        }
+    }
 }

@@ -33,13 +33,14 @@ const HomePage = () => {
 
   return (
     <section className={s.home}>
+
       <div className="container">
         <div className={s.home__top}>
+
         <button
           className={s.semanticButton}
           onClick={() => navigate("/posts/semantic-search")}
-        >
-          Try Semantic Search
+        >Try Semantic Search
         </button>
           <SearchBox />
         </div>

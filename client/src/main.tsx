@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import Store from './store/store.ts';
 import './assets/styles/reset.css'
+// import './index.css'
 
 interface State {
   store: Store,

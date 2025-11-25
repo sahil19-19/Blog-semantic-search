@@ -1,93 +1,133 @@
-// import React, { useContext } from "react";
-import { 
-  InstantSearch, 
-  SearchBox, 
-  InfiniteHits, 
-  RefinementList, 
-  Configure, 
-  Pagination, 
-  Hits, 
-  ClearRefinements, 
-  SortBy,
-  Highlight,
-  Snippet
-} from "react-instantsearch";
-import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
-import "./SemanticSearch.css";
+import React, { useState, useEffect } from "react";
 
-const { searchClient } = instantMeiliSearch(
-    "http://localhost:7700/",
-    "d5add78b6f3490a2ba7af30a77ee92f405f7cbc8349743b6aa8a41119b58dc31",
-    // "https://ms-adf78ae33284-106.lon.meilisearch.io",
-    // "a63da4928426f12639e19d62886f621130f3fa9ff3c7534c5d179f0f51c4f303"
-);
+const API_URL = "http://localhost:5010/api/v1/posts/semantic";
 
-const SemanticSearch = () => (
-    // <div className="ais-InstantSearch">
-    //     <InstantSearch indexName="blogs" searchClient={searchClient}>
-    //         <SearchBox className="ais-SearchBox" />
-    //         <InfiniteHits
-    //             hitComponent={Hit}
-    //             className="ais-InfiniteHits-list"
-    //         />
-    //     </InstantSearch>
-    // </div>
-    <div className="ais-InstantSearch">
-    <h1>MeiliSearch + React InstantSearch</h1>
-    <InstantSearch indexName="blogs" searchClient={searchClient}>
-      <div className="left-panel">
-        {/* <ClearRefinements />
-        <SortBy
-        //   defaultRefinement="steam-videogames"
-          items={[
-            { value: "steam-videogames", label: "Relevant" },
-            {
-              value: "steam-videogames:recommendationCount:desc",
-              label: "Most Recommended",
-            },
-            {
-              value: "steam-videogames:recommendationCount:asc",
-              label: "Least Recommended",
-            },
-          ]}
-        />
-        <h2>Genres</h2>
-        <RefinementList attribute="genres" />
-        <h2>Categories</h2>
-        <RefinementList attribute="categories" />
-        <h2>Platforms</h2>
-        <RefinementList attribute="platforms" /> */}
-        <Configure
-          hitsPerPage={6}
-          attributesToSnippet={["description:50"]}
-          snippetEllipsisText={"..."}
-          highlightPreTag="<mark>"
-          highlightPostTag="</mark>"
-        />
-      </div>
-      <div className="right-panel">
-        <SearchBox className="ais-SearchBox" />
-        <Hits hitComponent={Hit} />
-        <Pagination showLast={true} />
-      </div>
-    </InstantSearch>
-  </div>
-);
+const SemanticSearch = () => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [debounceTimer, setDebounceTimer] = useState<any>(null);
 
-const Hit = ({ hit }) => (
-    <article key={hit.id} className="ais-Hits-item">
-        <h1 className="hit-title">
-            <Highlight attribute="title" hit={hit} />
-        </h1>
+  // Function to call backend
+  const fetchResults = async (searchValue: string, pageNum: number) => {
+    if (!searchValue.trim()) {
+      setResults([]);
+      return;
+    }
 
-        <h3 className="hit-info">{hit.author}</h3>
-        <h3 className="hit-info">{hit.topics}</h3>
-        <h3 className="hit-info">{hit.dateCreated}</h3>
+    setLoading(true);
 
-        <p className="hit-description">
-            <Snippet attribute="description" hit={hit} />
-        </p>
-    </article>
-);
+    try {
+      const res = await fetch(`${API_URL}?page=${pageNum}&limit=${limit}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          search: searchValue,
+        }),
+      });
+
+      const data = await res.json();
+
+      // ---- FIX STARTS HERE ----
+      // Safely extract `result.hits`
+      const extracted = Array.isArray(data?.result?.hits)
+        ? data.result.hits
+        : [];
+
+      setResults(extracted);
+      // ---- FIX ENDS HERE ----
+
+    } catch (err) {
+      console.error("Semantic Search Error:", err);
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Search-as-you-type with debouncing
+  useEffect(() => {
+    if (debounceTimer) clearTimeout(debounceTimer);
+
+    const timer = setTimeout(() => {
+      fetchResults(query, page);
+    }, 350); // user stops typing for 350ms
+
+    setDebounceTimer(timer);
+  }, [query, page]);
+
+  return (
+    <div style={{ width: "600px", margin: "0 auto", padding: "20px" }}>
+      <h2>Semantic Search</h2>
+
+      {/* Search Bar */}
+      <input
+        type="text"
+        value={query}
+        placeholder="Search blogs semantically..."
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setPage(1); // reset page when new search begins
+        }}
+        style={{
+          width: "100%",
+          padding: "10px",
+          fontSize: "16px",
+          marginBottom: "20px",
+        }}
+      />
+
+      {/* Loading */}
+      {loading && <p>Searching...</p>}
+
+      {/* Results */}
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {Array.isArray(results) &&
+          results.map((item: any, index: number) => (
+            <li
+              key={index}
+              style={{
+                marginBottom: "20px",
+                borderBottom: "1px solid #ccc",
+                paddingBottom: "10px",
+              }}
+            >
+              <h3>{item.title}</h3>
+              {item.topics && (
+                <p>
+                  <b>Topics:</b> {item.topics}
+                </p>
+              )}
+              {item.dateCreated && (
+                <p>
+                  <b>Published:</b> {item.dateCreated}
+                </p>
+              )}
+              <p>{item.description}</p>
+            </li>
+          ))}
+
+        {results.length === 0 && !loading && query && (
+          <p>No results found.</p>
+        )}
+      </ul>
+
+      {/* Pagination */}
+      {Array.isArray(results) && results.length > 0 && (
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+            Previous
+          </button>
+
+          <button onClick={() => setPage((p) => p + 1)}>Next</button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default SemanticSearch;
