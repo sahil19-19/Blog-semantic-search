@@ -62,6 +62,9 @@ public class MeiliSearchService
             var searchRequest = new
             {
                 q = query,
+                attributesToHighlight: new[] {"title", "description"},
+                highlightPreTag: "<mark>",
+                highlightPostTag: "</mark>",
                 hybrid = new
                 {
                     embedder = "blogs-embedder",

@@ -160,7 +160,7 @@
 // export default SemanticSearch;
 
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import "./SemanticSearch.css"; // ← IMPORT CSS
 
 const API_URL = "http://localhost:5010/api/v1/posts/semantic";
@@ -174,8 +174,10 @@ const SemanticSearch = () => {
   const [debounceTimer, setDebounceTimer] = useState<any>(null);
 
   const [semanticRatio, setSemanticRatio] = useState(0.0);
+  const [processingTimeMs, setProcessingTimeMs] = useState<number | null>(null);
+  const [estimatedTotalHits, setEstimatedTotalHits] = useState<number | null>(null);
 
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     const rounded = Math.round(value * 10) / 10;
     setSemanticRatio(rounded);
@@ -184,6 +186,8 @@ const SemanticSearch = () => {
   const fetchResults = async (searchValue: string, pageNum: number) => {
     if (!searchValue.trim()) {
       setResults([]);
+      setProcessingTimeMs(null);
+      setEstimatedTotalHits(null);
       return;
     }
 
@@ -208,9 +212,21 @@ const SemanticSearch = () => {
         : [];
 
       setResults(extracted);
+      setProcessingTimeMs(
+        typeof data?.result?.processingTimeMs === "number"
+          ? data.result.processingTimeMs
+          : null
+      );
+      setEstimatedTotalHits(
+        typeof data?.result?.estimatedTotalHits === "number"
+          ? data.result.estimatedTotalHits
+          : null
+      );
     } catch (err) {
       console.error("Semantic Search Error:", err);
       setResults([]);
+      setProcessingTimeMs(null);
+      setEstimatedTotalHits(null);
     } finally {
       setLoading(false);
     }
@@ -260,12 +276,30 @@ const SemanticSearch = () => {
 
       {loading && <p className="ss-loading">Searching...</p>}
 
+      {(processingTimeMs !== null || estimatedTotalHits !== null) && (
+        <div className="ss-meta">
+          {estimatedTotalHits !== null && (
+            <p className="ss-meta-item">
+              <b>Hits:</b> {estimatedTotalHits}
+            </p>
+          )}
+          {processingTimeMs !== null && (
+            <p className="ss-meta-item">
+              <b>Time spent:</b> {processingTimeMs} ms
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Results */}
       <ul className="ss-results-list">
         {Array.isArray(results) &&
           results.map((item: any, index: number) => (
             <li key={index} className="ss-result-item">
-              <h3 className="ss-result-title">{item.title}</h3>
+              <h3
+                className="ss-result-title"
+                dangerouslySetInnerHTML={{ __html: item._formatted?.title || item.title }}
+              />
               {item.topics && (
                 <p className="ss-result-text">
                   <b>Topics:</b> {item.topics}
@@ -276,7 +310,12 @@ const SemanticSearch = () => {
                   <b>Published:</b> {item.dateCreated}
                 </p>
               )}
-              <p className="ss-result-text">{item.description}</p>
+              <p 
+                className="ss-result-text" 
+                dangerouslySetInnerHTML={{ 
+                  __html: item._formatted?.description || item.description 
+                  }} 
+              />
             </li>
           ))}
 
