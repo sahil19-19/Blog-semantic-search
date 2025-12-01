@@ -83,8 +83,22 @@ public class MeiliSearchService
             var jsonString = await response.Content.ReadAsStringAsync();
             // return jsonString;
 
-            // Deserialize to a dynamic object
             var result = JsonSerializer.Deserialize<MeiliSearchResponse>(jsonString);
+
+            // if (result?.hits != null)
+            // {
+            //     foreach (var hit in result.hits)
+            //     {
+            //         if (hit?.description != null)
+            //         {
+            //             hit.description = TrimTo500Chars(hit.description);
+            //         }
+            //         if (hit?._formatted != null && hit._formatted?.description != null)
+            //         {
+            //             hit._formatted.description = TrimTo500Chars(hit._formatted.description);
+            //         }
+            //     }
+            // }
 
             return result;
         }
@@ -95,4 +109,37 @@ public class MeiliSearchService
             // throw;
         }
     }
+
+    // private static string? TrimTo500Chars(string? value)
+    // {
+    //     if (string.IsNullOrEmpty(value))
+    //     {
+    //         return value;
+    //     }
+
+    //     const int maxLength = 500;
+    //     return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+    // }
 }
+
+
+
+/*
+
+{
+    "result": {
+        "hits": [
+            {
+                "title": "Understanding the Rise of Wearable Technology",
+                "description": "Wearable technology has rapidly evolved from devices capable of tracking heart rate variability, sleep cycles, stress "
+                "_formatted": {
+                    "title": "Understanding the Rise of <mark>Wearable</mark> Technology",
+                    "description": "<mark>Wearable</mark> technology has rapidly evolved from basic",
+                }
+            },
+            {...}
+        ]
+    }
+}
+
+*/

@@ -147,3 +147,11 @@
   color: #ccc;
   text-align: center;
 }
+
+
+.description-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of visible lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

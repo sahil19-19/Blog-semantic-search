@@ -311,7 +311,7 @@ const SemanticSearch = () => {
                 </p>
               )}
               <p 
-                className="ss-result-text" 
+                className="ss-result-text description-preview" 
                 dangerouslySetInnerHTML={{ 
                   __html: item._formatted?.description || item.description 
                   }} 
