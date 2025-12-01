@@ -55,12 +55,20 @@ internal class Program
                 // var meiliSearchUrl = configuration["MeiliSearch:Url"];
                 // var apiKey = configuration["MeiliSearch:ApiKey"];
 
-                var meiliSearchUrl = configuration["MeiliSearch:Url"]
-                ?? throw new InvalidOperationException("MeiliSearch:Url is not configured");
-                var apiKey = configuration["MeiliSearch:ApiKey"]
-                ?? throw new InvalidOperationException("MeiliSearch:ApiKey is not configured");
-
-                return new MeiliSearchService(meiliSearchUrl, apiKey); // Pass configuration into the service
+                // var meiliSearchUrl = configuration["MeiliSearch:Url"]
+                // ?? throw new InvalidOperationException("MeiliSearch:Url is not configured");
+                // var apiKey = configuration["MeiliSearch:ApiKey"]
+                // ?? throw new InvalidOperationException("MeiliSearch:ApiKey is not configured");
+                var meiliSearchUrl = configuration["MEILI_URL"] 
+                    ?? configuration["MeiliSearch:Url"]
+                    ?? throw new InvalidOperationException("MeiliSearch:Url is not configured");
+                var apiKey = configuration["MEILI_API_KEY"] 
+                    ?? configuration["MeiliSearch:ApiKey"]
+                    ?? throw new InvalidOperationException("MeiliSearch:ApiKey is not configured");
+                var searchAPI = configuration["MEILI_SEARCH_API"]
+                    ?? configuration["MeiliSearch:SearchAPI"]
+                    ?? throw new InvalidOperationException("MeiliSearch:SearchAPI is not configured");
+                return new MeiliSearchService(meiliSearchUrl, apiKey, searchAPI); // Pass configuration into the service
             });
 
             builder.Services.AddScoped<IMeiliSyncService, MeiliSyncService>();
@@ -1647,8 +1655,11 @@ new Post
                );
                 appDbContext.SaveChanges();
             }
+            
+            var allowedOrigin = builder.Configuration["VITE_FRONTEND_URL"] ?? "http://localhost:5173";  // Default for local
+
             app.UseCors(options =>
-                options.WithOrigins("http://localhost:5173")
+                options.WithOrigins(allowedOrigin)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()

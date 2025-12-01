@@ -13,12 +13,11 @@ public class MeiliSearchService
 {
     private readonly MeilisearchClient _client;
     // private readonly string? _meilisearchUrl;
-    private readonly string? searchAPI = "d5add78b6f3490a2ba7af30a77ee92f405f7cbc8349743b6aa8a41119b58dc31";
     private readonly HttpClient _httpClient;
 
 
     // Constructor that initializes the client with the MeiliSearch server URL
-    public MeiliSearchService(string meiliSearchUrl, string apiKey)
+    public MeiliSearchService(string meiliSearchUrl, string apiKey, string searchAPI)
     {
         _client = new MeilisearchClient(meiliSearchUrl, apiKey);
 
