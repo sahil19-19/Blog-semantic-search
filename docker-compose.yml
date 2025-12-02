@@ -53,8 +53,8 @@ services:
   # Backend Service (Your .NET API from server)
   backend:
     build:
-      context: ./server/Bloggy/Bloggy.Api  # Points to the server folder for the backend code
-      dockerfile: Dockerfile  # Make sure the backend Dockerfile exists at this path
+      context: ./server/Bloggy  # Points to the server folder for the backend code
+      dockerfile: Bloggy.Api/Dockerfile  # Path to Dockerfile relative to context
     container_name: backend-demo-service
     restart: unless-stopped
     ports:
@@ -84,10 +84,11 @@ services:
   frontend:
     build:
       context: ./client  # Points to the client folder for the frontend code
+      dockerfile: Dockerfile  # Path to Dockerfile relative to context
     container_name: frontend-demo-service
     restart: unless-stopped
     ports:
-      - "${FRONTEND_PORT:-5173}:5173"  # Default Vite port is 3000
+      - "${FRONTEND_PORT:-5173}:5173"  # Default Vite port is 5173
     environment:
       VITE_BACKEND_URL: "http://backend-demo-service:5010"  # Set the backend URL for the frontend to consume the API
     depends_on:
@@ -95,8 +96,6 @@ services:
         condition: service_healthy
     networks:
       - semantic-net
-    command: >
-      bash -c "npm install && npm run dev -- --host 0.0.0.0"
 
 volumes:
   meili_data:
