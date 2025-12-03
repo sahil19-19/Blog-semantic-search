@@ -1,7 +1,7 @@
 import axios from "axios";
 import AuthService from "../../../service/UserServer";
 
-export const API_URL = `http://localhost:5010/api/v1`
+export const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/v1`
 
 const $api = axios.create({
     withCredentials: true,

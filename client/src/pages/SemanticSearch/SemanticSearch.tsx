@@ -162,8 +162,7 @@
 
 import { useState, useEffect, ChangeEvent } from "react";
 import "./SemanticSearch.css"; // ← IMPORT CSS
-
-const API_URL = "http://localhost:5010/api/v1/posts/semantic";
+import $api from "../../assets/utils/axios";
 
 const SemanticSearch = () => {
   const [query, setQuery] = useState("");
@@ -194,18 +193,12 @@ const SemanticSearch = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `${API_URL}?page=${pageNum}&limit=${limit}&ratio=${semanticRatio}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ search: searchValue }),
-        }
+      const res = await $api.post(
+        `/posts/semantic?page=${pageNum}&limit=${limit}&ratio=${semanticRatio}`,
+        { search: searchValue }
       );
 
-      const data = await res.json();
+      const data = res.data;
 
       const extracted = Array.isArray(data?.result?.hits)
         ? data.result.hits

@@ -9,7 +9,7 @@ services:
     command: >
       meilisearch
       --env production
-      --master-key "${MEILI_MASTER_KEY:-}"
+      --master-key "${MEILI_MASTER_KEY:-ybO-TnedO7pjj2kzykVeeWOA2SCb39j1VsLIdEkl-j0}"
       --schedule-snapshot
       --snapshot-dir /meili_data/snapshots
     ports:
@@ -23,32 +23,57 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
 
   # Ollama Service (For Nomic-Embed-Text)
   ollama:
-    image: ollama/ollama:0.13.1-rc0
+    build:
+      context: .
+      dockerfile: docker/ollama.Dockerfile
+    image: bloggy-ollama:0.13.1-rc0
     container_name: ollama-demo-service
     restart: unless-stopped
     ports:
       - "11434:11434"
+    environment:
+      OLLAMA_VULKAN: "0"
+      OLLAMA_GPU_OVERHEAD: "0"
     volumes:
       - ollama_models:/root/.ollama
     networks:
       - semantic-net
-    command: >
-      bash -c "
-      ollama serve &
-      until curl -s http://localhost:11434/api/tags >/dev/null; do
-        echo 'Waiting for Ollama...'; sleep 1;
-      done;
-      ollama pull nomic-embed-text &&
-      wait
-      "
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:11434/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:11434/ || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 5
+      start_period: 60s
+
+  # Ollama Init Service - Pulls the model after Ollama is ready
+  ollama-init:
+    image: bloggy-ollama:0.13.1-rc0
+    container_name: ollama-init-service
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    networks:
+      - semantic-net
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "Waiting for Ollama to be fully ready..."
+        sleep 20
+        echo "Pulling nomic-embed-text model..."
+        if ollama pull nomic-embed-text; then
+          echo "Model pull completed successfully."
+        else
+          echo "Model pull failed or already exists. Check if the model is available."
+        fi
+    restart: "no"
 
   # Backend Service (Your .NET API from server)
   backend:
@@ -62,7 +87,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "${ASPNETCORE_ENVIRONMENT:-Development}"
       MEILI_URL: "http://meilisearch:7700"
-      MEILI_API_KEY: "${MEILI_API_KEY:-}"
+      MEILI_API_KEY: "${MEILI_API_KEY:-ybO-TnedO7pjj2kzykVeeWOA2SCb39j1VsLIdEkl-j0}"
       MEILI_SEARCH_API: "${MEILI_SEARCH_API:-}"
       ASPNETCORE_URLS: "http://+:5010"
       OLLAMA_URL: "http://ollama:11434"
@@ -75,10 +100,11 @@ services:
     networks:
       - semantic-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5010/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:5010/health || exit 1"]
       interval: 10s
-      timeout: 5s
+      timeout: 10s
       retries: 5
+      start_period: 60s
 
   # Frontend Service (React + Vite from client)
   frontend:
