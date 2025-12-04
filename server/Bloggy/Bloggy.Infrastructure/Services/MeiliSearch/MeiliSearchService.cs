@@ -19,6 +19,10 @@ public class MeiliSearchService
     // Constructor that initializes the client with the MeiliSearch server URL
     public MeiliSearchService(string meiliSearchUrl, string apiKey, string searchAPI)
     {
+        Console.WriteLine("MeiliSearch URL: " + meiliSearchUrl);
+        Console.WriteLine("MeiliSearch API Key: " + apiKey);
+        Console.WriteLine("MeiliSearch Search API: " + searchAPI);
+        Console.WriteLine("--------------------------------");
         _client = new MeilisearchClient(meiliSearchUrl, apiKey);
 
         _httpClient = new HttpClient();
@@ -101,9 +105,11 @@ public class MeiliSearchService
 
             return result;
         }
-        catch (Exception ex)
+        catch (Exception ex)    
         {
             Console.WriteLine($"Error searching for posts: {ex.Message}");
+            // var errorMessage = await ex.Content.ReadAsStringAsync();
+            Console.WriteLine($"Error: {ex}"); // Log the full response content
             return new MeiliSearchResponse { hits = new List<dynamic>() };// Return empty list if error occurs
             // throw;
         }
