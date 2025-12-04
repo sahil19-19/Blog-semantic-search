@@ -55,12 +55,20 @@ internal class Program
                 // var meiliSearchUrl = configuration["MeiliSearch:Url"];
                 // var apiKey = configuration["MeiliSearch:ApiKey"];
 
-                var meiliSearchUrl = configuration["MeiliSearch:Url"]
-                ?? throw new InvalidOperationException("MeiliSearch:Url is not configured");
-                var apiKey = configuration["MeiliSearch:ApiKey"]
-                ?? throw new InvalidOperationException("MeiliSearch:ApiKey is not configured");
-
-                return new MeiliSearchService(meiliSearchUrl, apiKey); // Pass configuration into the service
+                // var meiliSearchUrl = configuration["MeiliSearch:Url"]
+                // ?? throw new InvalidOperationException("MeiliSearch:Url is not configured");
+                // var apiKey = configuration["MeiliSearch:ApiKey"]
+                // ?? throw new InvalidOperationException("MeiliSearch:ApiKey is not configured");
+                var meiliSearchUrl = configuration["MEILI_URL"] 
+                    ?? configuration["MeiliSearch:Url"]
+                    ?? throw new InvalidOperationException("MeiliSearch:Url is not configured");
+                var apiKey = configuration["MEILI_API_KEY"] 
+                    ?? configuration["MeiliSearch:ApiKey"]
+                    ?? throw new InvalidOperationException("MeiliSearch:ApiKey is not configured");
+                var searchAPI = configuration["MEILI_SEARCH_API"]
+                    ?? configuration["MeiliSearch:SearchAPI"]
+                    ?? throw new InvalidOperationException("MeiliSearch:SearchAPI is not configured");
+                return new MeiliSearchService(meiliSearchUrl, apiKey, searchAPI); // Pass configuration into the service
             });
 
             builder.Services.AddScoped<IMeiliSyncService, MeiliSyncService>();
@@ -175,17 +183,6 @@ Aliquam tempus ante ac tellus imperdiet luctus. Maecenas et suscipit erat. Morbi
                     new Post
                     {
                         AuthorId = user.Id,
-                        Title = "Slow Rollout of National Charging System Could Hinder E.V. Adoption",
-                        ImageUri = "http://localhost:5010/images/2.webp",
-                        Description = """
-Lawmakers approved $5 billion for states to build a network of fast chargers two years ago.
-Although some states have made progress in recent weeks, most have not yet awarded contracts or started construction.
-""",
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
-                    },
-                    new Post
-                    {
-                        AuthorId = user.Id,
                         Title = "The Best To-Do List App",
                         ImageUri = "http://localhost:5010/images/3.webp",
                         Description = """
@@ -206,48 +203,6 @@ address your obligations, and enter new tasks—then get right back to the doing
                         Description = """
 False claims and risky trades at the Silicon Valley start-up HeadSpin were part
 of a pattern of trouble emerging at young companies that lacked controls.
-""",
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
-                    },
-                    new Post
-                    {
-                        AuthorId = user.Id,
-                        Title = "Apple Explores A.I. Deals With News Publishers",
-                        ImageUri = "http://localhost:5010/images/5.webp",
-                        Description = """
-The company has discussed multiyear deals worth at least $50 million to train
-its generative A.I. systems on publishers’ news articles.
-
-Apple has opened negotiations in recent weeks with major news and publishing organizations,
-seeking permission to use their material in the company’s development of generative artificial
-intelligence systems, according to four people familiar with the discussions.
-
-The technology giant has floated multiyear deals worth at least $50 million to license the archives
-of news articles, said the people with knowledge of talks, who spoke on the condition of anonymity
-to discuss sensitive negotiations. The news organizations contacted by Apple include Condé Nast,
-publisher of Vogue and The New Yorker; NBC News; and IAC, which owns People,
-The Daily Beast and Better Homes and Gardens.
-""",
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
-                    },
-                    new Post
-                    {
-                        AuthorId = user.Id,
-                        Title = "Apple Explores A.I. Deals With News Publishers",
-                        ImageUri = "http://localhost:5010/images/5.webp",
-                        Description = """
-The company has discussed multiyear deals worth at least $50 million to train
-its generative A.I. systems on publishers’ news articles.
-
-Apple has opened negotiations in recent weeks with major news and publishing organizations,
-seeking permission to use their material in the company’s development of generative artificial
-intelligence systems, according to four people familiar with the discussions.
-
-The technology giant has floated multiyear deals worth at least $50 million to license the archives
-of news articles, said the people with knowledge of talks, who spoke on the condition of anonymity
-to discuss sensitive negotiations. The news organizations contacted by Apple include Condé Nast,
-publisher of Vogue and The New Yorker; NBC News; and IAC, which owns People,
-The Daily Beast and Better Homes and Gardens.
 """,
                         Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
                     },
@@ -533,21 +488,6 @@ SEL-themed story circles Reading comprehension lessons focused on character dial
 bravery looks like to you”) Roleplay scenarios on peer pressure, empathy, or fear Additional extension activities can be found here At home, this 
 book can open meaningful conversations during bedtime or help children prepare for new or scary situations — like trying something new or handling 
 a conflict.
-""",
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
-                    },
-                    new Post
-                    {
-                        AuthorId = user.Id,
-                        Title = "The Best To-Do List App",
-                        ImageUri = "http://localhost:5010/images/3.webp",
-                        Description = """
-Mastering your to-do list can seem like a Sisyphean task, but a good to-do list app should help
-you regain control over your routines and make it possible to keep chaos at bay.
-
-Our to-do list app picks, Todoist, TickTick, and the Apple-exclusive Things 3, are a breeze to use,
-have thoughtful designs, and feature flexible organization schemes, so you can conveniently hop in,
-address your obligations, and enter new tasks—then get right back to the doing.
 """,
                         Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
                     },
@@ -1647,8 +1587,11 @@ new Post
                );
                 appDbContext.SaveChanges();
             }
+            
+            var allowedOrigin = builder.Configuration["VITE_FRONTEND_URL"] ?? "http://localhost:5173";  // Default for local
+
             app.UseCors(options =>
-                options.WithOrigins("http://localhost:5173")
+                options.WithOrigins(allowedOrigin)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
