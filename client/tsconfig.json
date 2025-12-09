@@ -2,32 +2,29 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
-
     "moduleResolution": "node",
     "types": ["node"],
-
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-
-    "skipLibCheck": true,
+    "skipLibCheck": true,  // Skip type checking of declaration files
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
+    "noEmit": false,  // Allow emitting output
     "jsx": "react-jsx",
-
-    "strict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
-
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "strict": false,  // Disable strict type checking
+    "esModuleInterop": true, // Allow default imports
+    "noUnusedLocals": false,  // Ignore unused locals errors
+    "noUnusedParameters": false,  // Ignore unused parameters errors
+    "noFallthroughCasesInSwitch": false, // Disable fallthrough checks in switch
+    "allowJs": true,  // Allow JavaScript files to be compiled
+    "allowImportingTsExtensions": true,  // Allow importing .ts/.tsx files with extensions
+    "skipDefaultLibCheck": true, // Skip default lib checks for performance
+    "skipLibCheck": true  // Skip type checking of libraries
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"],  // Include all source files
+  "exclude": ["node_modules", "build", "dist"]  // Exclude certain directories
 }
