@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     command: >
       meilisearch
-      --env production
+      --env development
       --master-key "${MEILI_MASTER_KEY:-ybO-TnedO7pjj2kzykVeeWOA2SCb39j1VsLIdEkl-j0}"
       --schedule-snapshot
       --snapshot-dir /meili_data/snapshots
@@ -111,11 +111,11 @@ services:
   frontend:
     build:
       context: ./client  # Points to the client folder for the frontend code
-      dockerfile: Dockerfile.prod  # Use production Dockerfile
+      dockerfile: Dockerfile.dev  # Use development Dockerfile
     container_name: frontend-demo-service
     restart: unless-stopped
     ports:
-      - "${FRONTEND_PORT:-5173}:80"  # nginx serves on port 80
+      - "${FRONTEND_PORT:-5173}:5173"  # Default Vite port is 5173
     environment:
       VITE_BACKEND_URL: "${VITE_BACKEND_URL:-http://backend-demo-service:5010}"  # Set the backend URL for the frontend to consume the API
       # VITE_BACKEND_URL: "http://localhost:5010"  # Set the backend URL for the frontend to consume the API for local testing
