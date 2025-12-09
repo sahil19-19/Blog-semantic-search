@@ -21,7 +21,9 @@
     "noUnusedParameters": false,  // Ignore unused parameters errors
     "noFallthroughCasesInSwitch": false, // Disable fallthrough checks in switch
     "allowJs": true,  // Allow JavaScript files to be compiled
-    "skipDefaultLibCheck": true  // Skip default lib checks for performance
+    "skipDefaultLibCheck": true,  // Skip default lib checks for performance
+    "resolveJsonModule": true,  // Resolve json modules
+    "suppressImplicitAnyIndexErrors": true  // Ignore implicit 'any' errors
   },
   "include": ["src"],  // Include all source files
   "exclude": ["node_modules", "build", "dist"]  // Exclude certain directories
