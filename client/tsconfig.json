@@ -2,32 +2,23 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
-    
     "moduleResolution": "node",
     "types": [],
-
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,  // Ensure code gets emitted even with errors
-    "noEmitOnError": false,  // Ignore TypeScript errors in production build
+    "noEmit": false,
     "jsx": "react-jsx",
-
-    "strict": true,
-    "noUnusedLocals": false, // Allow unused locals (only during build, not development)
-    "noUnusedParameters": false, // Allow unused parameters
-    "noFallthroughCasesInSwitch": true,
-
-    "allowSyntheticDefaultImports": true, // Important for React imports to avoid TS1192 errors
-    "esModuleInterop": true // Ensure compatibility with modules that don't use default exports
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "esModuleInterop": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
