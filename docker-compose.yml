@@ -112,12 +112,14 @@ services:
     build:
       context: ./client  # Points to the client folder for the frontend code
       dockerfile: Dockerfile.prod  # Use production Dockerfile
+      args:
+        VITE_BACKEND_URL: "http://backend-demo-service:5010"
     container_name: frontend-demo-service
     restart: unless-stopped
     ports:
       - "${FRONTEND_PORT:-80}:80"  # nginx serves on port 80
-    environment:
-      VITE_BACKEND_URL: "${VITE_BACKEND_URL:-http://backend-demo-service:5010}"  # Set the backend URL for the frontend to consume the API
+    # environment:
+    #   VITE_BACKEND_URL: "${VITE_BACKEND_URL:-http://backend-demo-service:5010}"  # Set the backend URL for the frontend to consume the API
       # VITE_BACKEND_URL: "http://localhost:5010"  # Set the backend URL for the frontend to consume the API for local testing
     depends_on:
       backend:
