@@ -7,13 +7,18 @@ import { useContext, useEffect, useState } from "react";
 import { Context } from "../../main";
 import { IoLogOutSharp } from "react-icons/io5";
 import { CategoryResponse } from '../../models/response/CategoryResponse';
+
+interface ICategory {
+    id: number;
+    name: string;
+}
 import PostService from "../../service/PostsService";
 import { BiSolidCategory } from "react-icons/bi";
 import { IoCreateOutline } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 
 const Sidebar = ({ children }: any) => {
-    const [posts, setPosts] = useState<CategoryResponse[]>([])
+    const [categories, setCategories] = useState<ICategory[]>([])
     const [open, setOpen] = useState<boolean>(false)
 
     const { store } = useContext(Context)
@@ -25,7 +30,7 @@ const Sidebar = ({ children }: any) => {
     async function fetchCategory() {
         try {
             const response = await PostService.fetchCategory();
-            setPosts(response.data.result.topics)
+            setCategories(response.data.result.topics)
         } catch (error) {
             console.log(error)
         }
@@ -64,7 +69,7 @@ const Sidebar = ({ children }: any) => {
                     </nav>
                     <div className={s.sidebar__category}>
                         <ul className={open ? `${s.sidebar__list} ${s.sidebar__list_categorys} ${s.sidebar__list_categorys_active}` : `${s.sidebar__list} ${s.sidebar__list_categorys}`}>
-                            {posts.map((item: any) => {
+                            {categories.map((item: any) => {
                                 return (
                                     <li key={item.id} className={`${s.sidebar__item} ${s.sidebar__item_category}`}>
                                         <NavLink to={'/posts/category/' + item.name} className={s.sidebar__item_btn}><span><BiSolidCategory /></span>{item.name}</NavLink>

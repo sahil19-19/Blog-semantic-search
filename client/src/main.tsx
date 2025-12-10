@@ -1,7 +1,7 @@
 import React, { createContext } from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import Store from './store/store.ts';
+import App from './App'
+import Store from './store/store';
 import './assets/styles/reset.css'
 // import './index.css'
 
