@@ -8,7 +8,7 @@ import Header from './components/Header/Header';
 import { observer } from 'mobx-react-lite'
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import { FC, useContext, useEffect } from 'react';
-import { Context } from './main';
+import { Context } from './Context';
 import AccountPage from './pages/AccountPage/AccountPage';
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
 import SinglePage from './pages/SinglePage/SinglePage';

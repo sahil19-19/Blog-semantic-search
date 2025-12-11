@@ -1,6 +1,7 @@
 import s from './FileInputImg.module.scss'
 import { useContext, useRef, useState } from 'react';
-import { Context } from '../../main';
+// import { Context } from '../../main';
+import { Context } from '@/Context';
 import user from '../../assets/img/icons/user.png';
 import { MdFileDownload } from "react-icons/md";
 import { observer } from 'mobx-react-lite';

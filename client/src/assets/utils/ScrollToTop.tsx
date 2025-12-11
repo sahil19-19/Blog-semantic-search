@@ -1,5 +1,6 @@
 import { useEffect, useContext } from 'react'
-import { Context } from "../../main";
+// import { Context } from "../../main";
+import { Context } from '@/Context'
 import { useLocation } from 'react-router-dom'
 
 const ScrollToTop = () => {

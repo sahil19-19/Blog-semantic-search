@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import s from './SearchPage.module.scss'
-import { Context } from '../../main'
+// import { Context } from '../../main'
+import { Context } from '@/Context'
 import { observer } from 'mobx-react-lite'
 import Post from '../../components/Post/Post'
 import { useParams } from 'react-router-dom'

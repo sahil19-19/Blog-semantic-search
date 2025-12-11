@@ -3,7 +3,8 @@ import s from './HomePage.module.scss'
 import { observer } from 'mobx-react-lite';
 import Post from '../../components/Post/Post';
 import { useContext, useEffect, useState } from 'react';
-import { Context } from '../../main';
+// import { Context } from '../../main';
+import { Context } from '@/Context';
 import { useInView } from 'react-intersection-observer'
 import { useNavigate } from 'react-router-dom';
 

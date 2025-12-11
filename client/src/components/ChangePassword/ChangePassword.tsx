@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import s from './ChangePassword.module.scss'
-import { Context } from '../../main';
+// import { Context } from '../../main';
+import { Context } from '@/Context';
 import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';

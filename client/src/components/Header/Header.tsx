@@ -4,7 +4,8 @@ import logo from '../../assets/img/logo.png'
 import user from '../../assets/img/icons/user.png'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
-import { Context } from '../../main'
+// import { Context } from '../../main'
+import { Context } from '@/Context'
 import { RxHamburgerMenu } from "react-icons/rx";
 
 const Header = () => {

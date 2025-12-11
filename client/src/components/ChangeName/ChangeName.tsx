@@ -1,6 +1,7 @@
 import { useContext, useState } from "react"
 import s from './ChangeName.module.scss'
-import { Context } from "../../main";
+// import { Context } from "../../main";
+import { Context } from "@/Context";
 import { observer } from "mobx-react-lite";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import { useForm } from "react-hook-form";

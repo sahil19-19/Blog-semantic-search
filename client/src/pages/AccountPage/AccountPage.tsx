@@ -4,7 +4,8 @@ import FileInputImg from '../../components/FileInputImg/FileInputImg';
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
 import ChangeName from '../../components/ChangeName/ChangeName';
 import { useContext } from 'react';
-import { Context } from '../../main';
+// import { Context } from '../../main';
+import { Context } from '@/Context';
 
 const AccountPage: React.FC = () => {
     const { store } = useContext(Context)

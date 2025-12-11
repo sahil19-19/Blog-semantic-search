@@ -2,7 +2,8 @@ import { useContext, useState } from 'react';
 import s from './CreatePostPage.module.scss'
 import { observer } from 'mobx-react-lite';
 import { IoCreate } from "react-icons/io5";
-import { Context } from '../../main';
+// import { Context } from '../../main';
+import { Context } from '@/Context';
 import CreatePostFileInput from '../../components/CreatePostFileInput/CreatePostFileInput';
 import CreatePostForm from '../../components/CreatePostForm/CreatePostForm';
 import CreatePostSelectCategorys from '../../components/CreatePostSelectCategorys/CreatePostSelectCategorys';

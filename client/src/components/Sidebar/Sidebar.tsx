@@ -4,7 +4,8 @@ import user from '../../assets/img/icons/user.png'
 import s from './Sidebar.module.scss'
 import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
-import { Context } from "../../main";
+// import { Context } from "../../main";
+import { Context } from "@/Context";
 import { IoLogOutSharp } from "react-icons/io5";
 import { CategoryResponse } from '../../models/response/CategoryResponse';
 
