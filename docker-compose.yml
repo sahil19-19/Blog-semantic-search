@@ -113,7 +113,7 @@ services:
       context: ./client  # Points to the client folder for the frontend code
       dockerfile: Dockerfile.prod  # Use production Dockerfile
       args:
-        VITE_BACKEND_URL: "http://backend-demo-service:5010"
+        VITE_BACKEND_URL: ""
     container_name: frontend-demo-service
     restart: unless-stopped
     ports:
