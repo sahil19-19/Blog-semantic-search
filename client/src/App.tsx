@@ -14,6 +14,7 @@ import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
 import SinglePage from './pages/SinglePage/SinglePage';
 import SearchPage from './pages/SearchPage/SearchPage';
 import SemanticSearch from './pages/SemanticSearch/SemanticSearch';
+import OldHomePage from './pages/OldHomePage/OldHomePage';
 
 const App: FC = () => {
   const { store } = useContext(Context)
@@ -27,10 +28,10 @@ const App: FC = () => {
   return (
     <>
       <Router>
-        <ScrollToTop />
-        <Header />
+        {/* <ScrollToTop /> */}
+        {/* <Header /> */}
 
-        <Sidebar>
+        {/* <Sidebar> */}
           <Routes>
             <Route path="/posts/search/:id" element={<SearchPage type={'search'} />} />
             <Route path="/posts/semantic-search" element={<SemanticSearch/>} />
@@ -41,10 +42,11 @@ const App: FC = () => {
             <Route path="/account" element={<AccountPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
+            <Route path="normal-search" element={<OldHomePage/>} />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
-        </Sidebar>
+        {/* </Sidebar> */}
       </Router>
     </>
   );

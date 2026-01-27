@@ -1,65 +1,149 @@
-import SearchBox from '../../components/SearchBox/SearchBox';
+import { useNavigate } from 'react-router-dom'
 import s from './HomePage.module.scss'
-import { observer } from 'mobx-react-lite';
-import Post from '../../components/Post/Post';
-import { useContext, useEffect, useState } from 'react';
-// import { Context } from '../../main';
-import { Context } from '@/Context';
-import { useInView } from 'react-intersection-observer'
-import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/img/logo.png';
+import search_banner from '../../assets/img/banner.png';
+import semantic from '../../assets/img/semantic.png';
+import OldHomePage from '../OldHomePage/OldHomePage';
 
 const HomePage = () => {
-  const { store } = useContext(Context)
-  const [page, setPage] = useState<number>(0)
   const navigate = useNavigate()
 
-  const [ref, inView] = useInView({
-    threshold: 0.6,
-    triggerOnce: true,
-  })
-
-  useEffect(() => {
-    store.ClearPosts()
-  }, [])
-
-  useEffect(() => {
-    if (inView) {
-      setPage((current: number) => current + 1)
-    }
-  }, [inView])
-
-  useEffect(() => {
-    store.GetPosts(page)
-  }, [page])
-
   return (
-    <section className={s.home}>
+    <>
+      {/* HEADER */}
+      <header className={s.header}>
+        <div className={s.container}>
+          <div className={s.nav}>
+            <div className={s.brand}>
+              <img
+                src={logo}
+                alt="Levelworks Logo"
+                className={s.logo}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none'
+                }}
+              />
+              <span>Levelworks</span>
+            </div>
 
-      <div className="container">
-        <div className={s.home__top}>
+            <button
+              className={`${s.btn} ${s.btnPrimary}`}
+              onClick={() => navigate('#')}
+            >
+              Login
+            </button>
+          </div>
+        </div>
+      </header>
 
-        <button
-          className={s.semanticButton}
-          onClick={() => navigate("/posts/semantic-search")}
-        >Try Semantic Search
-        </button>
-          <SearchBox />
-        </div>
-        <div className={s.home__items}>
-          {
-            Array.isArray(store.posts) && store.posts.length > 0 ?
-              store.posts.map((item) => {
-                return (
-                  <Post key={item.id} title={item.title} imageUri={item.author.imageUri} name={item.author.name} dateCreated={item.dateCreated} topics={item.topics} description={item.description} postImg={item.imageUri} postId={item.id} />
-                )
-              })
-              : ''
-          }
-          {store.end ? '' : store.loading ? '' : <div ref={ref} className={s.home__loading}></div>}
-        </div>
-      </div>
-    </section>
+      <main>
+        {/* HERO */}
+        <section className={s.heroSection}>
+          <div className={s.container}>
+            <div className={s.hero}>
+              <p className={s.eyebrow}>IN FOCUS</p>
+              <h1>Semantic Search</h1>
+
+              <p className={s.heroText}>
+                Help users find what matters faster with meaning-aware search
+                that understands intent, context, and natural language.
+              </p>
+
+              <div className={s.heroActions}>
+                <a
+                  className={`${s.btn} ${s.btnPrimary}`}
+                  // onClick={() => navigate('/posts/semantic-search')}
+                  href="#quick-wins"
+                >
+                  Try it Now
+                </a>
+              </div>
+
+              <div className={s.heroBanner}>
+                <img
+                  src={search_banner}
+                  alt="Semantic Search Banner"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* QUICK WINS */}
+        <section className={s.section} id='quick-wins'>
+          <div className={s.container}>
+            <h2 className={s.sectionTitle}>Other Quick Wins</h2>
+
+            <div className={s.grid}>
+              <article className={s.card} onClick={() => navigate('/normal-search')} style={{ cursor: 'pointer' }}>
+                <div className={s.cardMedia}>
+                  <img src={semantic} alt="Semantic Search" />
+                </div>
+                <div className={s.cardBody}>
+                  <p className={s.cardFocus}>IN FOCUS</p>
+                  <h3>Semantic Search</h3>
+                  <p>
+                    Modernize your .NET app with AI-powered features like natural language inputs, automation, and embedded assistance — without a rewrite.
+                  </p>
+                </div>
+              </article>
+
+              <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
+                <div className={s.cardMedia}>
+                  <img
+                    src="https://images.unsplash.com/photo-1553877522-43269d4ea984"
+                    alt="Observability"
+                  />
+                </div>
+                <div className={s.cardBody}>
+                  <h3>Observability</h3>
+                  <p>
+                    Catch issues before users do with full-stack visibility across logs, metrics, and traces — all in one place. 
+                  </p>
+                </div>
+              </article>
+
+              <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
+                <div className={s.cardMedia}>
+                  <img
+                    src="https://images.unsplash.com/photo-1677442136019-21780ecad995"
+                    alt="AI Enablement"
+                  />
+                </div>
+                <div className={s.cardBody}>
+                  <h3>AI Enablement</h3>
+                  <p>
+                    Add practical AI capabilities to your existing systems — copilots, smart workflows, and automation — built around your current stack. 
+                  </p>
+                </div>
+              </article>
+
+              <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
+                <div className={s.cardMedia}>
+                  <img
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71"
+                    alt="Admin Console"
+                  />
+                </div>
+                <div className={s.cardBody}>
+                  <h3>Admin Console</h3>
+                  <p>
+                    Replace manual, error-prone operations with a secure admin console for access control, approvals, and audit-ready workflows.
+                  </p>
+                </div>
+              </article>
+            </div>
+
+            <div className={s.divider} />
+          </div>
+        </section>
+      </main>
+
+      <footer className={s.footer}>
+        <div className={s.container}>© levelworks.co</div>
+      </footer>
+    </>
   )
 }
 
-export default observer(HomePage)
+export default HomePage
