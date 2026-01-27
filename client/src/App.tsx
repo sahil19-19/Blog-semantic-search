@@ -15,6 +15,7 @@ import SinglePage from './pages/SinglePage/SinglePage';
 import SearchPage from './pages/SearchPage/SearchPage';
 import SemanticSearch from './pages/SemanticSearch/SemanticSearch';
 import OldHomePage from './pages/OldHomePage/OldHomePage';
+import BlogPage from './pages/BlogPage/BlogPage';
 
 const App: FC = () => {
   const { store } = useContext(Context)
@@ -42,7 +43,8 @@ const App: FC = () => {
             <Route path="/account" element={<AccountPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
-            <Route path="normal-search" element={<OldHomePage/>} />
+            <Route path="/normal-search" element={<OldHomePage/>} />
+            <Route path="/blogs" element={<BlogPage/>} />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

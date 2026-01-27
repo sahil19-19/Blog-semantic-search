@@ -23,7 +23,6 @@ const HomePage = () => {
                   (e.target as HTMLImageElement).style.display = 'none'
                 }}
               />
-              <span>Levelworks</span>
             </div>
 
             <button
@@ -50,13 +49,12 @@ const HomePage = () => {
               </p>
 
               <div className={s.heroActions}>
-                <a
+                <button
                   className={`${s.btn} ${s.btnPrimary}`}
-                  // onClick={() => navigate('/posts/semantic-search')}
-                  href="#quick-wins"
+                  onClick={() => navigate('/blogs')}
                 >
                   Try it Now
-                </a>
+                </button>
               </div>
 
               <div className={s.heroBanner}>
@@ -75,7 +73,7 @@ const HomePage = () => {
             <h2 className={s.sectionTitle}>Other Quick Wins</h2>
 
             <div className={s.grid}>
-              <article className={s.card} onClick={() => navigate('/normal-search')} style={{ cursor: 'pointer' }}>
+              <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
                 <div className={s.cardMedia}>
                   <img src={semantic} alt="Semantic Search" />
                 </div>

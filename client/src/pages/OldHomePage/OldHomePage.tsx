@@ -13,6 +13,7 @@ const OldHomePage = () => {
   const [page, setPage] = useState<number>(0)
   const navigate = useNavigate()
 
+  // lazy loading
   const [ref, inView] = useInView({
     threshold: 0.6,
     triggerOnce: true,
@@ -43,7 +44,7 @@ const OldHomePage = () => {
           onClick={() => navigate("/posts/semantic-search")}
         >Try Semantic Search
         </button>
-          <SearchBox />
+          <SearchBox /> 
         </div>
         <div className={s.home__items}>
           {
