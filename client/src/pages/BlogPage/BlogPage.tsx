@@ -4,6 +4,7 @@ import logo from '../../assets/img/logo.png';
 import { useContext, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
 
 const BlogPage = () => {
   const { store } = useContext(Context);
@@ -46,9 +47,18 @@ const BlogPage = () => {
 
   const [debounceTimer, setDebounceTimer] = useState<number | null>(null);
 
+  const handleHomeTabClick = () => {
+    // Clear search state when Home tab is clicked
+    setSearch('');
+    setIsSearching(false);
+    setSearchPage(0);
+    store.ClearPosts();
+    setPage(0);
+  };
+
   const handleSearchChange = (value: string) => {
     setSearch(value);
-  
+
     if (value.trim() === '') {
       // Reset search mode
       setIsSearching(false);
@@ -77,7 +87,7 @@ const BlogPage = () => {
       <header>
         <div className={s.container}>
           <div className={s.nav}>
-            <a className={s.brand} href="#">
+            <Link className={s.brand} to="/">
               <img
                 src={logo}
                 alt="Levelworks Logo"
@@ -102,7 +112,7 @@ const BlogPage = () => {
                   <circle cx="20" cy="18" r="2" fill="#F58B2C" />
                 </svg>
               </span>
-            </a>
+            </Link>
 
             <div className={s.navSearch}>
               <div className={s.searchBox}>
@@ -140,7 +150,7 @@ const BlogPage = () => {
           <div className={s.blogLayout}>
             <section>
               <div className={s.tabs}>
-                <div className={`${s.tab} ${s.active}`}>Home</div>
+                <div className={`${s.tab} ${s.active}`} onClick={handleHomeTabClick}>Home</div>
                 {/* <div className={`${s.tab} ${s.active}`}>Popular</div> */}
               </div>
 
