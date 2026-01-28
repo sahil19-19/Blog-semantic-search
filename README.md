@@ -1,16 +1,6 @@
-# Bloggy - A React and ASP.NET Core Web API Blog Application
-Bloggy is a dynamic web application designed to empower users to engage in the world of blogging seamlessly. Leveraging the robust combination of React for the frontend and ASP.NET Core Web API for the backend, Bloggy offers a modern and user-friendly blogging experience. Start sharing your stories today!
-
-![Текст, который отобразится при недоступности изображения](./assets/images/image_1.png)
-
-![Текст, который отобразится при недоступности изображения](./assets/images/image_2.png)
-
-## Key Features
-+ Mobile-Optimized Interface: Bloggy Mobile boasts a sleek and intuitive interface optimized for various screen sizes, ensuring a delightful and seamless user experience on cell phones.
-+ User Authentication: Create a personalized account and securely log in to access exclusive features.
-+ Effortless Post Creation: Craft and share your thoughts effortlessly through an intuitive post creation interface.
-+ Post Exploration: Dive into a world of diverse content by browsing and viewing posts tailored to your interests.
-+ Search and Filter: Easily find specific posts using the powerful search functionality. Filter posts by title or category to streamline your exploration.
+```
+ssh -t -v -i C:\Users\user\.ssh\digitalOcean_key deploy@139.59.79.149 deploy-plat-levelworks.sh
+```
 
 ## Technology Stack
 
@@ -26,7 +16,7 @@ To establish seamless communication with the server, the client interfaces with 
 
 ## How to Run
 + Ensure you have npm installed for the React frontend.
-+ Install Dotnet Runtime 7.0 for the ASP.NET Core backend.
++ Install Dotnet Runtime 9.0 for the ASP.NET Core backend.
 + Clone the repository and navigate to the project directory.
 + Run npm install to install frontend dependencies.
 + Run dotnet build and dotnet run to launch the application.
