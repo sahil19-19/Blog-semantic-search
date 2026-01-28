@@ -3,17 +3,18 @@ import s from './BlogPage.module.scss';
 import logo from '../../assets/img/logo.png';
 import { useContext, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useNavigate } from 'react-router-dom';
-
+import { observer } from 'mobx-react-lite';
 
 const BlogPage = () => {
   const { store } = useContext(Context);
-  const navigate = useNavigate();
 
   const [page, setPage] = useState<number>(0)
+  const [searchPage, setSearchPage] = useState<number>(0)
   const [search, setSearch] = useState<string>('')
+  const [isSearching, setIsSearching] = useState<boolean>(false)
+
   const [ref, inView] = useInView({
-    threshold: 0.6,
+    threshold: 0,
     triggerOnce: true,
   })
 
@@ -23,13 +24,53 @@ const BlogPage = () => {
 
   useEffect(() => {
     if (inView) {
-      setPage((current: number) => current + 1)
+      if (isSearching) {
+        setSearchPage((current: number) => current + 1)
+      } else {
+        setPage((current: number) => current + 1)
+      }
     }
-  }, [inView])
+  }, [inView, isSearching])
 
   useEffect(() => {
-    store.GetPosts(page)
-  }, [page])
+    if (!isSearching) {
+      store.GetPosts(page)
+    }
+  }, [page, isSearching])
+
+  useEffect(() => {
+    if (isSearching) {
+      store.GetSearchPosts(search, 'search', searchPage)
+    }
+  }, [searchPage])
+
+  const [debounceTimer, setDebounceTimer] = useState<number | null>(null);
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+  
+    if (value.trim() === '') {
+      // Reset search mode
+      setIsSearching(false);
+      setSearchPage(0);
+      store.ClearPosts();
+      setPage(0);
+    } else {
+
+      setIsSearching(true);
+  
+      // Clear previous timer
+      if (debounceTimer) clearTimeout(debounceTimer);
+
+      const timer = setTimeout(() => {
+        setSearchPage(0); 
+        store.ClearPosts(); 
+        store.GetSearchPosts(value, 'search', 0);
+      }, 500); // wait 500ms after last keystroke
+  
+      setDebounceTimer(timer);
+    }
+  };
 
   return (
     <>
@@ -84,12 +125,7 @@ const BlogPage = () => {
                   type="text"
                   placeholder="Search"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      navigate('/posts/search/' + search);
-                    }
-                  }}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                 />
               </div>
             </div>
@@ -178,6 +214,9 @@ const BlogPage = () => {
                     ))
                     : ''
                 }
+                {store.end ? null : store.loading ? null : (
+                  <div ref={ref} className={s.loadingSentinel}></div>
+                )}
               </div>
             </section>
 
@@ -214,4 +253,4 @@ const BlogPage = () => {
   )
 }
 
-export default BlogPage
+export default observer(BlogPage);
