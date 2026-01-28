@@ -1,5 +1,5 @@
 ```
-ssh deploy@your-droplet deploy-plat-levelworks.sh
+ssh -t -v -i C:\Users\user\.ssh\digitalOcean_key deploy@139.59.79.149 deploy-plat-levelworks.sh
 ```
 
 ## Technology Stack
