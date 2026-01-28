@@ -3,12 +3,15 @@ import s from './BlogPage.module.scss';
 import logo from '../../assets/img/logo.png';
 import { useContext, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
 
 
 const BlogPage = () => {
   const { store } = useContext(Context);
+  const navigate = useNavigate();
 
   const [page, setPage] = useState<number>(0)
+  const [search, setSearch] = useState<string>('')
   const [ref, inView] = useInView({
     threshold: 0.6,
     triggerOnce: true,
@@ -77,7 +80,17 @@ const BlogPage = () => {
                     opacity="0.8"
                   />
                 </svg>
-                <input type="text" placeholder="Search" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      navigate('/posts/search/' + search);
+                    }
+                  }}
+                />
               </div>
             </div>
 
