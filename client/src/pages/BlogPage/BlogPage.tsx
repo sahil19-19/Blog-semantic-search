@@ -158,20 +158,19 @@ const BlogPage = () => {
                   onChange={(e) => handleSearchChange(e.target.value)}
                 />
               </div>
-              <div className="ss-slider-container">
-                <label className="ss-slider-label">
-                  Semantic Ratio: <b>{semanticRatio.toFixed(1)}</b>
-                </label>
-
-                <input
+              <div className={s.sliderContainer}>
+              <input
                   type="range"
                   min="0"
                   max="1"
                   step="0.1"
                   value={semanticRatio}
                   onChange={handleSliderChange}
-                  className="ss-slider"
+                  className={s.slider}
                 />
+                <label className={s.sliderLabel}>
+                  <b>{semanticRatio.toFixed(1)}</b>
+                </label>
               </div>
             </div>
 
