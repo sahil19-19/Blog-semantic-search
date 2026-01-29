@@ -183,13 +183,6 @@ const SemanticSearch = () => {
   };
 
   const fetchResults = async (searchValue: string, pageNum: number) => {
-    if (!searchValue.trim()) {
-      setResults([]);
-      setProcessingTimeMs(null);
-      setEstimatedTotalHits(null);
-      return;
-    }
-
     setLoading(true);
 
     try {

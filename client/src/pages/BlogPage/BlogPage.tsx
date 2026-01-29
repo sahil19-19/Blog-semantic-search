@@ -1,86 +1,106 @@
-import { Context, store } from '@/Context';
 import s from './BlogPage.module.scss';
 import logo from '../../assets/img/logo.png';
-import { useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
+import $api from '@/assets/utils/axios';
+import { clearObserving } from 'mobx/dist/internal';
 
 const BlogPage = () => {
-  const { store } = useContext(Context);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const [page, setPage] = useState<number>(0)
-  const [searchPage, setSearchPage] = useState<number>(0)
-  const [search, setSearch] = useState<string>('')
-  const [isSearching, setIsSearching] = useState<boolean>(false)
+  const [semanticRatio, setSemanticRatio] = useState(0.0);
+  const [processingTimeMs, setProcessingTimeMs] = useState<number | null>(null);
+  const [estimatedTotalHits, setEstimatedTotalHits] = useState<number | null>(null);
 
-  const [ref, inView] = useInView({
+  const { ref, inView } = useInView({
     threshold: 0,
-    triggerOnce: true,
-  })
+  });
 
-  useEffect(() => {
-    store.ClearPosts()
-  }, [])
+  const resetSearchState = () => {
+    setPage(1);
+    setResults([]);
+    setHasMore(true);
+    setProcessingTimeMs(null);
+    setEstimatedTotalHits(null);
+  };
 
-  useEffect(() => {
-    if (inView) {
-      if (isSearching) {
-        setSearchPage((current: number) => current + 1)
-      } else {
-        setPage((current: number) => current + 1)
-      }
-    }
-  }, [inView, isSearching])
-
-  useEffect(() => {
-    if (!isSearching) {
-      store.GetPosts(page)
-    }
-  }, [page, isSearching])
-
-  useEffect(() => {
-    if (isSearching) {
-      store.GetSearchPosts(search, 'search', searchPage)
-    }
-  }, [searchPage])
-
-  const [debounceTimer, setDebounceTimer] = useState<number | null>(null);
-
-  const handleHomeTabClick = () => {
-    // Clear search state when Home tab is clicked
-    setSearch('');
-    setIsSearching(false);
-    setSearchPage(0);
-    store.ClearPosts();
-    setPage(0);
+  const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    const rounded = Math.round(value * 10) / 10;
+    setSemanticRatio(rounded);
+    resetSearchState();
   };
 
   const handleSearchChange = (value: string) => {
-    setSearch(value);
+    setQuery(value);
+    resetSearchState();
+  };
 
-    if (value.trim() === '') {
-      // Reset search mode
-      setIsSearching(false);
-      setSearchPage(0);
-      store.ClearPosts();
-      setPage(0);
-    } else {
+  const handleHomeTabClick = () => {
+    setQuery('');
+    resetSearchState();
+  };
 
-      setIsSearching(true);
-  
-      // Clear previous timer
-      if (debounceTimer) clearTimeout(debounceTimer);
+  const fetchResults = async (searchValue: string, pageNum: number) => {
+    if (loading) return;
 
-      const timer = setTimeout(() => {
-        setSearchPage(0); 
-        store.ClearPosts(); 
-        store.GetSearchPosts(value, 'search', 0);
-      }, 500); // wait 500ms after last keystroke
-  
-      setDebounceTimer(timer);
+    setLoading(true);
+
+    try {
+      const res = await $api.post(
+        `/posts/semantic?page=${pageNum}&limit=${limit}&ratio=${semanticRatio}`,
+        { search: searchValue }
+      );
+
+      const data = res.data;
+
+      const extracted = Array.isArray(data?.result?.hits)
+        ? data.result.hits
+        : [];
+
+      setResults(prev =>
+        pageNum === 1 ? extracted : [...prev, ...extracted]
+      );
+
+      setHasMore(extracted.length === limit);
+
+      setProcessingTimeMs(data?.result?.processingTimeMs ?? null);
+      setEstimatedTotalHits(data?.result?.estimatedTotalHits ?? null);
+    } catch (err) {
+      console.error("Semantic Search Error:", err);
+    } finally {
+      setLoading(false);
     }
   };
+
+  // 🔹 Debounce ONLY search + slider
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchResults(query, 1);
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [query, semanticRatio]);
+
+  // 🔹 Infinite scroll (NO debounce)
+  useEffect(() => {
+    if (inView && hasMore && !loading) {
+      setPage(p => p + 1);
+    }
+  }, [inView, hasMore, loading]);
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchResults(query, page);
+    }
+  }, [page]);
+
 
   return (
     <>
@@ -134,8 +154,23 @@ const BlogPage = () => {
                 <input
                   type="text"
                   placeholder="Search"
-                  value={search}
+                  value={query}
                   onChange={(e) => handleSearchChange(e.target.value)}
+                />
+              </div>
+              <div className="ss-slider-container">
+                <label className="ss-slider-label">
+                  Semantic Ratio: <b>{semanticRatio.toFixed(1)}</b>
+                </label>
+
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value={semanticRatio}
+                  onChange={handleSliderChange}
+                  className="ss-slider"
                 />
               </div>
             </div>
@@ -156,20 +191,20 @@ const BlogPage = () => {
 
               <div className={s.postList}>
                 {
-                  Array.isArray(store.posts) && store.posts.length > 0 ?
-                    store.posts.map((item) => (
+                  results.length > 0 ?
+                    results.map((item) => (
                       <article className={s.post} key={item.id}>
                         <div>
                           <div className={s.postMeta}>
                             <span className={s.avatar}>
                               <img
-                                src={item.author.imageUri}
+                                src={item.author?.imageUri}
                                 alt="Author"
                               />
                             </span>
                             <span>
                               <strong style={{ fontWeight: 500, color: '#6b7280' }}>
-                                {item.author.name}
+                                {item.author?.name}
                               </strong>
                             </span>
                             <span>•</span>
@@ -186,7 +221,7 @@ const BlogPage = () => {
 
                           <div className={s.postFooter}>
                             <div className={s.postTags}>
-                              <span className={s.pill}>Portfolio</span>
+                              <span className={s.pill}>{item.topics[0]}</span>
                               <span>3 min read</span>
                               <span>·</span>
                               <span>Selected for you</span>
@@ -222,9 +257,9 @@ const BlogPage = () => {
                         </div>
                       </article>
                     ))
-                    : ''
+                    : !loading ? 'No documents available' : ''
                 }
-                {store.end ? null : store.loading ? null : (
+                {!query && results.length > 0 && !loading && (
                   <div ref={ref} className={s.loadingSentinel}></div>
                 )}
               </div>
@@ -263,4 +298,4 @@ const BlogPage = () => {
   )
 }
 
-export default observer(BlogPage);
+export default BlogPage;
