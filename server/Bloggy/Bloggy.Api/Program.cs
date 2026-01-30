@@ -123,7 +123,7 @@ internal class Program
                     new Topic { Id = 31, Name = "Technology" },
                     new Topic { Id = 32, Name = "Travel" },
                     new Topic { Id = 33, Name = "Others" },
-                    new Topic { Id = 34, Name = "Farming" }
+                    new Topic { Id = 34, Name = "Farming" },
                     new Topic { Id = 35, Name = "Health" }
                 );
                 appDbContext.SaveChanges();
@@ -140,14 +140,14 @@ internal class Program
                     {
                         Name = "Ashley Turner",
                         Email = "ashleyturner@mail.com",
-                        Password = "test".
+                        Password = "test",
                         ImageUri = "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=80&q=80"
                     },
                     new User
                     {
                         Name = "Kate Hudson",
                         Email = "kate@mail.com",
-                        Password = "kaste".
+                        Password = "kate",
                         ImageUri = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80"
                     }
                 };
