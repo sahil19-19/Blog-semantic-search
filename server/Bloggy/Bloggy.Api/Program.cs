@@ -122,7 +122,7 @@ internal class Program
                     new Topic { Id = 30, Name = "Tabletop Games" },
                     new Topic { Id = 31, Name = "Technology" },
                     new Topic { Id = 32, Name = "Travel" },
-                    new Topic { Id = 33, Name = "Others" }
+                    new Topic { Id = 33, Name = "Others" },
                     new Topic { Id = 34, Name = "Farming" }
                     new Topic { Id = 35, Name = "Health" }
                 );
@@ -824,7 +824,7 @@ Now, when I look back at those expenses, I don’t see waste. I see survival. Ca
 
 Today, as I sit here listening to Hymn for the Weekend by Coldplay, I close this chapter. I’m free from debt, and from the chaos that created it. I don’t promise I’ll never fall again — but this time, I know what it costs to keep breathing underwater.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 19 || || t.Id == 11).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 11).ToList()
 },
 new Post
 {
