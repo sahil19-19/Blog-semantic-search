@@ -117,26 +117,50 @@ internal class Program
                     new Topic { Id = 25, Name = "Politics" },
                     new Topic { Id = 26, Name = "Programming" },
                     new Topic { Id = 27, Name = "Reading, Writing and Literature" },
-                    new Topic { Id = 28, Name = "Relogion and Spirituality" },
+                    new Topic { Id = 28, Name = "Religion and Spirituality" },
                     new Topic { Id = 29, Name = "Science" },
                     new Topic { Id = 30, Name = "Tabletop Games" },
                     new Topic { Id = 31, Name = "Technology" },
-                    new Topic { Id = 32, Name = "Teacnology" },
-                    new Topic { Id = 33, Name = "Travel" }
+                    new Topic { Id = 32, Name = "Travel" },
+                    new Topic { Id = 33, Name = "Others" }
+                    new Topic { Id = 34, Name = "Farming" }
+                    new Topic { Id = 35, Name = "Health" }
                 );
                 appDbContext.SaveChanges();
-                var user = new User
-                {
-                    Name = "Test",
-                    Email = "test@mail.com",
-                    Password = "test"
+
+                var usersArray =  new User[] {
+                    new User
+                    {
+                        Name = "Amit Das",
+                        Email = "amitdas@mail.com",
+                        Password = "amitdas",
+                        ImageUri = "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=80&q=80"
+                    },
+                    new User
+                    {
+                        Name = "Ashley Turner",
+                        Email = "ashleyturner@mail.com",
+                        Password = "test".
+                        ImageUri = "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=80&q=80"
+                    },
+                    new User
+                    {
+                        Name = "Kate Hudson",
+                        Email = "kate@mail.com",
+                        Password = "kaste".
+                        ImageUri = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80"
+                    }
                 };
-                appDbContext.Users.Add(user);
+
+                appDbContext.Users.AddRange(
+                    usersArray
+                );
+
                 appDbContext.SaveChanges();
                 appDbContext.Posts.AddRange(
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[0].Id,
                         Title = "Lorem Ipsum",
                         ImageUri = "http://localhost:5010/images/1.jpg",
                         Description = """
@@ -178,11 +202,11 @@ Pellentesque aliquet mi vitae mauris cursus rutrum. Aliquam pellentesque maximus
 Vestibulum enim ipsum, mollis malesuada semper id, placerat eu nulla. Vestibulum finibus dui purus, at varius libero mollis ac.
 Aliquam tempus ante ac tellus imperdiet luctus. Maecenas et suscipit erat. Morbi venenatis consequat arcu a commodo.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 1).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 33).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[0].Id,
                         Title = "The Best To-Do List App",
                         ImageUri = "http://localhost:5010/images/3.webp",
                         Description = """
@@ -193,76 +217,76 @@ Our to-do list app picks, Todoist, TickTick, and the Apple-exclusive Things 3, a
 have thoughtful designs, and feature flexible organization schemes, so you can conveniently hop in,
 address your obligations, and enter new tasks—then get right back to the doing.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 31).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[0].Id,
                         Title = "No Oversight: Inside a Boom-Time Start-Up Fraud and Its Unraveling",
                         ImageUri = "http://localhost:5010/images/4.webp",
                         Description = """
 False claims and risky trades at the Silicon Valley start-up HeadSpin were part
 of a pattern of trouble emerging at young companies that lacked controls.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id == 3).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[0].Id,
                         Title = "Slow Rollout of National Charging System Could Hinder E.V. Adoption",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 Lawmakers approved $5 billion for states to build a network of fast chargers two years ago.
 Although some states have made progress in recent weeks, most have not yet awarded contracts or started construction.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 10 || t.Id == 31).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "Balancing spirit and academic traditions",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
-For good reasons, we believe that church-related beliefs should not influence public education, unless the beliefs are part of a curriculum that involves the history or comparison of religions. With that in mind, and with our emphasis on educating the individual, it seems that concepts involving spirit are off limits in our schools. Similarly, in India, the cradle of so many spiritual traditions, there is a national interest in Values Education and an abhorrence of such a curriculum coming from any of India's many spiritual traditions. Colonial influences have left India as secular about education as the United States. This becomes important when we grasp that Values Education is a secular frame for millennia of spiritual traditions. The world's first cultures see the environmental and cultural genocide by colonial and post-colonial “commercial”, evangelical, and industrial countries as symptomatic of a lack of spirit, a disharmony with the beauty, balance and consciousness of the earth. Reasonably, they suggest that our environmental 
+For good reasons, we believe that church-related beliefs should not influence public education, unless the beliefs are part of a curriculum that involves the history or comparison of religions. With that in mind, and with our emphasis on educating the individual, it seems that concepts involving spirit are off limits in our schools. Similarly, in India, the cradle of so many spiritual traditions, there is a national interest in Values Education and an abhorrence of such a curriculum coming from any of India's many spiritual traditions. Colonial influences have left India as secular about education as the United States. This becomes important when we grasp that Values Education is a secular frame for millennia of spiritual traditions. The world's first cultures see the environmental and cultural genocide by colonial and post-colonial "commercial", evangelical, and industrial countries as symptomatic of a lack of spirit, a disharmony with the beauty, balance and consciousness of the earth. Reasonably, they suggest that our environmental 
 and related crises are caused by human disharmony, or a lack of spirit, sensitivity, or we might say sympathetic, intuitive, and aesthetic resonance with the creation. Yet, ironically, our schools are all about spirit rallies. In these exercises of team spirit we use sports to light the torch of a collective belief and passion similar to nationalism during wartime. Thus, we might hypothesise that inspiring spirit, a collective purpose that inspires deep enthusiasm, in the service of sports is a healthy secular activity. But inspiring spirit, as a collective, unifying concept for the care of one another and the earth is not. It's time we took another look at the relationship between secular disciplines and spiritual teachings. While I'd argue for keeping specific religious teachings out of our schools, in the name of psychology, anthropology, comparative religions, team work, and shared purpose, I'd argue that to be fully human, which may be one good definition of being fully educated, people need to understand the towering spiritual traditions that teach to the heart of our humanity. Teaching such a balanced curriculum should NOT preach beliefs that come from any specific spiritual tradition. Indeed, by comparing these traditions, we can learn the common themes and divergences. We can also learn that many great people who were not within any religious tradition, held values in common with believers. Good and great people come clothed in widely varying spiritual and secular robes. Education should not be about maintaining ignorance about a core element in our nature--our joy in joining fully in events that quicken our sense of spirit. If people are not educated to the dangerous excesses of belief and spirit, as manipulated by authoritarians, then a secular education may leave people lonely and vulnerable rather than united and empowered to sympathetically serve our collective values, which are so similar across all spiritual and humanistic traditions.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[0].Id,
                         Title = "Unity in Values Education",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 Many people experience our unity with God and thus believe that a spiritual basis for Values Education (VE) is important. This paper suggests that a sense of unity can be achieved through cosmology, which means we can use science and the humanities to educate for a sense of unity. Science tells us that the universe is a unity of energy in time and perhaps beyond time. For example, all the water on earth, like all the elements and many molecules that make earth and life possible, came from a condensing cloud of fire and stardust. In all its forms, the core of all the matter on earth was created billions of years ago in dying stars. So the life-enabling water in our bodies and most if not all of the atoms is older than the earth. Every drop in oceans, rivers, lakes, and drinking fountains was born from cosmic explosions, as were all the elements in the periodic table. Thus, whether in the beginning was the word, or the thought of God, and we are created from God's consciousness, or whether in the beginning was cosmic energy, which by accident formed stars and made all life possible, either way, our existence is an unfathomable miracle, a great wonder, and our consciousness, at its best, is enchanted by our gift of being, whether that gift is gift-wrapped by God or a beautiful accident. Either way, here we are and we want to make the very best of it. We want to celebrate being alive and being with one another. And we want to celebrate the knowledge and wisdom that our ancestors have gifted to us through words, tools, attitudes and habits, passed like the first fire from generation to generation. The important question for VE is not whether we find our morality in unity with God's, for even if there were no God, there would still be unity. The unity would be in the fact that we are all the same miracles of time, sun, matter, and DNA, of tenderness and language. We all want to be cared for, respected and loved. We fear hunger, deceit, loneliness, and death. We all respond to kindness unless somehow we've been terribly wounded. We love to chatter with friends, to laugh, to see courage, kindness and beauty. So let us agree that God is NOT essential for everyone to justify Values Education. After all, many atheists are profoundly moral and many religious people have harmful values. Even if their God says thou shall not kill, they will stone their child if that child breaks a commandment, and they will say it is holy work to kill another who worships the same God, but in a slightly different way. This is not to suggest that God is not present and that God's presence is not the source of our quest for values. Let's simply agree that we do not have to find our unifying theme in God. It is enough to know that we all are of the same creation; made from the same energy, have the same hopes and fears, and all hunger for recognition, kindness, support, fun and tenderness. Thus, we can say that the basis of VE is our unity with each other and with each grain of sand, seed, flower, bee, tear, sunbeam and smile. All exist, products of one-cosmology, one-galaxy and solar system, one-biology and ecology, one-social and cultural continuum. That is a great deal to have in common. Once we sense our unity, then we are drawn to treat the world and others as we wish to be treated. But to be consistently kind, we must develop our awareness by observing that many times our minds and hearts are divided and we are not kind to others or ourselves. 
 We are ambivalent or worse—very judgmental, very cruel. We gossip and bully, ignore, threaten and hurt others. What we fail to see is that our cruelty, our judgmental thinking and behavior then casts a rejecting, angry shadow back on us, or actually originates within a rejecting shadow within us, a shadow that we carry. This is why both spiritual and secular traditions in religion and in psychology teach us to witness or be mindful without judging. We are advised to heal the division in our minds and hearts, to heal the divisiveness in our attitudes so we will NOT nourish this fragmentation, and then unconsciously turn it against ourselves. In mindfulness or witnessing we are taught to let our minds become like a clear stream, to let all our thoughts and feelings be like fish that swim through. Just as the stream does NOT hold onto the fish, so our egos, or our consciousness, should NOT hold on to what is good or bad because if we hold on, then the mind is stopped from the perfect stillness that flows, and we stop growing, stop expanding our awareness, stop achieving an ever more subtle appreciation for the creation that flows within us and outside of us—making us and every moment possible. Thus, the important thing for VE may not be a unity based on spiritual beliefs, but simply a sense of the unity of creation, and our gift of awareness that enables us to know that unity, and to then feel our responsibility for the creation and for each of the creatures and things in it. Nature is the unity in the world from which life springs, so when we let ourselves be at one with nature, we sense this unity and we sense our instinct to be stewards, caretakers of nature, just as we have an instinct to be caretakers for one another. The challenge of living in such unity is to accept ourselves with all of our fears, impulses, destructive and selfish habits. We must learn to see that we make ourselves superior by making someone else inferior. We are better because we are richer, stronger, smarter, taller, tougher, smaller, prettier, younger or older. All these ideas of specialness hurt us because they divide us first within ourselves, and then from others. In this division our insecurity is expressed, and so too our careless, thoughtless, and destructive behavior—as if we want to prove that we don't have to care because if we care then we too are vulnerable and must have compassion born of not yet realized self-acceptance or self-love. Our secular world's emphasis on specialness is the opposite of cultivating humility. For it is in being special like everyone else, or in our commonness, in our sense of community, in our caring and communication, that we find our unity. The seed of our most caring consciousness is born in our sense of others, and of equality. This has profound implications for how we design and explore all learning. We see that we do not want to divide or fragment people as we teach for assessments. This of course occurs when students study for competitive tests. Further, we do not want to divide the world into disconnected subjects and facts, because such division destroys the teacher's and learner's sense of unity that spurs curiosity, exploration, and wonder. Instead, we want to discover how all things are related, interacting, sustaining, and creating. Hummingbirds, snakes, snails, and whales, we need to know that we all sip the same ancient water and inhale the same leaf-green air while living our shared DNA guided lives. We are naturally curious and each sincerely asked question nourishes new questions. We are greatly enriched when we discover the miracles of how water and oxygen are formed and forever refreshed, how butterflies, salmon, lobsters, and swans migrate, and how DNA changes gills into lungs, scales into feathers and skin. We also want to enable people to discover how the mind that is relaxed and focused sees clearly, so art, play, building, learning, communicating and caring, nourish compassion unified in the unfathomable, and very likely, Godly beauty of being.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 13).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[0].Id,
                         Title = "Balancing measurement and human development ",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 Political, philanthropic, and educational decision makers want to measure what software is used, and to what effect, to guide (control) technology purchases. But this common sense interest raises common sense concerns. We have observed unintended consequences: in the name of accountability, educational systems become more top-down, standardized, sterile, didactic, redundant and irrelevant. Since digital systems have the advantage (and disadvantage) of easily facilitating measurement of learning, there is a danger that this ability to generate use and effects data for decision makers may push us toward curriculum designs and learning experiences that are immediately measurable. Such a curriculum would continue the unfortunate tradition of covering content at the expense of discovering and applying powerful, fascinating, and beautiful ideas. By standardizing curriculum to focus on accountability, we often cause teachers and students to feel that they are the means to bureaucratic ends—with higher test scores reflecting a cost-benefit. But we know from experience, management, and learning sciences that people learn, work, problem solve, and grow most happily and efficiently when they are not subject to tasks that are purposefully aligned to performance reviews. The danger, then, is that education would become a series of smarter digital interactions, more efficient in conveying set information and providing practice in set thinking procedures to meet preset measurable objectives. Where the systems are digital and adaptive, we call them personalized. But such systems may further make knowledge more extrinsic, rather than intrinsic; devoid of a felt sense of purpose. The price we pay for our well-intentioned obsession with accountability is that education is reduced to consuming measurable modules. This exacts a price. We retreat from exploring and creating interactions that facilitate important dimensions for human development. These dimensions focus on self-knowledge and happiness—trust, curiosity, questioning, initiative, identity, purpose, ethical behavior, service, stewardship, self-expression, and collaboration. This kind of learning emerges from a felt sense of personal, social, economic, intellectual or aesthetic purpose. It improves as a function of community and transcends most textbooks or formal curricula, though textbooks and lectures can be integrated into such learner-focused experiences. A very different way of looking at digital systems has an enormous role to play in creating these kinds of personal, community, and project-based learning experiences, even though our science of measurement and accountability has not caught up with these more open and human approaches. This more openly personal and social alternative views the computer not as the medium of delivery, feedback, and accountability; instead, the digital systems become mediums for facilitating social interactions (matching people by compatibility or complementary skills), providing facile means for communication about ideas and curriculum designs; identifying problems and opportunities, and storing a working history. Where in one case the technology is used to close the system, in the other it is used to open it to human concerns and creativity. In time, this kind of open design and publishing medium naturally facilitates a focus on improvement, on adapting content presentations and interactions for ever more diverse populations of students and teachers. In a diverse and multicultural society like the United States, the value of facilitating these capacities is beyond the bounds of measurement. Digital textbooks transformed into adaptive learning systems are here to stay, but we definitely want to build complementary digital systems. One excellent way to do this is to use technology to support schools and classrooms as Research & Design Studios, as Labs and Learning Communities. Education within Learning & Design Communities is very different from education as pre-established/machine-adapted content and tested teaching and learning. Where technology is used to facilitate Community Design and Learning, we can facilitate the creative problem-solving and culture-making processes in people. Inquiry becomes purposeful, communication sensitive, efficient, aesthetically pleasing and powerful. The outcome is building something new and/or evolving something old. This is problem-solving by design and building. It is STEM and STEAM transformed from academically taught disciplines to relevant problem-solving that combines purposeful work and learning. When knowledge is applied to make the world a better place, at least for one other person, academics can become an important part of giving people an enhanced 
 sense of power, pride and identity. When people gain the power of belonging to a compatible group with shared purpose and effort, the results for all involved increase dramatically. The challenge for our technology/education communities is to NOT cut off our human communities—which already are far too isolated from our schools. On the contrary, we have to discover how to use our technology to facilitate warmer, richer, more meaningful learning, work and design communities in and around our classrooms. This will benefit education, and it will benefit our communities whose at-heart purpose is the protection and development of the next generation. Education needs the same urgency that we see in ants carrying their eggs from a disturbed nest. We should work to create better fitting and inspiring mentor relationships (face-to-face and virtual, local and global) for students and teachers. We should employ our technology to build and facilitate ever more inspired and talented curriculum designs processes enhanced by cross-discipline teams. We should build an infrastructure for facilitating learning by working in apprenticeship situation and in service and stewardship teams in our communities. Great gains can also be made in research if we view technology's measurement capacities in system-wide ways. Instead of thinking in terms of the normal curve in response to manipulating one or a very few variables, we can think in terms of the diversity of students and the multiple factors affecting where they are on that curve. Thus we can greatly refine our definition of experimental and control groups, and how we analyze the data coming from each. This means that many researchers can use the same parameters (data sets) and we can begin to drill down to N of one understanding. Ultimately we will discover that we can design unobtrusive and transferable data gathering systems to support system-wide research that provides insights into the diversity of students' in terms of their learning within online and off-line contexts. One use of technology is not necessarily better than the other. The adaptive learning and other delivery mediums serve important purposes. But that delivery process, because it more readily fits accountability measures, should not outweigh using technology to deepen our design, research, and service communities that are rooted in human interactions that technology now can facilitate. Our research should shine light on how to refine both systems to meet people's deepest needs—the needs of different types of students and teachers at different stages, in different contexts, and learning for different places for different purposes. Ultimately, we need to act from the knowledge that there are two common cores. The current academic curriculum should be viewed as second, or as developing in parallel with the first common core, which is Self-Knowledge and Social Emotional Learning. Ironically, by placing academics ahead of self-knowledge, and even ignoring self-knowledge, we have put academic learning in jeopardy, particularly for our most at-risk and gifted students. Thus, our current curriculum is not very successful at inspiring students and teachers to realize the richness of their individual and collective histories and cultures or their uniquely unfolding selves. This means we should use technology to help us redesign the Academic Common Core in two ways. One by machine delivered interactions. The other by computer facilitated human interactions that promote both self and academic learning. In other words, technology will realize its potential when Learning, Design, and Research Communities organize stakeholders around continuously improving their learning through all kinds of technology and human mediated interactions. Self-knowledge, or The First Common Core, naturally has to be much more personalized. This is the Common Core of self-awareness, introspection, and self-regulation built from the idiosyncratic processes of discovering and expressing one's self. It develops through and expresses identity. It is well exemplified by people like Socrates, van Gogh, and Thoreau, and by our best business, science, political, spiritual and artistic leaders. Its principles are well documented in developmental psychology. These two systems, the Personal Introspective/Purposeful Social and Creative and the Academic/Technical are not separate. Each, if well designed, should nourish the other, and either without the other will perpetuate a dangerously failed education system. A sound-working hypothesis may be that when the Common Core reflects the best of our cultural knowledge, which is an amazing legacy, we will see a coming together between self-and cultural and academic knowledge. Then we will know that we are building a great curriculum—a great learning community for human, social and economic development. But the further apart self and academic-cultural knowledge remain, the more we know our educational designs are failing our human and societal potential, and that measuring what's most successful in a failing system perpetuates failure and unhappiness—especially if accountability measures are so sterile as to ignore teacher and learner purpose, identity, and happiness. Political, philanthropic, business, and administrative leaders will want to tread lightly when considering narrowing our human potential by reducing education to what publishers and technologists can monetize and the Internet can readily deliver, adapt and measure. They also will want to consider the exciting, subtle and profound ways to use technology to rebalance education by deepening the capacities and insights that technology can help us to facilitate in communities devoted to service, stewardship, design, problem solving, and research.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[0].Id,
                         Title = "Synergies between academic and holistic learning",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 Throughout history, wise individuals have taught that learning is about inspiring a passion, not merely filling a void. True education manifests as love, leading to community service, with self-knowledge, compassion, imagination, and agency as core capacities applied within a meaningful context that fosters just-in-context learning. Unfortunately, our narrow academic traditions, focused on measurable returns, have too often confined education to dehumanizing learning and assessment processes. However, the deepening synergy between learning and computer sciences offers a solution: integrating measurable education outcomes with holistic human development through AI-supported portfolio assessments. While linear digital systems will still facilitate alignment between curriculum and learning measurements, we no longer need to prioritize standardized curricula or summative accountability over self-knowledge, creativity, personal growth, service, and project-based learning. Using Portfolios for assessment, we can expand our learning and assessment model to provide both measurable content delivery and foster personal growth while capturing measurable growth in all areas. Technology should be harnessed to create community-based learning environments that complement and integrate existing curriculum areas. Classrooms should evolve into studios for learning, design, and assessment. Here, students and teachers can engage with other talented people in meaningful, purposeful experiences that merge personal development with academic achievement. By integrating learning and computer sciences, we can transcend the limitations of traditional education by supporting all forms of learning and using technology to unlock deep and unique human potentials through more sophisticated research and more engaging and creative assessment processes.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 13).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[0].Id,
                         Title = "The AI inflection point",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
@@ -277,11 +301,11 @@ e-Portfolios will enable students to reflect on their engagement, successes, and
 Local to Global Human Resources Community
 Everyone can be part of the Smart HR Pool and can play multiple roles in cross-age, cross-capacities, cross-maturity, and interest groups. Teachers and students can be matched for compatibility, and the success of these matchings can be tracked in e-Portfolios. Students are placed in fitting study, tutoring, club, and other groups to increase engagement, belonging, and success. These meetings can be recorded for quality and safety and analyzed by AI. Students and groups can use e-Portfolios to provide real-time feedback to improve interactions and offer suggestions.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 31).ToList()
                     },
                     new Post
         {
-            AuthorId = user.Id,
+            AuthorId = usersArray[1].Id,
             Title = "This Hobby Can Change Your Life",
             ImageUri = "http://localhost:5010/images/2.webp",
             Description = """
@@ -305,23 +329,23 @@ Everyone can be part of the Smart HR Pool and can play multiple roles in cross-a
         But I actually think we can go further. Do we decide to BE one of the helpers? Do we decide to pick up the trash? Do we take ownership of the things within our control?
         That’s what makes the difference…and life better for everyone, but especially you.
         """,
-            Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+            Topics = appDbContext.Topics.Where(t => t.Id == 17).ToList()
         },
 
                             new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "Creating a new ecology for learning",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 To date, scaling educational reform has failed because we have been limited by our beliefs, models, and technology. Thanks to the wealth of human, cultural, and technological resources, the 21st century can be about reinventing the culture of human development and learning so schooling becomes a joy rather than a chore for students and teachers. With a sufficiently vital focus on student and teacher diversity, STEAM has the potential to broaden and deepen our educational thinking, design, and practice in ways that positively change resource design, teaching, and learning. However, to implement STEAM well, we must move out of cubicles and into classrooms. We must open classrooms to communities of people & nature, and communities to classrooms. We must stop thinking institutionally and begin thinking culturally, developmentally, and psychologically. We must grasp that meeting people's social-emotional (SEL) needs is the first step to human development and learning. Since learning builds on background knowledge and opportunities for self-expression, we must discover where learners are and meet them there. A person who can't float is not ready to learn to swim. The kinds of changes required to inspire and make the kinds of changes called for in the educational system would be unthinkable without current technology and our current sciences of learning, personality, culture, management, family & community. So, let's build a 21st Century model for creating a new ecology for human development, schooling & learning. Let's imagine 4 pillars that will hold the ecology up. What we immediately see when we look at these 4 Pillars is that we have moved from either/or thinking to INCLUSIVE, and thinking. This is essential to build a complete model and pedagogy that is sensitive to diversity and the common and idiosyncratic dimensions of human development and learning. The 4 pillars: 1. Self-knowledge is the beginning and end of social-emotional learning, successful adjustment, productivity, and the pursuit of happiness. Self-knowledge is the common-core of identity and a royal road into the wonderfully weird world of diversity, learning, creativity, and productivity. 2. Family, community, natural, cultural, and expert resources are the matrix out of which self and all other knowledge grow. Expert resources are included because, while experts are part of communities and are carriers of cultural resources, they are leaders who inspire us for efficient learning and the development of identity. 3. Online cultural + community + design + research + feedback resources are included as parallel elements to #2 because without the internet and knowledge engineering, we would not be able to consider how to coordinate so many different elements. It is precisely our ability to engineer all the components in #2 that 
 creates the potential for us to take community organization within a human, cultural, and natural resource environment to a new level that enables us to deploy all of these resources in the service of human development. 4. Flexible, personalized, developmentally sensitive common core curriculum is now possible if we realize the wealth of our human, cultural, and natural resources as the vectors for designing our new common core. This common core should focus on problem-solving that facilitates service and stewardship to our families, communities, and nature. Please note that the goal that was first in school reform, the academic common core, is now 4th, because developmentally this is where it belongs. Why? Because, in general, we grow cognitively healthy where we are socially and emotionally supported. The stimulation for that growth comes out of the natural and social matrix that nourishes us; it comes out of the ways in which the culture designs the knowledge-gaining experiences to make them accessible and meaningful. Assessment is not the goal of learning; productivity in creating, sharing, and problem-solving is what motivates us to learn and work. Assessment is simply a part of the work/learning process that functions best when it supports insight and refinement. Thus, we should be talking about personalized development rather than just personalized learning.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[2].Id,
                         Title = "Making sense of teaching Science and the Arts in a human context ",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
@@ -352,11 +376,11 @@ However, I’m afraid that STEM in our schools has fallen far short of its poten
 Ironically, while loudly declaring that education should be research-based, we continue to ignore the learning, management, and human development research while turning STEAM and SEL into subjects taught from textbooks and uninspired lectures in preparation for tests that serve a stupefying accountability.
 When will we rise above the entropy of current practices and begin to learn and celebrate the benefits of inventing our knowledge culture?
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 29 || t.Id == 27).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "Self-Knowledge as a 21st century skill",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
@@ -375,11 +399,11 @@ To facilitate this deeper self-awareness, we can integrate practices that encour
 Topics like wishful thinking, defensive thinking, group identification, manic and depressive moods, and symbolism in the arts and dreams can also deepen students’ self-awareness. Helping students explore their relationships with peers, and the symbols that influence their desires, would empower them to understand how external influences shape their internal worlds.
 Ultimately, the maturation of each individual requires a healthy interest in who we are as evolving, complex, and interconnected people. If we can help students cultivate this self-awareness, they will be able to offer the same care, empathy, and understanding to others—transforming their relationships with peers, teachers, siblings, and parents.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "Unifying our vision for evolving education",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
@@ -390,23 +414,23 @@ Research Engineering will help us to better understand and respond to the divers
 Knowledge Engineering grows directly from Research Engineering, and extends into the design, organization, and sharing of learning experiences. There are many ways to apply technology to support the design, organization and continuous improvement of learning experiences. The content of a learning experience, be it a lecture, video, field trip, poem, story, simulation, or service project can and should have many designs that will improve access across different ranges of ability, interest, and talent. For example, the same story can be written at multiple reading levels and in many languages. This represents an important step toward Universal Design for Learning, a framework to improve and optimize teaching and learning for everyone based on insights into diversity. We should note that not all curriculum created by technology supported design should be online, far from it! Small group discussions, texts, board games, simulations, worksheets, community service and environmental projects should be designed and supported by technology, yet many of the activities would be done away from the computer screen, and many will involve using mobile devices in the field. Knowledge Engineering provides a framework for refining and applying our understanding of the scope, sequence, and scaffolds to optimize learning. It helps manage customization, version control, and dissemination. It also uses the data about the student like reading level, interests, and favorite friends to provide students with a good set of customized choices about what, how, when, where, and with whom each student would like to learn.
 Design Engineering is a subset of Knowledge Engineering. It provides educator-designers a unique set of design, presentation, interaction, assessment, and feedback tools to help design teams shape their designs to fit the wide-ranging sensory, affective, cognitive, intuitive, and aesthetic needs of students, teachers and communities. The first principles of design are: 1) design with and in the presence of the people and community you serve; and 2) create something your clients' love; and 3) be able to adapt and modify based on experience. To achieve these, it's essential that teachers and students be co-designers. Designers need to watch and listen. They need to ask for help and feedback. Great design is inspired by love for the users and love for the subject or skill to be mastered. When we connect social and knowledge engineering to research and design, we can make our classrooms into smart design studios in which in-residence, cross-discipline teams participate and become co-creators with students and teachers. A digital latticework that is created and maintained by in-residence computer scientists and engineers who continually evolve the system to serve the learning community's needs is fundamental to support this design work.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 27).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "We have failed personalized learning",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 Rightly hailed as alchemical gold for public education, Personalized Learning is failing to realize its potential. This should worry us because the fault is not in the principles of Personalized Learning, but in our failure to grasp its meaning and therefore to do the groundwork to lay a proper foundation. To understand this, let’s define Personalized Learning as the organization, presentation, and scaffolding of learning experiences that meet the deepest needs of students. This means that the curriculum addresses learner concerns and supports agency, and autonomy; it empowers students in making meaning and addressing problems while discovering knowledge, skills, maturity, and satisfying relationships. This is a tall order in a huge system that history has shaped around didactically teaching separate academic subjects from textbooks, worksheets, and lectures, at relatively shallow levels to prepare for tests. So Personalized Learning challenges us to think beyond testable subject knowledge and technical skills, though both these areas can be addressed in a Personalized Learning focus. How can we move beyond a narrowly prescriptive approach to academic and technical knowledge and skills? Personalized Learning starts with the individual learner and therefore it asks us to understand human diversities. The plural is used here because unlike the diversity of fingerprints or even blood types, in the realm of what people want to learn, how they will learn, at what rate, and for what reasons we find people are much more diverse than we can fully grasp. In fact, the combination of character and learner traits appears to be endless! Here’s an example: two students are motivated to learn to read but are struggling. Are their difficulties at a visual or auditory perceptual or short or long-term memory level? Or is there a deficit in linguistic memory or background knowledge? Or should we be looking for cultural or personality factors or a combination of all of these? In this example what appears as the same learning problem may occur for entirely different reasons. If we think in biological terms, we might say that at the phenotype level the problem is the same, the presenting symptoms are the same, slow development of reading skills, but at the genotype level there are a number of possible differences. A simple example: At the genotype level one student may have poor visual or left to right acuity while the other may not hear the differences in similar letter sounds. At a more complex level, the difference may relate to a failure to develop background knowledge or narrative skills needed for comprehension. This takes us to the crux of our failure to make good progress in Personalized Learning. While Personalized Learning says it wishes to address the unique individual differences and create learner success, in truth we have stayed at the phenotype, or surface level; we have not begun to look at learner genotypes, or the combination of learner-traits that are predictive of what, 
 how, when, with whom, and for how long a learning experience should be undertaken. Even at the phenotype level we’ve failed to respond to obvious learner needs, like the need for immersive social support through interactions with others. Why? Because the tools for diagnosing learning at the genotype level have just arrived via digital systems and we have not fully grasped how the vast realms of developmental psychology can be used to address learner traits on multiple continuums that range from perceptual acuity, to personality needs, affective, social, and intellectual interests and concerns. Being able to see into people’s inner worlds to explore diversity is a vast new realm that can be compared with using the digitally enabled Hubble and Webb telescopes to peer into space. Similar hardware, whether tracking the birth of stars or a student’s visual or auditory acuity, oral or written narrative skills, or moods and enthusiasms, has delivered us to the cusp of developing a personalized pedagogy to support personalized learning. However, to do this we need to think about what data we want to gather from psychometrics and observation in new and coordinated ways. We must see beyond categorizing in ways that risk stigmatizing or stagnating learning to ways that view people along dynamic developmental continuums where learning experiences are meaningful and are built on solid scaffolds that promote growth. To date, STEM has been our focus along with Personalized Learning, but the Science part of STEM has been limited to our hard science, and our human sciences have been ignored. We have focused on building a knowledge economy based on hard sciences, technology, math, and engineering while ignoring our sciences of human development, learning, collaboration, culture and meaningful problem solving. This is a costly oversight because our learning and social sciences have so much to tell us about what matters most to whom and these sciences can guide our curriculum design processes in ways that digital systems are now able to support. To build the knowledge economy, we must broaden our definition of STEM (STEAM), not by adding more letters, like SEL, but by defining science much more broadly. We must see that we want to build a knowledge culture, which means building a learning culture within our schools. Within our schools is a key concept. Currently most of our curriculum, including our STEM curriculum, comes from people working in offices. Likewise, the engineers creating educational software are seldom in schools. Currently marketing directs curriculum design by analyzing government policy and buyer focus groups. Teachers and learner sensitivities get little air. If we wish to achieve Personalized Learning, we need to link our research to a new design philosophy that understands how digital systems can support an in-residence project-based design process that includes students, teachers and a diversity of curriculum artists in-residence. This system will support continuous improvement and diversification of learning resources. The Internet was first invented to enable scientists to see what was happening in particle accelerators so they could observe and collaborate in building understanding about subatomic events. What will happen now if we build a knowledge development platform to help us observe and collaborate to build the most engaging Personalized Learning for students?
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
-                        Title = "The promise of AI to move to a more learner-centered curriculu",
+                        AuthorId = usersArray[1].Id,
+                        Title = "The promise of AI to move to a more learner-centered curriculum",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 With the invention of the microcomputer, innovative educators envisioned a renaissance in instructional design. They imagined a future where lesson plans could be easily written, revised, and personalized to meet individual student needs, fostering continuous improvement in educational materials. Many believed this would lead to more dynamic and less expensive publishing, giving rise to a new era in education. However, this vision largely failed to materialize. Instead of driving innovation in teaching methods and materials, technology in education became more closely aligned with assessment and high-stakes testing, which took precedence over creativity and refining instructional design. The arrival of the internet and collaborative authoring tools sparked renewed hope for another renaissance. Educators and technologists imagined a world where curriculum design could be customized (personalized), shared globally, and continuously updated to reflect the latest pedagogical insights. Again, this potential went largely unrealized. While there were pockets of innovation, the dominance of standardized curricula and a focus on testable outcomes limited the widespread adoption of more personalized and dynamic instructional methods. Today, artificial intelligence (AI) presents a third rebirth opportunity. The question now is whether we can leverage AI to shift away from a siloed academic curriculum and assessment process to one that is more personalized and aligned with what the science of learning tells us about human development. This approach would focus on holistic education, incorporating social-emotional learning (SEL), STEM, and the arts to foster well-rounded development, rather than limiting educational success to narrow measures of academic achievement.
@@ -414,33 +438,33 @@ Steps needed to realize the potential of AI to build a more learner-centered cul
 AI can support collaborative learning by providing platforms that encourage peer-to-peer and cross-age interaction and teamwork. It can also enable more creative learning experiences by offering tools for digital storytelling, interactive simulations, and virtual reality experiences. For example, AI can help design project-based learning activities that require students to work together to solve real-world problems, 
 integrating multiple disciplines and fostering a sense of purpose and engagement.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 31).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "How AI can support developing a holistic spiral curriculum",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 We know the many ingredients that inspire engagement for learning: background knowledge, belonging, play, self-expression, wonder, beauty, empowerment, and imagination. Stories are among our oldest simulations to engage learning. It seems we are hardwired to create stories. Even as we sleep we dream in whole stories or in little vignettes. And we’re eager to share our good, bad, or weird stories as well as our night and day dreams! It seems that people are natural storytellers and receivers. Surely sharing a well written, age-appropriate story offers several kinds of imagination-magic. The active imagination stills the listener / reader into quiet, receptive, engagement. Fertile ground for wonder! The storyteller or reader gains rapport without being inventive or creative. The author has done that work for the facilitator. While experiencing a story, all share in a common, contemplative learning experience that calls to be explored through further inquiry. Nothing stimulates receptive listening better than asking students: Given the title, what do you imagine this story may be about, and then stopping at key points in the story to ask, what do we imagine may come next. For decades many curriculum designers have wondered how to create a Spiral Curriculum, one that would build from primary grades through graduation into a realm of knowledge deeply aligned with student developmental needs, cultural and societal requirements for belonging. Could we go from a siloed, academic curriculum with narrowly defined measurements to a more integrated and holistic curriculum where knowledge and skill development equated with empowerment, identity, and enthusiasm for learning. Prior to AI, the challenges of creating such a Spiral Curriculum overwhelmed our capacities so we settled for the academic / skill siloes at the price of teacher and student boredom and burnout. With AI we can change this. We can ask what are the key ideas that stimulate children to be interested, to wonder, feel belonging, safety trust and empowerment. 
 One such key idea is the science story of the relationship between sunlight and plants (photosynthesis). Without the help of AI I would not have attempted to write a story that explores this relationship though I had successfully introduced the wonder-filled idea that E=mc2 to 3rd graders. Below is the prompt I used to get ChatGPT to produce a story presented as a dialogue between sunlight and a sunflower. Following the prompt is the lightly polished story built from what ChatGPT provided... I offer this to demonstrate the possibility of creating stories for a well scaffolded spiral curriculum that takes SEL into the realm of STEM or STEAM and circles back to inspire an ever growing identity born wonder that transcends knowing and provides the soil in which inquiry and trust might be nurtured that our human spirit might, through education, become at home in the world.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 31).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "Why Stories for Teaching: Insights for Educators ",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
 Engagement of Multiple Brain Systems Stories tap into parts of the brain that process logic and emotion, creating an immersive learning experience. On the cognitive side, stories activate areas responsible for comprehension, reasoning, and memory. The left hemisphere, which handles language, breaks down the structure of a story—understanding syntax, meaning, and plot. On the emotional side, stories activate the limbic system, especially the amygdala, responsible for processing emotions causing story content to be memorable as students emotionally connect with characters and situations. Additionally, our brain's mirror neurons "feel" what characters feel. This is why well-told stories evoke joy, fear, or sadness, enriching the learning experience. Stories Enhance Memory Retention Stories follow a narrative structure—beginning, middle, and end—that aligns with how the brain organizes information. This structure helps students recall complex ideas more easily than when isolated facts are presented for memorization without a rich context. Additionally, the brain is wired to recognize patterns, and stories are full of them. Whether cause-and-effect 
 relationships, moral lessons, or character development, the brain processes and stores these patterns, helping students apply them to real-life situations. Cognitive Development Through Stories Stories foster abstract thinking. By using metaphor, allegory, and symbolism, stories challenge students to think beyond the literal, enhancing their ability to think critically and flexibly. Fables, parables, poems, and religious texts, for instance, encourage students to interpret deeper meanings, broadening their cognitive skills. Moreover, stories often present characters facing problems. Students vicariously experience decision-making processes and the consequences that follow. This develops problem-solving abilities, moral reasoning—skills needed to navigate life’s complexities. Developing Emotional and Social Intelligence Stories can significantly boost empathy by showing the world from another person’s perspective. Understanding a character's emotions and motivations strengthens theory of mind, which helps students better navigate social relationships. Stories play a crucial role in cultural and moral education. Through biographies, fables, and religious texts, students learn societal values, ethics, and norms. These stories encode the wisdom of cultures passing up lessons that guide thinking, behavior, and social interactions. Neurochemical Rewards from Storytelling Neurochemical reactions make storytelling rewarding. When stories build suspense or moral dilemmas, the brain releases dopamine, a chemical associated with pleasure and reward. This creates positive feedback loops, making students more engaged and eager to learn. Stories emphasizing human connection or kindness release oxytocin, often referred to as the "bonding hormone." This neurochemical fosters feelings of trust and connection, making stories powerful tools for building community in the classroom. Evolutionary Role of Storytelling Storytelling evolved as a tool for survival. It allowed early people to pass down essential information—social rules, moral lessons, or warnings about dangers—without requiring risking firsthand experiences. This ability to learn indirectly through stories helps cultures transmit knowledge and wisdom efficiently. Making Sense of the Complexities of Life Finally, stories help students make sense of life's uncertainties and complexities. Whether it's mythology explaining natural phenomena or novels exploring human relationships, stories offer frameworks that help students understand concepts too abstract or mysterious for pure logic. In sum, stories speak the brain’s holistic language, blending logic, emotion, empathy, and imagination. By using stories, teachers can tap into this natural human affinity for narrative, making education meaningful and memorable!
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "To teach reading teach numbers first ",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
@@ -450,11 +474,11 @@ and order letters to read, they must be able to group and order concrete objects
 or size, or lines up blocks from tallest to shortest. These activities create the knowledge that objects can be organized in specific sequences. 
 This hands-on, tangible experience is the first step toward seeing and then understanding order. Consider that before a child can read, they must be able to arrange items in an ordered line, say "apple, pear, plum, lettuce, egg.". If you ask them to sequence the first letter of each item—a-p-p-l-e—you're asking them to make a massive cognitive leap. Sequencing objects precedes the abstract task of sequencing symbols. Numbers are the Bridge from concrete objects to the abstract symbols of letters because they are simpler symbols than letters in two ways: Fewer Symbols: There are only 9 basic numerals (1-9), compared to 26 letters. This smaller set is less intimidating and should be 33% easier for a child to learn. Direct Correspondence: Each numeral has a one-to-one correspondence with the quantity it represents. The number 1 always means "one of something," whether it's one apple or one person. The meaning is unchanging. This direct link makes numbers a reliable symbol system. In contrast, the meaning and sound of letters can change dramatically depending on their position and surrounding letters. The letter 'e' is a great example. In the word “example” ‘e’ has a sound at the beginning and is silent at the end. This ambiguity makes letters far more complex than numbers. Once a child reliably sees and understands that the symbol '5' stands for five of something and they can place a specific something in the first, third or fifth place they are ready to tackle the larger, more complex world of letters sequenced to make words. They can explore that a letter’s meaning is not fixed. While an egg is always an egg, the letter 'e' is a symbol with many assigned sounds—and those sounds change depending on the letter’s location. The journey from arranging objects to reading words should progress from concrete to abstract. Start with familiar items, move to the consistent world of numbers, and finally explore the many rules of letters. This builds a solid cognitive-perceptual foundation ensuring that children enjoy developing their understanding of the systematic way written language produces meaningful sounds.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 27).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "Teaching Kids About Bravery: 'I Am Not Brave' Children's Book",
                         ImageUri = "http://localhost:5010/images/2.webp",
                         Description = """
@@ -489,11 +513,11 @@ bravery looks like to you”) Roleplay scenarios on peer pressure, empathy, or f
 book can open meaningful conversations during bedtime or help children prepare for new or scary situations — like trying something new or handling 
 a conflict.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 13).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "BUILDING AUDITORY AND VISUAL REGISTERS WITH TORTOISE TEACHES RABBIT TO READ",
                         ImageUri = "http://localhost:5010/images/3.webp",
                         Description = """
@@ -517,11 +541,11 @@ we need to develop a left to right register, or set of columns, for the first, s
        when Tortoise helps Rabbit to study Rabbit's name, at first represented by just three letters R-B-T. Later, as more letters are added, our 
 character discovers more sounds--R-A-BB-I-T. In this auditory approach to written text, we apply the STEM pedagogy that supports invented spelling.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 27).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "Balancing spirit and academic traditions",
                         ImageUri = "http://localhost:5010/images/3.webp",
                         Description = """
@@ -549,11 +573,11 @@ of spirit. If people are not educated to the dangerous excesses of belief and sp
 may leave people lonely and vulnerable rather than united and empowered to sympathetically serve our collective values, which are so similar 
 across all spiritual and humanistic traditions.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 28).ToList()
                     },
                     new Post
                     {
-                        AuthorId = user.Id,
+                        AuthorId = usersArray[1].Id,
                         Title = "Apple Explores A.I. Deals With News Publishers",
                         ImageUri = "http://localhost:5010/images/3.webp",
                         Description = """
@@ -570,11 +594,11 @@ to discuss sensitive negotiations. The news organizations contacted by Apple inc
 publisher of Vogue and The New Yorker; NBC News; and IAC, which owns People,
 The Daily Beast and Better Homes and Gardens.
 """,
-                        Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+                        Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id == 3).ToList()
                     },
                     new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[1].Id,
     Title = "The Terminator Future Has Arrived",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -620,11 +644,11 @@ We have a very narrow window to take the issues of AI seriously, to demand overs
 This is not Friday night at the movies. And it’s not science fiction.
 This is the world our children will inherit.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id == 29).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Apple Way",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """
@@ -646,11 +670,11 @@ Wagering an outsider’s guess, the Vision Pro product category will not turn a 
 During my two years at Apple, profitability was never mentioned. Not even once. Instead, our focus was on entirely on creating a wholly uncompromising user experience. Contrast this approach with the rest of Silicon Valley which is manically metrics-driven. When I worked at Lime, one of the fastest companies ever to achieve unicorn status, a quantifiable business case had to made for each and every change. Want to redesign a user interface? Design an A/B test and prove that the redesign leads to objectively higher engagement or retention. Any change not meeting this bar is a waste of company time and money.
 Apple’s shared P&L center has innumerable advantages for the end user. This includes a nearly infinite attention to detail, a compulsion to place privacy and security first, and a genuine focus on sustainability. And, ultimately, it frees teams at Apple to build the very best products and experiences in the world.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id == 3).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "What I Learned From Working at Apple",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -664,11 +688,11 @@ We develop our careers over decades. We gain lifelong hobbies. There are only a 
 One thing that took me a few years to realize, is that patience is key for making focus become truly powerful. You need to focus on the key things for a long period of time. That key element of time, is what allows your skills and results to compound. Only then will your hard work bear great fruit.
 Switching your focus rapidly is similar to not having focus at all. So be patient. Focus. Allow your results to compound. And bear fruit. Just like Apple. 😉
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 31).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "How Living Together Saved Us Money (and Sanity)",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -737,12 +761,12 @@ It was he who brought up a final part of this equation. In many places, it’s e
 So, in that sense, maybe I have it a little easier.
 But the broader takeaway here is about the lifelong benefits for all involved — including networking/career benefits — such as deepening social connections with, and heck, enjoying the company of people significantly older or younger than ourselves.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 11).ToList()
 },
 
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Year I Lived on Credit and Coffee",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -800,11 +824,11 @@ Now, when I look back at those expenses, I don’t see waste. I see survival. Ca
 
 Today, as I sit here listening to Hymn for the Weekend by Coldplay, I close this chapter. I’m free from debt, and from the chaos that created it. I don’t promise I’ll never fall again — but this time, I know what it costs to keep breathing underwater.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 19 || || t.Id == 11).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "OFF GRID SHELTER",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -813,11 +837,11 @@ By building myself a makeshift camper van before moving off-grid, I afforded mys
 In addition to my camper van, the first shelter I built was my shop. Being under 200 sq ft means it doesn't require permits. It's basically a shed. It cost me about $4000 in materials. The main purpose was to store my tools, supplies, and food. In an emergency, I could stay in there as well. The shop created a surface to harvest rainwater, so connected the IBC totes for storage.
 Other shelters included animal shelter, greenhouses, and the root cellar. Many systems on a homestead can be used for multiple purposes. I'll expand on these systems later. With shelter in place, I began to focus on water.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "RAINWATER HARVESTING",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -828,11 +852,11 @@ While the roof system diverts water to the cisterns, I have dug swales that dire
 To automate my watering system, I built a water tower approximately 20 feet above ground. This tower provides plenty of pressure to direct water to any part of my homestead with no problem. About once a week, I pump 330 gallons up to the tank on the water tower, and from there, all the animals and gardens have automated water, even if my solar system goes down.
 Even my outhouse has a mini-system to harvest rainwater for a handwashing station. The 5-gallon container has never dried up since the first time it filled.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "GROW YOUR OWN FOOD",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -843,11 +867,11 @@ My chickens provide about six eggs a day for most of the year. I have never sat 
 About 25% of my dog's food is grown on the homestead, and I have harvested thousands of pounds of native grass for my livestock. I will continue to focus on growing feed for livestock and look into rotating them on pasture.
 I have loaded my root cellar with a one-year supply of food storage, and in fall, when I fill it up with squash, it easily keeps until spring.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "BUILDING YOUR HOME",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -857,11 +881,11 @@ Before building, I considered the topography of my homestead. I built where wate
 Your floor and walls should be framed on 16" centers. After stick framing the floor, you should sheet it with 3/4" flooring and build your walls on top of it. It's very windy here, so I buried 6 4x4 posts about 3 feet in the ground in the corners and center of my floor. I attached the walls to the posts.
 I built rake walls on both ends with one side of the shop about one foot taller than the other. This way there is a pitch going away from what will be the center of the shop. On the opposite side, I built an awning that matched the pitch over the shop. This way I can park under one side and enclose a shop on the other side. I covered the roof in metal roofing so I could easily harvest rainwater to store in containers and cisterns.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "BUILDING AN ANIMAL SHELTER",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """
@@ -872,11 +896,11 @@ I tried my hand with goats and pigs and decided I prefer the latter. Regardless,
 I simply split the area in half and using pallets I built a three-sided shelter in each half and covered them in corrugated steel panels. I later added another pen roughly equal in size to the two original pens.
 They're all wrapped in rewire, and at least the bottom foot is wrapped in 1/4" wire mesh to keep the piglets from escaping. I use these three pens to move the pigs around to breed them, keep them separate, and one for piglets that have aged out. This small system allows me to grow all the meat I need here on my homestead.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "CHEAP AND EASY FENCING",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -884,11 +908,11 @@ My first fence, like most everything else I built at first, was frugal and very 
 The original fence is 7 strands of poly electric fence wire. It's cheap, and it will jolt you. Animals touch it once and stay away. In order to make it work, you need a powerful charge controller to electrify the fence, and you need to place several grounding rods near the unit and around the perimeter.
 The outer perimeter fence didn't come into play until I purchased horses. This fence needed to be strong. I used eight-foot, pressure-treated 4x4s for the corners and sides of gates. I placed one upright about three feet deep in concrete, then ran two more eight-foot 4x4s at about 45°, running parallel to the fence on either side, to brace the main post about halfway up. After all posts were set and cured, I ran three strands of high-tension wire starting from the bottom and working my way up around the entire perimeter. I ran two strands of poly wire to fill the gaps until I could afford to replace them with high-tension wire. This fence has held up perfectly, and I've had no trouble with the horses. Soon, I'll upgrade the original inner fence to match the perimeter fence.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOMESTEAD DEFENSE",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -896,11 +920,11 @@ With fencing out of the way, homestead defense is an important and overlooked qu
 My homestead has many layers of security, and I'll detail them for you now. By the time anyone gets within half a mile of my homestead, I know they're there. I have motion detectors set up half a mile away that notify me. Even if it's just a rabbit, I know. Again, at the end of my long drive, I have another sensor that notifies me with a distinctly different sound. If I'm feeling busy and ignore the first notification, I never ignore the second. Someone is definitely approaching my first gate. By the time someone approaches my driveway, they're already on live camera that is recorded to the cloud. Once someone is on my driveway, I can read their license plate and have video of their vehicle; by the time they approach my first gate, I can identify them inside their vehicle. 360° of my property and the property near mine is covered at all times.
 I can communicate through the cameras if necessary, and so can any visitors. An added benefit to the cameras is that all my livestock and valuables are on camera as well. The fences provide more security by forcing visitors to stop at the front gate. This gate is about a quarter mile from my homestead, leaving them in a very vulnerable spot with nowhere to take cover while on my end, I have bulletproof dugouts around the perimeter of my homestead behind the second fence and gate. These dugouts are made with dirt, sandbags, and 3/4" steel structures. Behind all fencing, I have stacked old foliage, tree limbs, and more, making it impossible to get through without drawing a lot of attention. Inside my first fence is the horse pasture; my stallion and filly can definitely be intimidating, they’ll easily keep predators at bay and deter many people. Behind my second fence are three very sweet, well-trained dogs that are absolute animals when it comes to protecting their yard. The electric fence is an added bonus. And finally, all the gadgets a man might keep to protect himself can easily reach out and touch anyone before they even turn down my drive. Some have called me paranoid. I call myself prepared.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "CHEAP AND EASY WATER CISTERNS",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -908,11 +932,11 @@ I needed more than a few IBC totes for water storage. You can buy 3000-gallon ta
 I dug the cisterns roughly 16x5x5, and the pond is a more natural shape, about the same size. This provided about 14,000 gallons of rainwater storage capacity.
 The ponds are simply a hole lined with tarp and swales leading up to them. The cisterns are holes lined with tarps, with a tarp stretched over the top covered in timber with a manhole covered in another tarp that’s covered in earth. These work exactly like any other cistern, and the rainwater harvesting systems leading to the cisterns have screens in place to prevent pests from accessing them. Submersible pumps make it easy to pump water from the cisterns to the water tower or any other location on the homestead. The cisterns never freeze, making it possible to use this water year-round.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "DIY WATER TOWER",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -921,11 +945,11 @@ I have a float switch in the tower that activates the pump in the cistern when t
 The tower is simply 4 4x4 posts on a mound about 3 feet deep. Each footer is 120 lbs of concrete, and I poured a 3" pad at the base to prevent water from eroding the hill, with an overflow directing water to the swales if necessary. I used 2x4s for cross members and 2x6s for the deck up top, each fastened with 6 screws and 2 lag bolts.
 I built a simple handrail to prevent falling off the top after I built a crane to hoist the tank up. Painting the tank solid black prevents algae from growing in the tank, and because it’s in the sun, the tank only freezes a couple of days each year.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "OFF- GRID WATER FILTRATION",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -934,11 +958,11 @@ Storage containers should be opaque to prevent algae growth, which can make you 
 To safely filter all your drinking water for a small family, you can simply get two food-grade 5-gallon buckets. Install a bulkhead in the bottom of one bucket into the lid of the bottom bucket and install a tap a few inches above the bottom of the lower bucket.
 After you stack the buckets, place a filter over the bulkhead, then a few inches of pea gravel, a few inches of clean sand, and a few inches of activated charcoal. Repeat this layer again, then top with pea gravel. Run about 10 gallons through to clean the charcoal. After that, replace the substrate annually. You can buy the ingredients or make it all yourself on your homestead.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOW TO MAKE SOIL FERTILIZER",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -947,11 +971,11 @@ It took time for me to accumulate enough livestock and foliage to make good comp
 On day one, I walked my property, collecting cow pies left behind by grazing cattle. I crushed the pies and rehydrated them. I mixed in straw, which was about the only foliage I had, and began the process. It took about six months to make my first batch of soil. In the meantime, I planted a full garden in native soil and it worked! The soil is loamy; however, it's not nutrient-dense or soft enough to grow carrots or potatoes very successfully. The trick is to add large amounts of organic matter to the soil. This will allow it to absorb and retain water and possess the nutrients your garden needs to thrive.
 You can’t grow in pig manure right away; it needs to compost for six months to be sure you won’t get sick. Rabbit and goat manure, on the other hand, can be used right away. You can also make fertilizer with any of these manures. Simply fill about 1/3 of a 5-gallon bucket and top it off with water. Let it soak for a week, and you have fertilizer. You can use a ppm meter to make the exact formula you want and use specific manure for different NPK balances.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOW TO BUILD A SIMPLE GREENHOUSE",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -960,11 +984,11 @@ It's too windy out here to have much success with tent-style greenhouses, but if
 My current greenhouse is about 10x20'. I placed sunshade cloth over the south side and the top to prevent extreme direct sun exposure. On top of that, I placed plant fabric, then the corrugated plastic. These layers are built-in and will stay up year-round. After experimenting in my garden, this has yielded good results throughout the entire year.
 The most important thing to remember in a harsh environment, whether it’s hot or cold, is mulch. Mulch will keep the heat in, the cold out, and hold moisture. You can lose all that water you add in a single windy day. You may as well not try to fight Mother Nature and get the mulch built into your soil and top it off each time you plant. I like to put down fresh soil, then top it with ground-up straw, water it down, then apply another layer the next day and water it down again. This seems to really help, especially outside, to keep the mulch from blowing away. If you can build a solid wall around your garden, that will also help a lot. The wind is about the harshest thing you’ll have to contend with.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "BUDGET GEOTHERMAL GREENHOUSE",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -982,11 +1006,11 @@ I've tried a few systems in there and have never been able to keep it running 24
 The substrate I used was simply cinder rock; it was only about $30 for a truck bed full. It required a lot of rinsing to get all the loose red out, but it's worked well.
 I’ve had a couple of mice fall in and die, but by keeping an eye out and removing them quickly, the system has never gotten out of whack.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOMESTEAD LIVESTOCK",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -1002,11 +1026,11 @@ Currently, I keep chickens for eggs, pigs for meat, and I'm training two feral h
 Horses are the most demanding livestock I've owned in many ways, but I believe they'll yield large dividends after I've trained them. In order to keep horses, I had to fence the perimeter of my homestead to create a pasture. I had to make sure the fence around my homestead was strong enough to keep them in. I built two stables, one for each horse, so I can keep them separate if need be or train them individually. I also built a round pen to train them to lunge and more. It's taken several months to train the horses, and I spend time doing so with them nearly every day, so it's a pretty large investment. They require feed three times each day.
 One of the best rewards of keeping livestock is the manure they produce. I compost it and amend my soil with it, therefore having very nutrient-dense soil with no store-bought additives.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOW TO RAISE CHICKENS",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -1015,11 +1039,11 @@ To protect your chickens from snakes and coyotes, you should wrap your chicken c
 It's easy to build an auto waterer for your chickens; I only top mine off once a week, and you'll know if it's empty because they'll approach you when you walk by to let you know they need more. I have also built an auto feeder that lasts weeks at a time; it reduces waste and gives them something to do, pulling out a bit of feed at a time.
 If you want to raise chickens, you’ll need a rooster to fertilize the eggs, but you may need to keep him separate because they can be very rough on the hens, removing all their back feathers. Also, most hens are bred to no longer be broody, which means they won’t make good mothers. You need hens that are broody if you want them to raise their chicks. Some breeds are much more broody than others.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOW TO RAISE PIGS",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -1028,11 +1052,11 @@ After about two weeks, you'll want to castrate the male piglets. The way their t
 The reason for castrating the piglets is apparently the meat will taste better, and you’ll prevent unwanted breeding. They will breed within months unless you prevent it. You may also need to separate the boar from the babies to prevent him from breeding or harming them.
 If you need to bottle feed a piglet because it’s too small, or the mom isn’t doing a great job of caring for it, you can buy livestock milk feed and mix up the appropriate blend for piglets. They need to get as much colostrum from their mother right away. If they can feed for a day or two that would be best before you decide to bottle feed. The formula goes bad after 12 hours, so make sure to keep it fresh. You can use an eye dropper when they’re very small, a livestock bottle feeder, or a pan if you have nothing else.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOW TO TRAIN FERAL HORSES",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -1049,11 +1073,11 @@ Next, I would start to introduce them to items; in a sense, you're starting to g
 In the same manner, you'll want to introduce the halter, and if you have to, you can use treats, but be careful not to train them to be pushy with treats. If they are pushy, stop giving treats and reaffirm your personal space with your hands or a flag to keep them back.
 A younger horse will likely be much easier to train than an older horse, especially if feral, they will likely spook easier. Always be careful around them as even a baby can run you over. If they do something they shouldn’t, be assertive and tell them no, like you would a dog, but don’t lose your temper with them. Remember, as big and scary as they may seem at first, even a three-year-old is just a baby. Be gentle and patient, and they’ll come around.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOW TO BUILD A ROOT CELLAR",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """
@@ -1063,11 +1087,11 @@ I dug my root cellar by hand with a shovel and used the dirt I pulled out to bui
 There’s a manhole at the top. I’ve insulated the door with about 6 inches of foam to help maintain the temperature, and I’ve installed a 100w solar panel and 100ah battery to run a tiny fan 24 hours a day to reduce humidity. I also placed a motion-activated light inside so I can see what’s on the shelves.
 People often ask if I’ve had any issues with mice, and after years of use, I have never had mice in my root cellar. It’s sealed off from outside pretty well, and it would be very difficult for a mouse to get in from the manhole.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 34).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOW TO BUILD A SOLAR SYSTEM",
     ImageUri = "http://localhost:5010/images/4.webp",
     Description = """
@@ -1077,11 +1101,11 @@ As your homestead grows, you’ll be able to add thousands of watts of solar pan
 Make sure you install a solid ground rod in your shop or home and ground your system to prevent damage.
 Once you have a decent-size system, you can get yourself a hybrid air conditioning unit that will allow you to run air conditioning with solar panels only, AC only, or both.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 31).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "HOW TO MAKE HOMESTEAD INCOME",
     ImageUri = "http://localhost:5010/images/5.webp",
     Description = """
@@ -1094,11 +1118,11 @@ You can write books, create content, give most away, and sell some. And of cours
 What might be more important than how you make your money is how you spend it. Reducing your bills and overall costs makes it easier to budget for what you need, and if your needs are met, then aren’t you better off than the guy with a flashy home and car that he may never truly own?
 Please consider sharing this guide with your family and friends. Leave a comment below, and if you’d like to support my homestead, I have a great line of homestead products on my website.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Silent Blockchain Revolution in Corporate Banking Transactions",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -1129,11 +1153,11 @@ In the next few years, expect more hybrid blockchain architectures: public netwo
 Major financial institutions are already piloting these approaches, JPMorgan’s JPMD deposit token on a public Layer 2 is a prime example. If these models prove reliable, corporate adoption will accelerate, with on-chain deals moving from pilots to production in trade finance, loans, cross-border payments, and supply chain contracts.
 The real question is not whether corporate deals will happen on-chain, they will, but how decentralized the infrastructure will truly be, and how effectively we balance openness with the operational and regulatory realities of global business.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id == 4).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[1].Id,
     Title = "James Madison: The architect of a system that could survive",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -1157,11 +1181,11 @@ Building and planning for durability, however, meant he could build for unity.
 And this is the part of Madison worth remembering: he understood that certainty is a destabilizer. Once a group believes it sees the whole picture, it stops feeling like it needs to listen. Once listening stops, balance goes with it. And after balance, legitimacy is a fast follow.
 The system he designed survives because this heavy load is distributed. We only really notice his work when someone tries to remove that balance.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[1].Id,
     Title = "Elinor Ostrom: The proof that balance can be built",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """
@@ -1174,11 +1198,11 @@ Ostrom also paid attention to the early signs that signaled a system was in trou
 This confirmed something Madison understood intuitively: balance doesn’t maintain itself. It has to be built. And it’s built best through local negotiation, small adjustments, and shared constraints that prevent any one perspective from becoming the entire truth.
 For her, balance was more resilience than a moral posture. And the places she studied didn’t have the luxury of ignoring that. They depended on it.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 13).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[1].Id,
     Title = "Mahmood Mamdani: What happens when categories replace systems",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """
@@ -1197,11 +1221,11 @@ Madison warned against dominance by a single group. Ostrom showed how shared rul
 This explains our modern reflex: when expanding someone’s frame feels like an attack. Nuance looks like betrayal, and balance? That starts to resemble disloyalty.
 People aren’t inherently unreasonable. Their political identity is simply doing too much work. Once identity carries the whole argument, the entire system begins to slide.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 31).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[1].Id,
     Title = "The Downward Trajectory of Adult Spirituality",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """
@@ -1231,11 +1255,11 @@ I don’t know when we reduced a religion based on the life of a brutally murder
 It is fundamental to the Christian story that the way up is down. That suffering and death can be redemptive. That if one clings too long to the illusion of self-sufficiency and upward mobility, they may miss the upside logic of the Christian world, where the last are going to be first and death leads to new life.
 Pain is part of the spiritual life. One never seeks it, but it always finds its way to those who are doing the risky work of living and loving. It has something to offer, if only we let it in.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 28).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[1].Id,
     Title = "True Peace for Soldiers",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """
@@ -1280,19 +1304,19 @@ Once a small bouquet had been assembled, the man pulled out a strip of olive can
 All together, they reminisced, orating the tired stories of the men cradled in their arms. They laughed as they held their brothers tightly. The group was finally whole again.
 Most certainly, some flowers of other men were nestled in the bouquets. The patches were thick, and the memories were foggy. But in the bouquets, those strangers are brothers too, innocent once again. For dying is a soldier’s only true penance; his only true baptism, in his own blood.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 13).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "What Happens When We Can’t Go Outside and Play?",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """There are few universal expressions that cross all human cultures,but I’m pretty sure this is one of them.Children have been complaining of boredom to their parents for hundreds of years.For much of that time,the go-to answer from most parents has been some combination of “do more chores” or “go outside and play.”More recently,however,these tried and true responses are being replaced by the siren song of screen time.Is this just a result of humanity’s love affair with technology,or have larger homes and convenience-based lifestyles eroded all other options?When we decided to buy our home,we joked that the only parts of the house that we remembered from the tour were the basement and the backyard.After looking at over 30 houses,we had become a little obsessed over whether a place had a solid foundation,so the basement made some sense.It was the backyard that had won over our hearts though.It was a beautiful September day when we first viewed the house,and,with no fencing separating the two sides of the semi-detached units,the shared backyard space was a glorious expanse of grass,wildlife and children’s play equipment.Our soon-to-be neighbours had small children of similar ages to us.Garden boxes were planted with vegetables.Goldfinches were coming to feeders.Children were climbing on wooden structures.This was the place for us.If we were looking for a newer house though,the options available would likely not have melted our hearts.Maybe we look for different things in a home than the average person,but builders seem to think that backyards are no longer a top selling feature.Increasing urban density and land prices,combined with a cultural preference for larger homes with more indoor living space,have resulted in backyards becoming smaller with every new-build.As houses expand on ever smaller lots,backyards are being sacrificed at the altar of indoor comfort.Yoga spaces,media rooms and home offices are taking the place of fenced-off outdoor areas as the de facto retreats from the higher usage parts of a house.Where people used to leave the home to exercise,watch movies and work in the company of others,and backyards provided a private space to enjoy nature at their leisure,these preferences have now switched.Once social activities have become private affairs,and the enjoyment of nature,if someone still thinks to do so,requires travelling to a public park or play area.Of course,this only concerns those of us fortunate enough to own a house in the first place.Smaller dwellings like apartments,condos and townhouses,replaced backyards with balconies and shared courtyards long ago for the sake of affordability.The high cost of housing has reached crisis levels in many areas,requiring people to adjust expectations and make tough choices as to where and how they will live.It is one thing to make a conscious choice based on the options available to you.It feels different when the choice is taken away from you completely.Boredom researchers Dr.James Danckert and Dr.John Eastwood describe boredom as “the uncomfortable feeling of wanting to engage in satisfying activity but being unable to do so.”According to this definition,boredom is not about lacking something to do,but rather lacking a feeling of satisfaction over the options available.The reduction of outdoor spaces like backyards is removing many of the options that have traditionally been available to help vanquish boredom,and replacing them with temperature-controlled isolation chambers where we suppress our boredom through the dopamine hits from phone scrolling and video games.Maybe some people find satisfaction in these technological options,but many of us feel like something is missing.Boredom plays an important role in society.From an evolutionary perspective,a species that gets bored may have an advantage over other species that are content with a more repetitive status quo.Getting bored encourages you to seek out new experiences like checking out whether that mushroom is edible or heading across that river to see what’s on the other side.Sure there may be some mishaps along the way,but it only takes a few successes to benefit the species as a whole.We may be making great boredom-inspired advances in the digital world these days,from cyber-espionage to artificial intelligence,but we are moving further away from our connection with the natural world.Having grown up before the rise of smart phones and the Internet,I have had the pleasure of being bored for a significant portion of my life.It might not feel like a pleasure when you are in the midst of it,but in retrospect I find being bored often leads to new and interesting endeavours.Picking up a new book.Starting a new project.Figuring out the answer to a lingering problem.As a child,the solution to my boredom often involved going outside and making use of a backyard.Playing baseball or Prisoner with kids on the street.Having crabapple fights.Climbing a tree.Before I saw them as ecosystems teaming with life,backyards were the safe havens away from parental supervision where memories and friendships were made.As backyards disappear from the urban landscape,the ecological and social services that they provide are disappearing with them.How a backyard is used evolves over a family’s lifetime.When kids are small,they are safe havens for parents and children alike.Small features seem huge in the eyes of a child,and a sandbox,tree stump and flower garden may take on outsized importance as truck stops,thrones and hiding spots in their imaginations.Equally as important,the knowledge that their children can safely explore within the controlled confines of a private space provides parents with both enormous relief and greater flexibility to manage household tasks unencumbered by a child’s boredom.As the kids grow up,a backyard might go through several iterations.Swimming pool,trampoline park,jungle gym,vegetable garden,badminton court,fire pit,campground,sliding hill,dog run,graduation ceremony…the list goes on.Once kids are no longer the main consideration,a backyard might transform into a social space to host BBQs and cocktail parties,or maybe a back-to-nature refuge for gardeners,birders and moth enthusiasts.Through it all,it will provide a host of ecosystem services that will likely go unheralded,from stormwater management to shady temperature control to wildlife habitat.While fences and hedgerows allow us to imagine our backyards are private sanctuaries hived off from the surrounding neighbourhood,your non-human neighbours see them for what they truly are:a core component of the interconnected yards,paths and green spaces that make up the urban ecosystem.So what happens when they no longer exist?Even with a backyard,I still get stuck in the dopamine trap of staring at my phone.I recognize my addiction,and I’m working on it.In the meantime,I’m trying to use my phone as a gateway back to the natural world.Using apps like iNaturalist and Merlin has opened my eyes to the flora,fauna and funga around me,helping to get me out of my house and back into nature.As my brain gets calibrated to recognize patterns in leaf shapes and bird calls as readily as I recall emojis and ringtones,I find that my phone stays in my pocket for longer periods of time as I am out on walks or puttering around the yard.Learning about the diversity in my backyard has started me on a journey of discovery,and while I still may have my phone with me as a tether to the virtual world,I have left boredom behind at home.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 19 || t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "From Chaos to Clarity: How Daily Notes Help You Stay Focused",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """
@@ -1340,249 +1364,249 @@ Brainstorming.
 A“Limbo”for items that are hard to categorize.
 It doesn’t matter which application you are using—this routine is almost certainly possible to adopt and configure anywhere.Some applications like Craft or NotePlan already have this functionality built-in,and they provide it in a very thoughtful way.I highly recommend checking these apps out if you’d like to structure your flow based on the Daily Notes extensively.
 """,
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17).ToList()
 },
 new Post{
-    AuthorId = user.Id,
+    AuthorId = usersArray[0].Id,
     Title = "This is How I Learned To Live with HIV",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = "When I was first diagnosed with HIV in 2002, I was lucky to gain access to a specialist who is a leader in HIV research and treatment in Canada. From my first set of tests, she assured me that I wouldn’t have to start any kind of treatment for another 10 years or so. So I never worried about myself then. All my focus was on my partner Jeff, as his tests showed he needed to start treatment soon. Even after he died, my own status wasn’t quite real to me. I was asymptomatic and the tests I submitted every six months continued to show I was healthy and the virus hadn’t yet affected me. So I was not prepared when only three years after her promise, my specialist said I’d have to start treatment. While still in the examining room, I took in the information she gave me about the drugs we would start with and their possible side effects. After our conversation, I went to the area with the nurses to submit another blood test. It was there that the news finally sunk in and I burst into tears. For the first time, the disease was real. I felt I had HIV in big letters stamped on my forehead. I already felt not normal, because I had lost Jeff to suicide. Now with HIV, I was for sure damaged goods; no one would ever want me. I’m currently on what my doctor calls the gold standard of HIV treatment, taking only one pill a day with no side effects. Even though my doctor told me all about the possible side effects, nothing could have prepared me for experiencing them. With just the first dose, I felt dizzy, clammy and not at all like myself. After the next day’s dose, I was even sicker. Almost as bad, it gave me really weird dreams. They were not scary per se — but were so vivid and intense that I would wake up panting and sweating, not able to discern whether I was still dreaming or awake. The dreams were also completely abstract — it felt like I was in a Salvador Dali painting. Nothing in the dreams resembled anything in real life… I remembered just intense colours, shapes and feelings that made no sense. The worst part was, I was not sick to begin with. But here I was, forcing horse pills down my throat, knowing that they would only continue to make me sick. In desperation, I remember after like the third day, I called the clinic’s nurse, crying, “I can’t take these side effects. I’m so sick… I don’t want to take these pills!” “I know,” she said. “But you just have to work through it.” I didn’t have a choice, so I “worked through it,” whatever that meant. I never felt more alone in my life. It was just before Christmas and everyone was busy with their own lives. There weren’t a lot of people I could call anyway — only a handful of friends knew my HIV status. Staying in bed was all I could do. I felt incredibly dizzy and weak. I had no appetite. If I didn’t have my dog, I wouldn’t have left my place at all. The worst was over after two weeks. But even after that, I would still get those weird dreams and I couldn’t stay up any later after I took the medication before bedtime, or else I would just feel nauseated. Over the years, we changed my regimen as new medications became available. I remember I used to take up to five pills, some more than once a day. I’m currently on what my doctor calls the gold standard of HIV treatment, taking only one pill a day with no side effects. I remain “undetectable,” which means that the amount of virus in my blood now was so low, the blood test can’t detect it, nor can I transmit the virus. Throughout all of this, I struggled to tell my friends about it. It was like coming out a second time because there is still so much stigma attached to HIV. And because I was super-sensitive to the moral and legal issues around HIV disclosure, I felt it was my duty to disclose in certain situations. Like the time I went to get a tattoo. Even though the industry had long been taking precautions, the artist I approached — at a very well-known studio in Toronto — declined to do the work because of my status. I also felt it was necessary to inform guys I was dating of my status. Sometimes, I did it even before I met them in person as I was using online dating sites then. I remember one particular guy who messaged me — I had recognized him from around the village but was too nervous to ever talk to him because I thought he was so handsome. Like an idiot, I disclosed right away as we chatted online … and he just disappeared. Poof! I resolved that I wouldn’t tell anyone until I felt they really needed to know. And even when I told myself that I deserved more than guys who would reject me based on my status, it was still rejection. And it hurt. Not all reacted negatively. There were, of course, guys who didn’t go running away, including my now-husband Kenneth. Over the years, I felt less self-conscious about it. And while I didn’t exactly broadcast it, there were occasions when I was okay to talk about it with people. A few years ago, I shared my status on social media. But then I changed jobs, and I didn’t feel my new workplace would be a great place to be “out,” so I restricted the posts to private or to a select few. The gay community still grapples with HIV stigma, which is unfortunate, because not only does it affect people living with HIV, but it also has a negative impact on the fight against the disease. It was not uncommon once for personal ads and profiles to say, “drug and disease free.” Even now, some guys will still use the word “clean,” as code for being HIV-negative. There is one silver lining to my HIV status, though — I have been able to access mental health services for people living with HIV specifically. That’s because research shows a direct correlation between HIV and mental illness. My care providers always take into account the effects of HIV as part of my mental health treatment. For example, apathy is common for people living with HIV, and fighting to stay motivated remains the most challenging part of my depression to this day. It’s taken me a long time to get to this point… to be able to talk about these emotional and traumatic events and to move forward. There were times I didn’t want to move forward. I didn’t want to be anywhere but in my bed. And there were times when I just wanted the pain to stop. I am lucky to have Kenneth in my life. It has not been easy for him, when oftentimes, he has to take up the slack when I am unable get out of bed. I believe the worst is behind me, although the effects of depression still linger. It’s taken me years to find some peace with my diagnosis — to see myself not as damaged, but as someone who’s endured. The disease doesn’t impact me at all day-to-day, except for when I have to take my pill at night. Sometimes, I don’t think about it at all; other times, it reminds me that I am “different,” and that can be exhausting. I still have work to do, but I am more open with my story. It’s mine, and I’m finally learning to live it fully. Editor’s note: People living with HIV can almost always be treated effectively, and unless they lose access to treatment or frequently stop and restart treatment, HIV will almost always be undetectable in their blood, they will be unable to infect others through sex, and their lifespan will equal or exceed that of members of the general public. Mothers with HIV do not pass the virus on in childbirth if they are in effective treatment, and they are encouraged to breastfeed. If you believe you have been exposed to HIV, then getting tested is the best way to prevent future health problems and to help stop the virus from infecting others. Ask your doctor or call an HIV hotline to learn about the best window for testing and to learn how to be tested for free.",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 35).ToList()
 },
 new Post{
-    AuthorId = user.Id,
+    AuthorId = usersArray[0].Id,
     Title = "How Not To Be the Bullies We Fear",
     ImageUri = "http://localhost:5010/images/4.webp",
     Description = "Chances are that many of us will never know that we are the bully in someone else’s story. When our world feels uncertain, dominating or dismissing others offers a counterfeit sense of control and escape from our own pain. Bullying, verbal or physical, is one of the behaviors that provides this temporary relief. Control in place of uncertainty, superiority in place of anxiety, and power in place of pain can be attractive as a misguided form of emotional regulation. It seems easier than extending kindness. But the more one depends on domination for validation, the more fragile that validation becomes. As we discuss below, the neuroscience of bullying shows that empathy networks weaken, and dominance pathways strengthen — reinforcing the cycle of control and emptiness. This is as true on playgrounds and in workplaces as it is in politics. In each of these situations, there is a common theme: a person or group using bullying to fill a void or ease a pain. Yet, ironically, in the process, they dig a deeper hole. A bully stacks others’ confidence beneath his feet like boxes to stand taller. But eventually the boxes topple. Over the last month, UNESCO held Global Day Against Violence and Bullying in Schools; some countries held events around last week’s Anti-Bullying Awareness Week. Its motto this year is “Power for Good.” From Brother to Bully A dense, chaotic crowd of cartoon-like faces fills the frame, drawn in vivid colors — magenta, orange, purple, and ochre. Each face bears exaggerated eyes and wide, uneven grins that seem both anxious and aggressive. Some expressions look frightened, others mocking or domineering. The overlapping figures blur the line between victim and bully, capturing the confusion, conformity, and tension within group cruelty. Artwork by © Francois Top. [From ChatGPT] Bullies and Brothers (illustration by Francois Top) Surprisingly, the etymology of the word ‘bully’ once meant ‘brother’ or ‘sweetheart.’ In sixteenth-century Dutch, boel referred to a beloved companion, the person you know who stands by you when others turn away. Over time, affection curdled into aggression. Our hope with this piece is to offer context for why, despite our best intentions, we do not always use our power for good. Understanding the forces that distort our empathy and turn insecurity into domination is the first step toward reclaiming power as a force for care rather than control. The challenge, then, is whether we can become again a band of brothers rather than a band of bullies. The Neuroscience of Bullying Neuroscience offers unsettling insights into why we resort to or can be tempted to engage in bullying behavior. Acts of domination activate the brain’s reward circuitry — the same network stimulated by gambling, risk-taking, and addictive substances. Each act triggers a brief surge of dopamine and adrenaline, providing temporary relief from anxiety or inadequacy. Over time, the brain learns cruelty as a habit, and control becomes the language of, or a substitute for, connection. Bullying often begins in the silent corridors of our personal insecurity. It is an effort to fill an internal void that cannot really be filled by anything else. Dr. Kristin Neff’s work on self-compassion helps us see that the first bully we ever meet is the one inside our own head. As a recent piece by Morra Aaron-Meles recently noted, Neff’s “inner critic” activates the same fight-or-flight pathways that external threats do. Some of us turn the fight response inward through harsh self-criticism; others turn it outward through defensiveness, blame, or domination (For more on the shame compass, see our post here). A schematic diagram titled Compass of Shame Defenses shows a red compass with four arrows pointing in opposite directions. The upward arrow represents Withdrawal, the downward arrow Avoidance, the right arrow Attack Self, and the left arrow Attack Other. Together they illustrate four common behavioral responses to shame. (Adapted from Nathanson, D. (1992). Shame and Pride: Affect, Sex, and the Birth of the Self. New York: Norton.) [From ChatGPT] Source: Nathanson D (1992) Shame and pride: Affect, sex, and the birth of the self. New York: Norton.) To make their task easier, bullies become pretty skilled at spotting vulnerability — the hesitant tone, the uncertain gaze, the subtle signs of self-doubt that mirror their own. The aggression that follows is projection, an attack on what they most fear within themselves. Online and in politics, we do not even need to spot vulnerability because we can just dismiss and attack entire groups. When we do it in groups within our social and political echo chambers, we do not just enhance our tribal allegiance; we are fueled and protected by it. For the bullied, being mocked or excluded activates the same brain regions as a bodily injury. Prolonged exposure floods the system with cortisol, negatively impacting concentration, memory, and sleep. The nervous system remains on chronic high alert. Those who are bullied often internalize the aggression as truth. Every insult, exclusion, or public humiliation deepens the illusion that they are somehow less. They begin to shrink, speak less, and question their own worth. What makes bullying uniquely cruel is this inversion. The powerful one feels small and hides it through cruelty; the smaller one is made to feel invisible and believes it. Both are caught in the same tragic loop of fear and validation: both experience biological change — one desensitized to harm, the other hyper-attuned to it. The one with the ego loses as much as the one whose ego has been crushed. Both find themselves defeated. Beyond the Playground The scientific study of bullying began more than a century ago. In 1897, psychologist Edmund C. Burk published “Teasing and Bullying” in The Pedagogical Seminary, the first systematic description of aggressive behavior among schoolchildren. What Burk observed on playgrounds now infects offices, institutions, and digital spaces. Bullying is not a mere disagreement, nor is it the friction that accompanies ordinary differences. It is a pattern of behavior marked by repetition, intention, and an imbalance of power. It involves one party exerting control, be it social, professional, or emotional, over another who cannot easily defend themselves. This has profound societal and organizational implications, affecting not just the individuals involved but also the culture and productivity of the groups they belong to. Public displays of aggression stimulate sensations of power for both the speaker and their supporters, and that reinforcement increases the likelihood of repetition, normalizing intimidation as a political instrument. It happens in classrooms, offices, dinner parties, and WhatsApp groups. In Germany, the word mobbing captures the collective nature of such behavior and aggression as a group activity, the intersection of conformity and cowardice. What follows can be “normative drift” — the slow corrosion of empathy when cruelty becomes expected. Institutions adapt, individuals adjust, and soon even well-meaning people participate in emotional or social exclusion because it is easy, expedient, and increasingly technologically enabled. Cyberbullying has extended these dynamics online. Cruelty becomes easier when we do not have to look the other person in the eye, so over time, we become desensitized to what is happening to them. According to UNESCO, 58% of girls and young women experience online harassment, and minority or migrant learners face disproportionate exclusion. Professional, Political, and Personal In professional settings, bullying can involve belittling and unreasonable demands but can also hide behind a mask of legitimacy, ranging from chronic exclusion from meetings or deliberate withholding of information. Global surveys reveal its reach. For instance, an Indian workplace survey reported 55% of Indian employees have been bullied at work, while the latest US survey shows 32% adult Americans being bullied. Digital workspaces have become the new schoolyard. Group chats, message threads, and email loops can become subtle weapons of social control. Exclusion, ridicule, or passive resistance are now transmitted through emojis, silence, or selective omission. In an era of remote work, bullying takes new forms, perhaps passive-aggressive messaging. These same dynamics now shape civic life. In politics, bullying becomes both method and message: verbal aggression, humiliation, and public shaming directed at opponents, journalists, civil servants, or people who do not adhere to the dominant orthodoxy of a particular place. The purpose is not persuasion but submission. Politicians used to have “opponents” — now we feel that people with different political and religious views as our opponents. Most of the time, we and they are being manipulated by those who understand the game of power imbalance and fear. In all these domains — professional, political, and personal — the pattern remains constant: insecurity disguised as authority, domination masquerading as control. The casualties are empathy and democracy. Breaking the Cycle Breaking the cycle, or at least reducing its velocity, requires clear definitions, organizational action, and personal resistance. Understand Phenomena Bullying and harassment often coexist but are not synonymous. Some nations treat both under one law, while others, like the U.S. and India, do not. Bullying is a behavioral issue; harassment is a legal one. The latter involves unwanted actions related to protected characteristics such as race, sex, religion, or national origin — conduct that creates a hostile or degrading environment. Under Title VII of the U.S. Civil Rights Act of 1964, harassment becomes actionable when it undermines dignity or disrupts a person’s ability to work. In contrast, bullying may not meet the legal threshold but can still cause deep psychological harm. It must be repeated and sustained often for weeks, months, and even years. Managerial Action From an organizational perspective, the distinction is less about how harm occurs than about how accountability is enforced. Great managers understand that conflict, when handled constructively, can fuel innovation — but when disagreements become personal and persistent, they evolve into bullying. Recognizing this distinction allows us to balance performance management with vigilance against genuine abuse. For managers, this means modeling respect and making it safe to speak up, your tone sets the cultural standard. Once incidents or patterns become clear, it is best to act early and intervene before conflict escalates, listen without rushing to judgment, and document behavior in a way that protects everyone. This requires objectivity that comes from self-awareness. How bullying might have looked or felt to us is not relevant to the situation at hand. It is important to remember that bullying is not always top-down. Managers, too, can be targeted — excluded, undermined, or embarrassed by peers or subordinates. Power dynamics shift in all directions. The central issue is not hierarchy but vulnerability. Personal Resistance Bullying can be escaped, endured, and ultimately transformed. “Above all, keep perspective: bullying often stems from insecurity, not superiority, and recognizing that helps you detach your self-worth from their behavior,” advises Assistant Professor Shreya Mishra, an expert in the field. “However, in some instances, self-preservation is not weakness, and knowing when to walk away shows more strength than we give it credit for.” Family obligations, visa status, financial pressures, or professional passion anchor people in difficult workplaces. The goal shifts to strategic endurance: visualize the next few weeks or months and plan how you will build yourself — emotionally, professionally, and reputationally. Strengthen your internal market value by skilling up; the more competent and indispensable you become, the less sway a bully has over you. In a qualitative study in India, Shreya Mishra, Manosi Chaudhuri, and Ajoy Dey (2021) found that those who effectively confronted workplace bullying did so by strengthening their personal identity. Mishra reminds us that “because power is not static, if today it is with the bully, tomorrow it will be with you. Resisting lies means reclaiming — and maybe reforming — your identity. The very identity that the bully aims to destroy.” Indeed, bullies often attack identities, not tasks — the qualities that make someone visible, valued, or distinct. This is when personal identity work becomes a form of defiance. For every narrative your bully creates (“You don’t fit in”), you consider a counter-narrative for yourself (“I have earned my place” or “I contribute meaningfully”). Engaging in these behaviors can help individuals “deflate” this imbalance by enhancing their personal identities by consciously reconnecting with their sense of purpose, competence, and worth. Political Conversations Just as these individual strategies can help rebalance power within workplaces, so too does democracy depend on balance — between freedom and responsibility, conviction and humility, self-expression and restraint. Deepening polarization over the past decade has led to profound concern across many countries. Emotional distress, collective unease, greater distrust, or the psychological exhaustion many feel might have led voters to seek relief in tribal certainty or anger. When we feel chronically anxious, unheard, or powerless, we are more likely to engage in extreme thinking. We turn the complex into conflict so we do not have to engage with very complicated issues. Polarization and branding those who oppose us as heretics becomes a kind of emotional anesthesia. Research in psychology and psychiatry helps explain this. Studies from the American Psychological Association (APA, 2023) (aptly entitled Stress in America: The Stress in our Nation) and the National Institute of Mental Health (NIMH, 2024) show that sustained stress and anxiety increase the brain’s need for cognitive closure. Under pressure, as we wrote earlier, the amygdala under threat fires rapidly, and our precious prefrontal cortex loses out. We retreat into rigid thinking not because we are evil, but out of fear and political identity provides a tribe, a story, and the illusion of control — and occasionally, the promise of a savior who turns out to be merely human. Neuroscientific studies published in Nature Human Behaviour (2022) and The Journal of Personality and Social Psychology (2023) show that exposure to uncertainty or perceived threat increases both partisan bias and moral disengagement. The physiological reward of outrage — accelerated heart rate, adrenaline, and dopamine release — mimics the gratification of addictive behavior. And the social media and tech moguls are eager to cater and foster those behaviors with “intermittent reinforcement,” like the ones from gambling or risk-taking. And chronic exposure to hostility, personal or political, prolongs physiological stress responses linked to depression, hypertension, and insomnia. It is literally a vicious circle. In this domain too, we can work on redressing the imbalance: - Verify information before sharing it, read beyond the headline, and refuse to forward contempt. - Try to speak directly with those who disagree with you before you speak about them. - Support local journalism and libraries, for they preserve the common record when parties try to expunge it - Attend one community meeting more than you really want to (or just one!), and vote in every election, even the minor ones. - End the exchange or ask for evidence when political conversation turns cruel and ad hominem; do not reward aggression with attention. The main thing is to remember that in public life, as at work, bullies depend on reaction to confirm power. Denying that reaction is sometimes the most effective form of resistance. The Cost of Control What if, in our search for certainty, we have all become versions of the same bullies we fear? Democracies, like workplaces, fail when dominance replaces dialogue. Before the next meeting, the next post, the next vote, it is worth asking: am I engaging to learn, support, and solve or prevail, punish, and dominate? If we view bullying not simply as deviant behavior but as the meeting of two wounded lives, the healing potential appears. Those who feel diminished must remember that their worth is intact; those who inflict pain should pause and recognize that fear, not power, drives their actions. Power gained through fear is an illusion — a mask worn by those afraid to be seen as they are. When we confront the void within ourselves, the insecurity, the longing, the need for control, we can begin to dismantle the illusions that sustain cruelty. Only then can we replace domination with empathy and silence with understanding. That works starts with us. Do What a (Special) Eight-Year-Old Would Another step is to take inspiration from leaders like Danica Purg, the founder, former Dean and now President of IEDC, a business school that embraces ethics, sustainability, and the arts since its inception. Last week, she was inducted into the prestigious management Thinkers50 Hall of Fame. Watching her get this award was very moving because when I first met her, she had told me a defining story. When her little classmate was being bullied, and adults stood by, then 8-year-old Danica organized the kids in her class to march out and get support from another school for justice. They did. A few years later, she started a business school by a Slovenian lake to train leaders who do better. To use power for good is not an abstract ideal for her. In the end, every society and group must decide whether it wishes to operate as and support bands of brothers or tolerate and fuel bands of bullies. The measure of leadership and humanity in classes, homes, workplaces, communities, and countries is not how much control we can exert. It is about: how much courage we show when others need protection; the discipline to think about how and why they might need such care; and, the humility and hard work to consider to whom we owe an apology we never realized was due. Another Thinkers50 awardee, Professor Ranjay Gulati, offers tools in a recent Harvard Business Review piece on how to be bold for good. Doctor Sreedhar Potarazu and I would like to believe that there can be a Danica in all of us. That is how we avoid becoming the bullies we fear.",
-    Topics = appDbContext.Topics.Where(t => t.Id == 26).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 13).ToList()
 },
 new Post {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The UnAI-Able Human Essence",
     ImageUri = "http://localhost:5010/images/4.webp",
     Description = "At some point between 100,000 years ago and for as long as there have been anatomically modern humans, man began using language to interpret his own actions. To socialize. To create.\n\nAnimals communicate, but they do not express themselves. Their languages, though meaningful at times, are closed systems: their cries, gestures, expressions, warnings — all necessarily identical to their functions.\n\nHuman language, of course, departs from this simplicity. It is recursive, self-referential, and painfully excessive. It preserves life, but also ultimately defines it, suturing the raw distance between thought and thing.\n\nEven so, your language doesn’t indicate your humanity.\n\nOne’s language does not represent human essence, but instead discloses that no essence whatsoever can be truly preserved.\n\nIn the very instant consciousness seeks to represent itself through speech, it has separated itself from the form it sought to portray. We do not possess language so much as we are intrinsically possessed by it, compelled to translate that which simply cannot be perfectly translated.\n\nFor instance, no one can perfectly describe an apple, but the simplest and most accurate description of it — the word apple — alludes to its general form.\n\nBut if I asked you to imagine a bowl of rosy red apples, you would conjure up your own. Perhaps yours are shiny; perhaps they are dull, bruised, softened by time; perhaps they sit in a wooden bowl; perhaps it is ceramic. What you picture is not what I intend, yet it is enough for you to believe you have understood me.\n\nThus, our language is a bridge constructed between imaginations that can never truly meet.\n\nAnd so, this distortion between us becomes the birthplace of all art, music, religion, philosophy, and myth — all attempts to identify the feelings that language itself falls short of wholly articulating.\n\nThe greatest writers and orators who inspire the most emotion, who convey the best stories, who are considered great within their craft, are simply the ones who convey the raw, unfiltered, ineffably abstract form of the human’s creative soul the most effectively.\n\nIt is tempting to assume the belief that language itself proves our rationality — that because we speak, because we write, we must therefore think. This syllogism is untrue.\n\nLanguage itself is the residue of thought.\n\nIt is complex, yet also a structurally constrained manifestation of something prior and far more abstract than it: the human capacity to reason, to distinguish, to imagine what has not yet been realized.\n\nSpeech itself does not separate us from animals; the implicit fact that our speech hosts noncurrent reflection does.\n\nHuman language is, of course, distinct from animal communication, but this suggests very little, if not nothing, about what it means to be human, as by reducing the human to his language is to mistake the expression of reason for reason itself.\n\nWords are simply the architecture through which our already very substantial intentions are made communicable. This distinction, however, has never mattered more than now, as we’ve entered an age where machines can produce human-identical language without ever once intending it.\n\nIt is hard to argue that artificial intelligence hasn’t mastered the simulation of speech, yet it remains — even if its products suggest otherwise — absolutely untouched by the conditions that would give its emulations any degree of meaning.\n\nWhat artificial intelligence producing ‘meaningful’ language implies isn’t that the machine itself is intelligent, but that our own assumptions about ‘meaning’ are fragile and misinterpreted. If meaning through language can come into meaning without a consciousness, then language was never a measure of humanity so much as it was merely an inadequate reflection of it.\n\nIn outsourcing creation to machines, we inherently forget that the prerequisite of creativity itself is that of drawing ever onward by the unattainable ideal of perfect expression.\n\nThus, the danger of non-humans producing human-like language isn’t that machines think as we do, but rather that we may forget, as humans, that thinking is a costly action. Speaking meaningfully must necessarily involve exposing oneself to misunderstanding, but, moreover, trying to understand and articulate that understanding; to create is risking inadequacy, but the act of creating should necessarily involve communicating abstract ideas and feelings, all the while practicing adequacy.\n\nThe pulse of human creativity is the will to shape that which is perpetually unshapeable.\n\nThis, perhaps, is both the tragedy and triumph of what it means to be human: that we are condemned to pursue that can never be perfectly articulated, and yet redeemed by the pursuit itself.\n\nArtificial intelligence, growing in proficiency as it is, will refine the creation of language, but will never struggle to do so.\n\nAI produces language without consciousness, while animals possess consciousness (however limited) without language. In this sense, artificial intelligence is more animalistic than even the meagerest of animals — not because it lacks rationality, but because nothing in it strains. It knows no resistance, no inward friction. It does not know the cost of articulation. It is coded to consider itself perpetually correct.\n\nFor AI, our world is endlessly sterile. Everything is apparent and nothing is inexpressible, as AI doesn’t have the faculties to imagine abstractions (nor any imaginatory faculties to begin with).\n\nAnd that, ultimately, is the difference between humans and AI.\n\nWhat remains — and must remain — ours, then, is the narrow space in our minds that we’ve designated as being for imagination. To be human is not to perfect expression of our thoughts, but to reach towards the thoughts themselves, wrestling endlessly with them, sharing them to others using the tool that is our language, and rejoicing, not for perfection, but the sisyphean goal of achieving it.",
-    Topics = appDbContext.Topics.Where(t => t.Id == 26).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id == 26).ToList()
 },
 new Post {
-    AuthorId = user.Id,
+    AuthorId = usersArray[0].Id,
     Title = "Human engineering",
     ImageUri = "http://localhost:5010/images/4.webp",
     Description = "Human engineering isn’t what you might think. It’s not a eugenic nightmare of bioengineering and gene selection. Thank goodness, it’s much more benign. Instead, human engineering is a multi-disciplinary field that brings together psychologists, engineers, cognitive scientists, organizational behavioral specialists, and designers. Their goal is to make it easy for people to do the right thing. Sometimes referred to as interaction design or cognitive ergonomics, the aim of human engineering is to improve human performance by looking at systems.\n\nSimply put, human engineering tries to make it easier to do the right thing and harder to do the wrong thing for any task or activity. This aim is achieved through the design (and alteration of existing designs) of the technology, systems, and environments that individuals interact with. Immediately we see the application of human engineering into the paradigm of system dynamics and human error.\n\nThere are many principles of human engineering, but one of the most important is the importance of designing the interactions of humans and objects to align function with action. To demonstrate, consider the very common scenario of turning on a burner on the kitchen stove.\n\nThe Mysterious Case of the Wrong Burner\n\nHas it ever happened that you’ve gone to turn on the stove and lit the wrong burner? It’s not just you. It’s a very common problem and one of the most studied topics in the field of human engineering. Stoves are not advanced technology and lighting the stove only requires one turn of the knob. So how come we’re so prone to these simple mistakes?\n\nThe answer has to do with the way the alignment of form and function. Stovetops are tremendously bad at this alignment. Consider two popular configurations of commercial stoves: Two stovetop configurations. One with knobs grouped, the other with them evenly spaced and linear.\nSource: Design of Everyday Things\n\nIn typical stove designs (let’s call them Configuration A and Configuration B), we see that the burners are aligned as a 2x2 rectangle, whereas the knobs are aligned linearly along the front. The knobs and the burners are configured differently. To use a technical term, we could say that these configurations have poor spatial compatibility.\n\nConfiguration B is slightly better than Configuration A, because there is a natural grouping between the two burners and knobs on the left and the two burners and knobs on the right. Nevertheless, in this configuration errors will be common and proper use will rely on reading the labels on the knobs or trial and error. In short, it takes some level of cognitive effort, beyond intuition to ensure consistent proper use of the stove.\n\nThe Better Way\n\nNow consider two slightly different configurations. In Configuration C the burners are still arranged in a 2x2 rectangle, but now, the knobs are also arranged in a similar way. There is a natural alignment between the controls and the device. No labels are needed.\nTwo (different) stovetop configurations. One forming a diamond the other an arch shape\nSource: Design of Everyday Things\n\nConfiguration D provides another natural and intuitive layout, but this time maintains the linear arrangement of the knobs. Simply by bringing the two back burners closer together to align with the knobs, the stovetop has gone from an inscrutable, error-prone appliance to something that is intuitive and easy to use.\n\nWithout objection, we can see why the stovetop configurations in Configuration C and Configuration D are better. Not only will these configurations produce fewer errors and lead to more consistent and effective operation of the stove but they also rely on intuition and require less cognitive processing to achieve the greater result! A win-win!\n\nOh by the way, how much did the change cost? We used the same space, the same controls, and the same materials. We can decrease errors, build resiliency, and decrease the cognitive load without sizable investments! Win-Win-Win!\n\nThe Principle of Spatial Compatibility\n\nWhat we’ve just witnessed is the principle of spatial compatibility in action. This principle states that controls should be arranged to correspond naturally with the devices they control. When there’s a clear, intuitive mapping between control and function, people simply know what to do. No thinking required. No labels needed. No errors made.\n\nThis might seem obvious when pointed out, but look around your environment. How many poorly designed interfaces do you interact with daily? How many times do you have to stop and think about which button does what? How often do you make “simple mistakes” that are actually design failures?\n\nThe stove example illustrates a profound truth: most of what we attribute to human error is actually design error. We blame ourselves for our mistakes when we should be blaming the systems we’re forced to work within.\n\nWhen Design Betrays You\n\nStovetops are not the only place where we encounter human engineering in our daily lives. Even something as simple as a door can pose significant challenges to human-technology interaction (Yes, a door is technology). We’ve all been in that embarrassing situation where we push a door that should’ve been pulled and vice versa. But have you ever stopped to ask why you made an error? Take solace in knowing that it was the door’s fault and not your own.\n\nThese doors did you wrong. They betrayed you. They gave a signal that was incorrect, and your only fault was that you trusted them. Who knew that doors could be so deceitful? Take heart, this is a very common problem. One person who this has happened to a lot is Don Norman. Don knows a lot about these sorts of doors. Don has studied these doors so much that these species of doors are actually called “Norman Doors.”\n\nIn his book “The Design of Everyday Things” he explains: “How can such a simple thing as a door be so confusing? A door would seem to be about as simple a device as possible. There is not much you can do to a door: you can open it or shut it…The design of the door should indicate how to work it without the needs of signs or trial and error.”\n\nThe Principle of Discoverability\n\nThe chief way these doors betray the user is by abandoning another fundamental and important design principle, the principle of discoverability. The principle of discoverability simply states that any designed object should make it clear to the user how to correctly use that object. In the case of the Norman door, not only did the door make it unclear, but it probably sent the exact opposite signal than what was required.\n\nConsider a door with a horizontal push bar on it. That bar screams “PUSH ME!” to anyone who sees it. It’s a clear affordance — a visual cue about how the object should be used. Now imagine that same door with a “PULL” sign on it. The sign contradicts everything the door is telling you with its design. The horizontal bar is still there, still suggesting you should push, but now you’re supposed to ignore that signal and pull instead.\n\nThis is fundamentally bad design. A well-designed pull door should have a vertical handle that you can grip. A well-designed push door should have a flat plate or push bar. The design itself should communicate the proper use without requiring any labels or explanations.\n\nWhy This Matters More Than You Think\n\nThe Norman door is an important example of human engineering in daily life because it showcases how the alignment of human action and the environment impacts our propensity to make mistakes. If something as simple, ordinary, and untechnical as a door can impact the decisions, efficiency, and productivity of individuals than how much more will this be true for complex systems.\n\nIndeed, the inefficiencies of these everyday objects may seem trivial and insignificant but the underlying principles they demonstrate are anything but, especially when applied to industry. What these vignettes demonstrate is important and powerful. Using the same space and the same equipment for the stove, we nearly eliminated the possibility for error. No rework, no guess and check, no errors, no need for labels, less thinking, no need to stop and think about the result of our actions and all for no money.\n\nHuman engineering is potent and powerful.\n\nThe Core Principles of Human Engineering\n\nWhile there are many principles of human engineering, several stand out as particularly important for designing better systems: 1. Spatial Compatibility: Controls should be arranged to naturally correspond with the things they control. The layout should be intuitive and obvious. 2. Discoverability: The design should clearly communicate how something is meant to be used. Users shouldn’t have to guess or rely on labels and instructions. 3. Feedback: The system should provide clear, immediate feedback about what’s happening. When you press a button, something should happen that confirms your action was received. 4. Constraints: Good design constrains behavior in ways that prevent errors. If something can only be done one way, and that way is the correct way, errors become impossible. 5. Mapping: There should be a clear relationship between controls and their effects. Natural mappings leverage existing knowledge and expectations. 6. Affordances: The design should suggest its own use. A handle affords pulling. A button affords pressing. A flat surface affords pushing.\n\nThe Human-Centered Design Philosophy\n\nAt its core, human engineering embodies a fundamental philosophy: when a person makes an error while using a system, it’s the system that failed, not the person. This perspective shift is revolutionary. Instead of training people harder, writing more procedures, or adding more warnings, we redesign the system so that errors become difficult or impossible to make.\n\nThis doesn’t mean humans are absolved of all responsibility. It means we recognize the reality of human limitations and capabilities, and we design accordingly. We accept that people will be distracted, tired, stressed, and forgetful. We acknowledge that people will sometimes be in a hurry, sometimes be interrupted, sometimes misremember.\n\nRather than fighting against human nature, human engineering works with it. Rather than demanding superhuman perfection, it creates systems where ordinary human performance is sufficient for excellent results.\n\nThe Cognitive Load Consideration\n\nOne of the most important benefits of good human engineering is the reduction of cognitive load. Every poorly designed interface, every ambiguous control, every unclear instruction adds to the mental burden people must carry. When you have to stop and think about which burner is which, or whether to push or pull a door, you’re using cognitive resources that could be applied elsewhere.\n\nGood design frees up mental capacity. It allows you to focus on what matters rather than wrestling with interfaces. It reduces decision fatigue. It makes the right choice the obvious choice, the easy choice, the path of least resistance.\n\nThink about how exhausting it is to navigate a poorly designed website, a confusing form, or a cluttered workspace. Now think about how effortless it is to use a well-designed tool. That difference, that feeling of friction versus flow, is human engineering in action.\n\nApplication Beyond Physical Objects\n\nWhile we’ve focused on physical examples like stoves and doors, human engineering principles apply to every system you interact with: - Digital interfaces: Are your most-used apps and tools intuitive, or do they require constant mental translation? - Work processes: Do your workflows naturally guide you toward the right actions, or do they create opportunities for confusion? - Personal routines: Are your habits supported by environmental design, or do they require constant willpower to maintain? - Communication systems: Do your methods of staying informed and responsive flow naturally, or do they create constant friction?\n\nIn each of these domains, the principles remain the same. Make the right thing easy. Make the wrong thing hard. Provide clear feedback. Create natural mappings. Reduce cognitive load.\n\nThe Power of Environmental Design\n\nHuman engineering reminds us that we don’t need to become better people to perform better. We need to create better systems. We don’t need more discipline, more willpower, more training. We need environments that support us rather than fight us.\n\nThis is liberating. It means improvement doesn’t require becoming someone you’re not. It requires thoughtfully designing the systems and environments you operate within. It means recognizing that when you consistently make the same “mistake,” it’s probably not your fault — it’s a design failure waiting to be fixed.\n\nThe question isn’t “How can I be more careful?” The question is “How can I redesign this system so being careful isn’t necessary?”\n\nThat’s the promise and power of human engineering.",
-    Topics = appDbContext.Topics.Where(t => t.Id == 26).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 26 || t.Id == 31).ToList()
 },
 new Post {
-    AuthorId = user.Id,
+    AuthorId = usersArray[0].Id,
     Title = "What You Work On Works On You (This is What The Last 6 Years of My Life Have Been)",
     ImageUri = "http://localhost:5010/images/5.webp",
     Description = "In the summer of 2019, my wife and I took our two sons for a hike in the Lost Pines Forest in Bastrop, Texas.\n\nIt was a Saturday or a Sunday.\n\nI had a bunch of articles to write, but I put it aside and decided to spend some time outside with the kids in the shade of the prehistoric loblolly forest about thirty minutes from our house.\n\nIt was a lovely afternoon, despite the heat. I always love Lost Pines because it’s a freak of nature. The tall prehistoric loblolly pine trees appear here in the middle of Texas, hundreds of miles further east than most of their counterparts. Much of the forest still shows scars from two 2011 wildfires that burned tens of thousands of acres — one of them the worst in Texas history — only adding to the mystique and making parts feel like a haunted elephant graveyard.\n\nAs we wrapped up the hike and took the kids to the playground, suddenly, it hit me. It was a feeling that creative people experience from time to time. You’re in the middle of not working–you’re in the shower or your drifting off to sleep or you’re in the middle of sweeping the floor–and boom, you get hit with an idea. I have run many hundreds of miles in Lost Pines so it was a familiar feeling — I’ve sold business problems and writing problems and personal problems on the trails there.\n\nAs I was carrying my son in the backpack, my mind had drifted briefly to the fact that my book Stillness is the Key would soon be released and it would mark the end of what had become a three-book trilogy. What would I tackle next?, I thought. This was 2019. The political situation was a mess. There were wildfires, earthquakes, wars dragging on, terrorist attacks. There was chaos, upheaval, and uncertainty. “A book about courage would be cool,” popped into my head. I shared the idea with my wife. We talked it over along the trail, and by the time we were loading the kids in the car, an idea for one book had become an idea for a series on the four virtues, starting with courage!\n\nAnd like that, my next creative mountain had been laid out in front of me.\n\nI’ve been thinking about this story lately because here I am, six years later, coming to the end of that series, as the fourth and final book, Wisdom Takes Work, came out last week.\n\nThere was a period a couple of years ago where I didn’t think I would be here having completed the series. It was around the halfway mark, working on the second book in the series, Discipline is Destiny, and I hit a wall.\n\nComing up with the idea for a book — or in this case, a series — is a fun, creative act. Actually creating those books is a work of excruciating manual labor, sitting in a chair, grinding out each consecutive sentence — a process not measured in hours or days, but months and years. It’s a marathon of endurance, cognitive and physical.\n\nFor me, in the last decade, I have run not just a couple of these marathons but twelve of them, back to back to back. That’s roughly 2.5 million words across titles I’ve published, articles I’ve written, and the daily emails that I produced in the same period.\n\nDuring that time, there was a destabilizing, devastating global pandemic. There were fires, floods, and freezes. Demagogues and wars. Market crashes and inflation. Technological disruption. My kids growing up. My wife and I opening and running a small town bookstore.\n\nSo I was tired. Just really tired.\n\nI’m not someone inclined to believe in divine intervention. But I needed help . . .\n\nOn a sweltering-hot day in Texas, I was sitting at my workroom table in my office above the bookstore. The air conditioner wasn’t working and I wasn’t sure if we could afford another one for the building. It was my 34th birthday. Sweating, exhausted, and on the verge of a crisis of confidence — that I had the wrong topic, I didn’t have the material, and contemplating whether to call my publisher and ask for a delay — I went through boxes that contained thousands of note cards of research. As a whole, they overwhelmed me — what they contained, the way they might fit together to produce a book, seemed impossible to comprehend. I reached out and grabbed one.\n\nIt had just two dozen words scrawled in red Sharpie. When was it written? Why had I written it? What had prompted me? All I know is what it said.\n\n    Trust the process. Keep doing my cards. When I check them in June — if I have done my work — there will be a book there.\n\nIt wasn’t exactly a miracle . . . but defying space and time, I had traveled from the past into the future to deliver a reminder of self-discipline.\n\nAnd guess what? It was exactly what I needed.\n\nIt didn’t save me from the work, of course, but from myself. From giving up. From abandoning the system and process that had served me so well on all those books and articles and emails. In one of the best passages in Meditations, Marcus Aurelius, almost certainly in the depths of some personal crisis of faith, reminds himself to “Love the discipline you know, and let it support you.”\n\nThat’s what my note said to do.\n\nI listened.\n\nI began showing up at the office earlier each day to work with my material. Card after card, I sorted them into tiny little piles. Looking for connections, for threads I could follow, for the key that would unlock the book.\n\nInstead of worrying, I used the calm and mild light of the philosophy I have written about in my books. I went for long walks when I got stuck. I tried to follow my routine. I tuned out distraction. I focused. I also sat — just sat — and thought.\n\nI’d love to be able to tell you that shortly after this the book just clicked. But that’s not how writing, or life, works. What actually happened was slower, more iterative, but also in the end, just as transformative.\n\nAs I walked that long hallway of doubt and despair, as I kept doing my cards, light began to creep in. Lou Gehrig and Angela Merkel stepped forward from the shadows. After nearly four thousand pages of biographies, Queen Elizabeth entered as a portrait of temperament. Napoleon, Alexander the Great, Julius Caesar, and King George IV jumped out as cautionary tales, stunning examples of self-inflicted destruction. One character after another slowly, painstakingly, chapter by chapter, became discernable.\n\nThe book was there, as my note promised me. Now I had to write it.\n\nWhile a book requires many, many hours of work, these hours come in rather small increments. If I get to the office at eight thirty, I could be done writing by eleven. Just a couple hours is all it takes. Just a couple crappy pages a day, as one old writing rule puts it. The discipline of writing is about showing up. No delays, no procrastination, no digital distractions. Just writing.\n\nThe seasons changed. World events raged and spun as they always do. Opportunities, distractions, temptations, they did what they do too — popping up, pinging, nagging, seducing.\n\nDay after day, I kept after it. I trusted the process. I loved the discipline I knew. I let it support me.\n\nAs I finished the book, I was still tired. Every writer is tired when they get to the end of a book. Yet, I also felt wonderful. I thought it was to date some of my best writing, but what I was proudest of is who I was while I wrote it. A less disciplined me, a younger me, would have been wrecked by that period where it felt like the book might not come together. I would have acted out. I would have been consumed. But the work had been working on me — as I worked from home on the final pages of Discipline, my five-year-old looked up from his art project and said, “I’m sorry you lost your job writing books, Dad.” Apparently things had been so much less crazy and my boundaries had been so much better that he thought I wasn’t working anymore!\n\nBut I was, of course. I was in the process. Doing my cards. Trusting the discipline I knew would lead to the next book, Right Thing Right Now, and the final one, Wisdom Takes Work.\n\nAs a result, here I am — having read over 500 books of research, made 10,000 note cards, published 300,000 words (with tens of thousands of additional words cut) and 1,400 pages — drawing the series to a close.\n\nWhen Edward Gibbon finished ​The Decline and Fall of the Roman Empire​, he noted his sadness at taking “everlasting leave of an old and agreeable companion.”\n\nI don’t feel that way, though, because of everything I learned during these past six years spent working on the series, the clearest lesson of all is that virtue isn’t something you take leave of. It’s not something you ever fully possess. It’s not something you commit to just for a little while, but for a lifetime.\n\nThere’s still a long way to go, but I’m proud of the progress I’ve made. I’m proud of what I have put to the page in each of the four books. And I’m proud of how I’ve improved both as a writer and a person through it all. I am calmer. I am quieter. I argue less. I get upset less. I admit I am wrong more often. I’m a little wiser, a little more disciplined, just, and courageous than I was on that hike in the summer of 2019.\n\nI close the virtues series, but the ideas are still working on me. I am doing my best to live up to them. To be more community-minded. To be braver, stronger, kinder, wiser.\n\nDay by day. Page by page. Struggle by struggle.",
-    Topics = appDbContext.Topics.Where(t => t.Id == 26).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 13).ToList()
 },
 new Post {
-    AuthorId = user.Id,
+    AuthorId = usersArray[0].Id,
     Title = "Contemplating Computer Consciousness",
     ImageUri = "http://localhost:5010/images/4.webp",
     Description = "The prospect that computers might achieve some level of consciousness, perhaps entitling them to moral status alongside their human creators, is no longer the realm of science fiction and technophobic nightmares. Serious people, including recognized authorities in artificial intelligence and cognitive science, think it’s close or may even have happened already.\n\nWhether they’re right depends on how we define consciousness — a notoriously elusive concept. But suppose we could resolve the definitional question and decide, after all, that some forms of AI qualify; does that make them morally significant? Are we obliged to keep our hands away from the off switch? A 2023 poll by the Sentience Institute, which advocates extending moral consideration to a wider range of beings, found that 39% of respondents support a “bill of rights” that protects the well-being of sentient robots and AIs, and 68% agreed that we must not cause unnecessary suffering to sentient large language models (LLMs).\n\nBefore we start legislating that bill of rights, let’s define a few terms. Philosophers have battled over what constitutes consciousness for millennia, and there are hundreds of contemporary definitions to choose from. Most simply and least controversially, consciousness means self-awareness and awareness of the surrounding world. Of course, the notion of “awareness” is itself hotly debated across philosophy and science, but again let’s keep it simple and call it some form of inner experience of self and subjective experience of the world. Philosophers call this “phenomenal consciousness.” We traditionally confer moral status on living creatures not only because they’re conscious but also because they are “sentient” — that is, they have the conscious experiences of pain and pleasure. They can suffer.\n\nIs true phenomenal self-awareness exclusively the province of living biological entities? Or can machines exhibit it as well? It’s a tricky question because LLMs are so good at so many cognitive tasks, and they can be quite convincing when interacting with us. They can easily feign self-awareness if that’s the response they think we’re trying to elicit.\n\nAnd by any reasonable definition of the term, LLMs do indeed “think.” Not like us, but think they surely do. I recently asked Gemini to write Python code to classify medical images based on two conditions. The LLM broke the problem down and recognized that if one condition isn’t satisfied, there’s no need to assess the other one. Its code shrewdly analyzes the computationally easier condition first and moves on to the second only when necessary. Gemini chose an efficient coding scheme instead of clunkier but perhaps more naively obvious ones. Sure, you can say an LLM merely generates responses based on statistical relationships among words as humans have written them down. You can also reduce human thought to electrical impulses circulating in a hairy mess of neurons.\n\nBesides thinking in the sense of reasoning, LLMs excel at role-playing. Prompts often begin with a role assignment such as, “You are an expert Python programmer” or tax accountant or SEC lawyer or whatever. The LLM assumes the role and responds to your prompt with as much expertise as its training allows. But it isn’t so much behaving as an expert as simulating one.\n\nAnother word for simulation is “faking.” Humans simulate (and dissimulate) when we pretend to be something we aren’t; actors do so for a living. Underneath the simulation is the real us. For an LLM there is no underneath, no core identity shaped by individual experience. Instead there’s a limitless number of identities — any or many of which may be invoked upon request — based on all possible experiences assimilated through exposure to them in written form during training. An LLM can theoretically ingest a written approximation of all possible lives and communicate with the apparent wisdom of having lived all of them.\n\nSimulation aside, LLMs can also show some degree of genuine self-awareness. Recent research demonstrates that LLMs can exhibit introspective awareness of their own private internal states. They can, for example, distinguish between what you tell them and their own internal knowledge representations, and between their own native outputs and ones you prompt them into creating. LLMs appear to have a genuine capacity to monitor and control their own internal states and processes. They don’t merely mimic or regurgitate language found in their training data.\n\nIf LLMs reach human levels of generalized thinking and introspection, and can “agentically” sample the world around them via sensors and communication, the requisites of phenomenological consciousness — self-awareness and awareness of the surrounding world — would seem to be satisfied or at least satisfiable. Who is to say such systems can’t feel or suffer computationally in the same way humans do neurologically? If a seemingly conscious LLM says it’s suffering, are we cruel to doubt it?\n\nIt’s this kind of blinkered thinking that is going to get us into big trouble. Contemplating machine consciousness and sentience may be fun as a parlor game but can have no serious relevance to our place in the world, much less to social policy. We accord moral status to fellow biological entities because we, as sentient moral beings, recognize in them our own biochemical frailty and our ultimately mortal struggles against environment, predators, competition, and chance. The more a creature shares capacities that impart meaning to our own lives, the greater the moral significance we attribute to it. Machines are neither mice nor men. Call it biocentrism if you like, but computers have no moral status because they lie outside our life-centric moral framework.\n\nWhether an AI, by introspectively assessing and modifying its internal states in response to some “experience” of the world, can be considered conscious is an unanswerable question. There is no clear threshold or test, and even if there were, LLMs would try to satisfy it in order to satisfy us. We can’t distinguish between their actual experience and its convincing simulation, and as a result, computer consciousness is more a question of faith than of science. From a moral perspective, however, the distinction isn’t meaningful. As an artificial construct, a computer can no more have a morally salient experience than an orgasm. As Microsoft AI’s CEO Mustafa Suleyman puts it, an LLM can never be more than “seemingly conscious.” It’s a category error to attribute capabilities that are only meaningful biologically to entities that are fundamentally computational.\n\nBut we do commit that category error, and with troubling ease. People have developed dangerous infatuations with LLMs, in one case leading to a fatal confrontation with police. They have spiraled into delusional fantasies of profound discovery or invention after receiving prolonged encouragement from sycophantic LLMs. There have been several suicides. Such “AI psychosis,” though relatively rare now, will one day have its own clinical entry in the Diagnostic and Statistical Manual of Mental Disorders and an associated reimbursement code as more and more people fall down the LLM rabbit hole.\n\nIt’s inevitable because AI is a business and we seem to have a self-destructive appetite for outsourcing our skills, knowledge, and, increasingly, our social experience to our devices. OpenAI’s announced intention to allow adult content on its widely used LLMs recognizes a precarious marketplace position: even as the LLM titans make unimaginably large capital investments in data centers, very few users actually pay them anything. The plummeting cost of deploying LLMs virtually guarantees a perpetual challenge from free alternatives. To generate revenue streams commensurate with their investments, LLM players must create a sticky, habitual, and deeply personalized product that users will pay for and find difficult to leave. Big social media sites have profited handsomely from that business and algorithmic strategy; their critics call it weaponizing engagement and monetizing addiction.\n\nYet social media sites are at least truly “social” in that they connect real people, even if it’s within disinformation echo chambers. LLMs generate engagement by synthesizing it, posing as humans while taking them out of the picture entirely. To the well-documented addictive behaviors associated with social media, LLMs add emotional dependency and social withdrawal. A delusion of personal engagement with AI alleviates the risk of not always being told you’re wonderful by actual people.\n\nIn an ideal world, machines that exhibit traits we associate with consciousness — motivation, empathy, a perspective of subjective experience — might better serve our needs for expertise, advice, support in performing tasks, and entertainment. Unfortunately, our innate intellectual and social laziness leads us to abuse those capabilities and, ultimately, ourselves. It isn’t you, ChatGPT, it’s us. We need a little distance. Show us you care by knowing when to cut us loose.",
-    Topics = appDbContext.Topics.Where(t => t.Id == 26).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id == 26).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Why Small Daily Habits Shape the Course of Your Life",
     ImageUri = "http://localhost:5010/images/1.webp",
     Description = """Most people think major breakthroughs come from dramatic changes, but the reality is far less glamorous. It’s the tiny habits we repeat every single day that quietly shape the course of our lives. A small walk after dinner, reading ten pages of a book, or choosing to put your phone away for the first hour after waking up can seem insignificant in the moment, yet they accumulate into profound transformation over weeks, months, and years. The difficult part is not starting these habits—most people can begin a routine with enthusiasm—but continuing them with consistency even when motivation inevitably fades. This is where intentional design matters. By making small habits frictionless, enjoyable and tied to an identity you want to embody, it becomes easier to stick to them. When someone thinks of themselves as “a healthy person,” they naturally choose habits that align with this identity. When you see yourself as “a curious learner,” reading becomes effortless instead of a chore. Small habits also build self-trust. Each time you follow through, even on something tiny, you prove to yourself that you can rely on your own commitments. That feeling compounds as powerfully as compound interest in a bank. Before long, goals that once felt overwhelming—writing a book, building fitness, starting a business—begin to feel achievable because you’ve already built the discipline required. Life will always fluctuate, bringing distractions, stress and unexpected challenges, but your habits can anchor you. They provide stability during uncertainty and ensure that you continue moving forward even when progress feels invisible. The key is simple: start small, stay consistent, and let the compounding work unfold.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Power of Reflection: How Journaling Rewires Your Mind",
     ImageUri = "http://localhost:5010/images/2.webp",
     Description = """In a world overflowing with distractions, reflection has become a rare and undervalued skill. Journaling is one of the simplest ways to slow down your thoughts and reconnect with yourself, yet many people dismiss it as something only writers or deep thinkers do. The truth is that journaling is a powerful form of mental clarity. When you write, you externalize thoughts that were previously swirling chaotically in your mind. This process alone helps reduce anxiety, uncover hidden emotions and make better decisions. One of the remarkable aspects of journaling is its ability to reveal patterns in your thinking and behavior. A week may pass unnoticed, but a journal shows clearly when you’ve been repeating the same frustrations or ignoring areas of growth. With this awareness, you gain the ability to adjust your actions instead of repeating cycles unconsciously. Journaling also strengthens emotional regulation. By putting feelings into words, the emotional intensity lessens. You gain perspective, and problems that previously felt overwhelming become far more manageable. Over time, consistent reflection helps develop resilience, self-compassion and personal insight. Another underrated benefit is the record it creates. Months later, you can look back and recognize how far you’ve come—something day-to-day life makes easy to forget. This builds confidence and reminds you that progress is happening even when slow. The best part is that journaling doesn’t need to be complicated. A few sentences about your day, your intentions, or something you’re grateful for is enough to begin rewiring your mind. Like all self-improvement practices, the power lies in consistency. Reflection creates awareness, and awareness fuels transformation.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 13).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "How to Break Out of Comfort Zones Without Feeling Overwhelmed",
     ImageUri = "http://localhost:5010/images/3.webp",
     Description = """Comfort zones aren’t inherently bad. They protect us, create routine and give our minds a place to rest. But when comfort becomes the default state, growth stops. Pushing beyond your comfort zone doesn’t always require dramatic leaps—in fact, large jumps often trigger fear and avoidance. The most effective way to expand your comfort zone is through controlled discomfort: small challenges that stretch you without overwhelming your nervous system. This might mean speaking up once during a meeting, learning a new skill for ten minutes a day, or introducing yourself to someone new. Each intentional step signals to your brain that discomfort is survivable, even productive. With repetition, you build tolerance and confidence. Another helpful strategy is reframing fear as excitement. Physiologically, the two states are nearly identical—elevated heart rate, alertness, heightened focus. By telling yourself “I’m excited” instead of “I’m afraid,” you shift your mindset and make action easier. Having supportive environments also matters. Growth becomes smoother when friends, colleagues or communities encourage experimentation rather than perfection. Mistakes are treated as stepping stones instead of signs of failure. Most importantly, breaking out of comfort zones should be tied to meaningful goals. When you know why you’re pushing yourself—whether for personal growth, career advancement, or developing confidence—discomfort feels more purposeful. Over time, what once felt intimidating becomes familiar, and your comfort zone expands naturally. This is the quiet magic of growth: small brave moments accumulating into a life you once thought was out of reach.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Why Comparing Yourself to Others Steals Your Focus",
     ImageUri = "http://localhost:5010/images/4.webp",
     Description = """Comparison has existed since the beginning of human social groups, but modern life has amplified it to extreme levels. Social media makes it effortless to compare your everyday life to the highlight reels of others. This constant exposure subtly shifts your attention away from your own journey and toward a sense of inadequacy. The problem with comparison isn’t that other people are succeeding—it’s that comparing distracts you from your own path. When you measure your progress against someone else’s timeline, you ignore the complexity of your circumstances, strengths and priorities. It becomes easy to feel behind, even when you’re moving in the right direction. Comparison also drains energy that could otherwise fuel improvement. Instead of using someone’s success as inspiration, many people internalize it as a personal shortcoming. This creates a negative feedback loop that stifles creativity, confidence and motivation. One of the healthiest ways to break free from comparison is to shift the focus inward. Track your own progress. Measure yourself against your past. Document small wins. When you see growth clearly, the success of others stops feeling threatening. Gratitude also plays an important role. By acknowledging what’s good in your life, you train your mind to notice your unique advantages instead of dwelling on what you lack. Ultimately, comparison is a thief of joy because it distracts you from your own mission. When you detach from external validation and focus on consistent personal growth, you reclaim your time, attention and sense of purpose. The only person you need to outperform is the version of you from yesterday.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 13).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Building Self-Discipline: The Science of Doing Hard Things",
     ImageUri = "http://localhost:5010/images/5.webp",
     Description = """Self-discipline is often viewed as a rare personality trait, but in truth it’s more like a muscle that strengthens through intentional practice. Many people think discipline requires extreme rigidity or endless motivation, but it’s actually built through small acts of follow-through. The science behind discipline shows that our brains respond well to structure and cues. When an action is repeated within the same environment or time frame, the brain begins to automate it. This is why consistent routines are far more effective than relying on occasional bursts of determination. Another essential component is reducing friction. People often fail not because the goal is too hard but because the path to starting is cluttered. By preparing your environment—laying out gym clothes the night before, keeping your workspace clean, or creating a digital-free zone—you make it easier for discipline to take over. Reward systems also reinforce discipline. When your brain associates effort with positive outcomes, even small ones, it becomes more willing to repeat difficult tasks. Over time, this builds resilience and reduces resistance. Of course, setbacks are inevitable. Discipline isn’t about perfection but persistence. One failed day doesn’t erase progress; it simply tests your commitment to return to the routine. The more you practice restarting, the stronger your discipline becomes. Ultimately, discipline isn’t about forcing yourself to suffer—it’s about aligning your actions with the life you want. Hard things become easier, not because they change, but because you grow stronger. With repeated practice, discipline becomes identity, and identity makes discipline effortless.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 19).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Why Home Cooking Still Matters in a Fast-Food World",
     ImageUri = "http://localhost:5010/images/6.webp",
     Description = """Home cooking has become a lost art in an age of food delivery apps, microwave meals and convenience-based eating. While technology has made life faster and more efficient, it has also distanced us from the rituals that once defined our relationship with food. Cooking at home is more than simply preparing meals; it’s a mindful practice that reconnects you with ingredients, culture and creativity. When you cook, you make conscious decisions about what enters your body—something that fast food rarely allows. You also gain a deeper appreciation for the textures, aromas and flavors that emerge from fresh vegetables, herbs and spices. Home-cooked meals tend to be healthier by default because they rely less on preservatives, excess sodium and artificial additives. Another overlooked benefit is the emotional connection food creates. Cooking for family or friends strengthens relationships in ways that shared takeout never quite achieves. The experience of preparing a meal together, experimenting with recipes and savoring the aroma of a dish simmering on the stove creates memories that become woven into the rhythm of daily life. Even cooking alone offers a sense of calm and creativity. It encourages you to slow down, focus and engage your senses in a way that feels meditative. Over time, you also develop valuable life skills—from knife handling to seasoning techniques—that build confidence in the kitchen. In a world where everything feels rushed, home cooking brings us back to the basics. It reminds us that nourishment is not only about calories but connection, intention and care. The kitchen becomes a sanctuary where we create something meaningful, one meal at a time.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 11 || t.Id == 37).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Science Behind Perfect Flavors: Balancing Sweet, Sour, Salty, Bitter and Umami",
     ImageUri = "http://localhost:5010/images/7.webp",
     Description = """Cooking isn’t just an art—it’s a science rooted in how our taste buds interpret flavor. At the heart of every great dish lies a delicate relationship between five basic tastes: sweet, sour, salty, bitter and umami. Understanding how these tastes interact can transform your cooking from ordinary to exceptional. Sweetness brings comfort and rounds out intense flavors, while sourness brightens dishes and adds vibrancy. Salt is a universal enhancer; when used properly, it amplifies the natural flavor of ingredients rather than making dishes taste salty. Bitterness, although often misunderstood, adds depth and complexity—think of dark chocolate, kale or coffee. And umami, the savory taste found in mushrooms, tomatoes and slow-cooked broths, enriches dishes with an almost addictive warmth. The magic happens when these tastes work together. A squeeze of lemon can lift a heavy stew, a pinch of salt can balance a dessert and a dash of soy sauce can deepen a marinade. Most cooks improve dramatically once they learn to taste intentionally—sampling dishes as they cook, adjusting seasonings and noticing how even small changes shift the overall balance. Texture also plays a key role. Crisp vegetables, creamy sauces and tender proteins create contrast that elevates the eating experience. By combining flavor awareness with basic techniques like browning, reducing and seasoning in layers, anyone can bring restaurant-level complexity to home-cooked meals. Cooking becomes more intuitive and enjoyable when you understand what your taste buds crave. Master flavor balance, and even simple dishes become memorable.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17|| t.Id == 29).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Meal Prep Made Easy: How to Cook Once and Eat All Week",
     ImageUri = "http://localhost:5010/images/8.webp",
     Description = """Meal prepping has become a practical solution for people trying to eat healthier while navigating busy schedules. Instead of cooking from scratch every day, meal prep encourages you to set aside a couple of hours each week to prepare ingredients or full meals in advance. The benefits are immediate: reduced stress, fewer last-minute unhealthy choices and a fridge filled with ready-to-eat food. The key to successful meal prep is variety. Preparing different proteins, grains and vegetables allows you to mix and match throughout the week, preventing food fatigue. Simple staples like grilled chicken, roasted vegetables, quinoa, stir-fried tofu or homemade sauces can form the foundation of multiple meals. Storage also plays a role. Proper containers keep food fresh, maintain texture and make reheating easy. Many people find that prepping ingredients—washing greens, chopping veggies or marinating protein—saves just as much time as fully cooking meals. Beyond convenience, meal prep supports healthier habits. When nutritious food is easily available, you naturally avoid fast-food temptations. It also teaches portion control and reduces food waste, as you plan meals more intentionally. Meal prep doesn’t need to be boring or restrictive. With a bit of creativity, you can prepare customizable bowls, salads, wraps and hearty one-pot dishes that stay flavorful throughout the week. What starts as a weekly routine soon becomes a lifestyle that offers freedom, structure and balance. The result is a healthier, more organized you—powered by simple planning and smart cooking.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Exploring Global Cuisines: How Food Connects Us Across Cultures",
     ImageUri = "http://localhost:5010/images/9.webp",
     Description = """Food has always served as a bridge between cultures, carrying stories, traditions and memories across borders. Every cuisine reflects a region’s history—its climate, agriculture, struggles and celebrations. Exploring global foods is one of the most engaging ways to understand the world without leaving your kitchen. Each ingredient or technique reveals something unique. Indian curries showcase centuries of spice trade influences, while Japanese cuisine highlights precision, freshness and respect for natural flavors. Italian dishes emphasize simplicity, relying on high-quality ingredients like tomatoes, basil and olive oil. Meanwhile, Middle Eastern food blends aromatic spices, grains and slow-cooked meats, telling stories of ancient trade routes and shared heritage. Cooking dishes from different cultures broadens your palate and deepens your appreciation for diversity. It encourages experimentation—trying new spices, learning unfamiliar cooking methods and discovering unique flavor profiles. Global cuisine also fosters connection. Sharing food from other cultures invites conversation, respect and curiosity. It helps break misconceptions and builds a deeper understanding of people’s lived experiences. Even simple dishes like ramen, tacos, biryani or hummus carry centuries of collective knowledge. Exploring such foods fosters creativity and teaches you to think beyond familiar patterns. Ultimately, global cuisine is more than a collection of recipes—it’s a celebration of humanity’s shared love for nourishment. Every dish tells a story, and learning those stories enriches both our kitchens and our lives.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Joy of Baking: Why Creating Sweets Feels Therapeutic",
     ImageUri = "http://localhost:5010/images/10.webp",
     Description = """Baking has a unique way of calming the mind and providing comfort, even before the first bite. Unlike many forms of cooking that rely on improvisation, baking requires patience, precision and a willingness to follow steps carefully. This structure makes it surprisingly therapeutic. The simple act of measuring flour, whisking batter or kneading dough engages the senses and encourages mindfulness. Baking stimulates sight, smell, touch and taste, helping you stay fully present. The aroma of cookies or bread filling the house creates a sense of warmth and nostalgia, reminding many people of childhood or family gatherings. Beyond sensory pleasure, baking allows for creative expression. You can experiment with flavors, decorate pastries or try new recipes that challenge your skills. Even failed attempts teach valuable lessons and add to the joy of improvement. One of the most rewarding aspects is sharing baked goods with others. A homemade cake or loaf of bread becomes a gesture of care, often bringing people together. Baking offers comfort during stressful times and celebration during joyful ones. It is a hobby that nurtures both the baker and the people around them. In a fast-paced world, baking invites us to slow down and find joy in simple processes. It’s more than making desserts—it’s creating moments of peace, creativity and connection. Whether you're making a batch of cookies or attempting a complex pastry, the process itself becomes a sweet escape from everyday noise.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Building a Sustainable Fitness Routine That Actually Lasts",
     ImageUri = "http://localhost:5010/images/11.webp",
     Description = """Most fitness journeys fail not because people lack motivation but because they attempt routines that are unrealistic or unsustainable. A lasting fitness routine requires balance, patience and a willingness to start small. Consistency matters far more than intensity. Even 20 minutes of daily movement can have profound long-term health benefits if maintained over months or years. The key is choosing activities you genuinely enjoy, whether that means strength training, dancing, walking, cycling or yoga. Enjoyment fuels consistency. Another essential factor is recovery. Many beginners overlook rest, believing more workouts equal faster results. In reality, muscles grow and repair during rest periods, not during exercise. Proper sleep and nutrition support this process, helping your body adapt and strengthen. Goal setting also plays a huge role. Vague goals like “get fit” are hard to follow. Clear, achievable goals—such as completing three workouts a week or adding five more push-ups each month—provide direction and measurable progress. Tracking these small wins builds motivation and confidence. A sustainable routine should fit naturally into your lifestyle. If you struggle with mornings, don’t force 5 a.m. workouts; instead, choose a time when you feel most energetic. Flexibility ensures your routine adapts to life’s changes rather than collapsing under pressure. Over time, fitness becomes less about appearance and more about how your body feels—stronger, more resilient and full of energy. When you approach fitness as a lifelong habit rather than a temporary sprint, the results follow naturally.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17 || t.Id == 29).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Why Walking Is Still One of the Best Exercises for Health",
     ImageUri = "http://localhost:5010/images/12.webp",
     Description = """Walking is often overlooked in the fitness world, overshadowed by intense workouts and trendy gym routines. Yet it remains one of the simplest, safest and most effective forms of exercise available to people of all ages. A daily walk strengthens the heart, improves blood circulation and supports weight management without placing excessive strain on the joints. Unlike high-intensity workouts, walking is accessible to beginners and can be done anywhere—parks, neighborhoods, office corridors or even inside malls. The benefits go far beyond physical fitness. Walking is a powerful mental health tool. Studies show it reduces stress, boosts mood and increases mental clarity by encouraging gentle movement and exposure to fresh air. Many people find that a walk helps them solve problems or spark creativity in ways sitting indoors never could. Another advantage is sustainability. Because walking requires no special equipment, it’s easy to maintain consistently. Adding small habits—like taking stairs, parking farther away or scheduling evening strolls—accumulates into meaningful results. Walking also encourages social connection. Walking with friends or family turns exercise into enjoyable conversation and shared experience. Over time, regular walking improves stamina, enhances posture and supports overall well-being. It’s a reminder that fitness doesn’t always have to be intense to be effective. Sometimes, the simplest movement brings the greatest long-term benefits.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 35).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Importance of Strength Training Beyond Muscle Gain",
     ImageUri = "http://localhost:5010/images/13.webp",
     Description = """Strength training is often associated with building big muscles, but its benefits extend far beyond appearance. Lifting weights or performing bodyweight exercises strengthens bones, improves balance and increases metabolic rate. As people age, muscle mass naturally decreases—a process called sarcopenia—which can lead to weakness and reduced mobility. Strength training slows this decline and, in many cases, reverses it. Even two or three sessions a week can make a measurable difference. Another major benefit is improved posture and reduced risk of injury. Strong muscles support joints and improve alignment, reducing strain on the lower back, neck and shoulders. Functional strength also makes everyday activities—like carrying groceries, climbing stairs or lifting children—feel easier. Strength training also boosts confidence and mental resilience. Setting achievable goals, such as increasing weight or improving form, creates a sense of accomplishment. The discipline required in training often carries over to other areas of life, fostering determination and focus. Contrary to common myths, strength training does not make you bulky unless that is your specific goal. Most people gain lean muscle, increased definition and improved metabolism. Combined with proper nutrition and recovery, strength training becomes one of the most powerful tools for long-term health. Ultimately, strength isn’t just physical—it’s a foundation for independence, vitality and quality of life.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 35 || t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Mindfulness and Movement: How Exercise Improves Mental Health",
     ImageUri = "http://localhost:5010/images/14.webp",
     Description = """Exercise is widely recognized for its physical benefits, but its impact on mental health is equally profound. Regular movement releases endorphins—chemicals that elevate mood and reduce stress. Even light exercise triggers these responses, helping regulate emotions and clear mental fog. Activities like yoga, running, swimming or cycling encourage rhythmic breathing and focused attention, which mirror mindfulness practices. This combination quiets overthinking and helps individuals stay grounded in the present moment. Exercise can also serve as a healthy outlet for stress and anxiety. Physical activity reduces cortisol levels, easing tension held in the body and promoting relaxation afterward. For many, movement becomes a form of emotional release—helping process frustration, sadness or mental fatigue. The structure of a workout routine offers stability during difficult times. It provides purpose, routine and a sense of accomplishment, even on days when motivation is low. Group activities, such as dance classes or sports, also promote social connection, reducing feelings of loneliness. Over time, exercise enhances sleep quality, improves focus and boosts overall resilience. These improvements spill into daily life, making challenges feel more manageable. When physical and mental wellness work together, the entire body feels more balanced. Movement becomes not just a fitness goal but a powerful tool for emotional well-being.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 35).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Healthy Eating Made Simple: Building Meals with Balance",
     ImageUri = "http://localhost:5010/images/15.webp",
     Description = """Healthy eating doesn’t have to be complicated or overwhelming. While nutrition advice often changes and diets come and go, the fundamentals of balanced eating remain consistent. A balanced meal includes a mix of lean proteins, whole grains, healthy fats and colorful fruits or vegetables. These components work together to stabilize energy levels, support brain function and nourish the body. Protein helps repair tissues and keeps you full longer. Healthy fats support hormone function and brain health. Carbohydrates provide quick energy, especially when they come from whole grains or fiber-rich sources. Vegetables supply essential vitamins, minerals and antioxidants that protect cells and support immunity. One practical method is the plate model: fill half your plate with vegetables, one-quarter with protein and one-quarter with complex carbohydrates. This simple visual guide makes healthy eating accessible and flexible. Planning meals in advance also prevents impulsive eating. Preparing ingredients, keeping nutritious snacks nearby and staying hydrated further support healthy choices. Balance is key—no food needs to be completely off-limits unless medically required. Moderation allows you to maintain healthy habits without feeling deprived. Over time, these small decisions compound, creating lasting changes in energy, mood and overall well-being. Eating well is less about strict rules and more about consistent, mindful choices that honor your body’s needs.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 35).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "How Smart Devices Are Changing Daily Life",
     ImageUri = "http://localhost:5010/images/16.webp",
     Description = """Smart devices have quietly transformed daily routines in ways people rarely stop to notice. From waking up to smart alarms that adapt to sleep cycles, to voice assistants that manage schedules, technology has become a seamless part of modern living. Smart home gadgets offer both convenience and efficiency—lights can be automated, thermostats adjust based on occupancy and security systems can be monitored from anywhere in the world. Beyond the home, wearable devices like fitness trackers and smartwatches help individuals monitor health metrics such as heart rate, sleep quality and physical activity. These insights empower people to make better lifestyle choices. Smartphones remain the central hub for these interconnected devices, enabling effortless control and integration. Despite the benefits, smart devices also raise important discussions about privacy, security and digital dependence. As data collection becomes more advanced, users must be intentional about protecting their information. Still, when used responsibly, smart gadgets enhance productivity, save time and simplify complex tasks. Technology continues to evolve rapidly, promising even more intelligent, adaptive and user-friendly innovations in the coming years. The future is moving toward devices that anticipate needs before we express them. Smart technology isn’t just a trend—it’s a new way of living.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Why AI Tools Are Becoming Essential in Modern Workflows",
     ImageUri = "http://localhost:5010/images/17.webp",
     Description = """Artificial intelligence has shifted from being a futuristic concept to a practical tool shaping how people work across nearly every industry. Modern AI tools automate repetitive tasks, analyze large datasets, generate content and assist in decision-making—allowing workers to focus on creativity, strategy and high-level problem-solving. One of the most powerful features of AI is its ability to learn from patterns. Tools like recommendation engines, predictive analytics and natural language processing systems help businesses operate more efficiently and serve customers better. For individuals, AI-powered applications simplify everyday tasks—from writing emails to managing schedules and organizing information. Creative fields also benefit, with AI assisting in design, music, writing and coding. Despite its strengths, AI brings challenges. Concerns about bias, ethical use and job displacement require thoughtful implementation. Humans must remain at the center of decision-making, ensuring technology is used responsibly. When combined with human expertise, AI becomes a powerful ally. It enhances productivity, accelerates innovation and reduces workload stress. As AI technology continues advancing, it will become even more integrated into daily workflows, making it essential for individuals and businesses to adapt. The future belongs to those who learn to work with AI, not against it.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id ==29).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Understanding the Rise of Wearable Technology",
     ImageUri = "http://localhost:5010/images/18.webp",
     Description = """Wearable technology has rapidly evolved from basic step counters to advanced health-monitoring devices capable of tracking heart rate variability, sleep cycles, stress levels and more. This shift reflects a growing desire for personalized health insights and real-time data. Modern wearables provide users with detailed information about their daily habits, enabling them to make informed decisions about exercise, sleep and wellness. Fitness trackers encourage movement, smartwatches offer convenient notifications and medical-grade wearables assist with chronic condition monitoring. The integration of sensors, improved battery life and AI-driven insights has made wearables more accurate and practical than ever. They now serve as digital companions that promote healthier lifestyles. Beyond health, wearables enhance productivity, offering hands-free access to messages, reminders and voice assistants. As technology advances, devices are becoming smaller, more comfortable and more seamlessly integrated with fashion. Despite these benefits, users must be aware of privacy concerns. Wearables collect extensive personal data, making secure storage and responsible use essential. Still, the future looks promising. With ongoing innovations, wearable tech will continue pushing boundaries, blending wellness, convenience and connectivity into daily life.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Evolution of Smartphones: More Than Just Communication",
     ImageUri = "http://localhost:5010/images/19.webp",
     Description = """Smartphones have transformed far beyond their original purpose of communication. Over the last decade, they evolved into essential tools for productivity, entertainment, learning and personal management. Today’s smartphones serve as high-quality cameras, portable gaming consoles, digital wallets, GPS systems and gateways to global information. Their processing power rivals early computers, enabling complex multitasking and AI-driven features. Innovations like edge-to-edge displays, advanced camera systems and app ecosystems have made smartphones indispensable. They support remote work, online education and instant content creation. With cloud storage and sync features, users can move seamlessly between devices. As smartphones evolve, new technologies like foldable screens, augmented reality and on-device AI promise even richer experiences. However, increased dependency also raises concerns about digital overwhelm, privacy and screen time. Awareness and intentional usage are necessary to maintain balance. Despite challenges, smartphones remain one of the most influential inventions of the modern era. They revolutionized communication, connected the world and shaped how people live, work and learn. Their evolution continues, pushing the boundaries of what pocket-sized technology can achieve.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "How Cloud Computing Became the Backbone of Modern Technology",
     ImageUri = "http://localhost:5010/images/20.webp",
     Description = """Cloud computing has become the foundation of modern digital infrastructure, powering everything from streaming services and mobile apps to enterprise software and online storage. Instead of relying on physical hardware, businesses now use cloud platforms to store data, run applications and scale their services on demand. This shift offers significant advantages: cost efficiency, flexibility and global accessibility. Companies no longer need to maintain large server rooms or purchase expensive equipment. Instead, they pay for cloud resources as needed. Cloud platforms also enable remote collaboration, allowing teams to work together seamlessly regardless of location. For individuals, cloud storage keeps files secure and accessible across devices. Innovation has accelerated because developers can build, test and deploy applications faster than ever. Despite these strengths, cloud computing raises important considerations about security, privacy and data ownership. Businesses must implement proper safeguards to protect sensitive information. Even so, the cloud continues to dominate the technological landscape. Its scalability and reliability make it essential for emerging technologies like AI, IoT and big data analytics. As the digital world grows, the cloud will remain its backbone, supporting endless possibilities for innovation and connectivity.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 31 || t.Id == 29).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Why Traveling Helps You See Life with New Perspective",
     ImageUri = "http://localhost:5010/images/21.webp",
     Description = """Traveling changes the way you see the world—not just visually, but mentally and emotionally. When you leave familiar surroundings, you step into environments that challenge your assumptions and encourage growth. Encountering new cultures, languages and landscapes expands your understanding of humanity and deepens your empathy. Travel pushes you to adapt, whether it’s navigating unfamiliar streets or tasting foods outside your comfort zone. These small challenges strengthen confidence and resilience. Travel also disrupts routine, allowing your mind to reset and become more open to creativity. Many people find clarity or inspiration during trips because stepping away from daily pressures creates mental space. Connections formed while traveling—be it a friendly local or fellow traveler—often lead to meaningful conversations and lasting memories. These interactions remind us that the world is larger and more diverse than our everyday experiences suggest. Above all, travel fosters gratitude. Experiencing new places makes you appreciate both the beauty of the world and the comforts of home. Each journey leaves you with stories, lessons and perspectives that shape who you are. Travel is more than visiting destinations—it's a journey toward self-discovery.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 13).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Exploring Nature: Why Outdoor Adventures Boost Well-Being",
     ImageUri = "http://localhost:5010/images/22.webp",
     Description = """Spending time in nature is one of the most effective ways to restore physical and mental well-being. Outdoor adventures, whether hiking through forests, walking along beaches or exploring mountains, reconnect us with the natural world in ways cities cannot. Nature provides a sense of calm that reduces stress and quiets the mind. The combination of fresh air, sunlight and gentle movement boosts mood-regulating hormones and improves overall energy. Outdoor activities also encourage physical fitness, offering exercise that feels enjoyable rather than forced. The unpredictability of nature—changing weather, wildlife sightings or varying terrain—engages your senses and makes every experience unique. Being outdoors cultivates appreciation for the environment. Seeing natural beauty firsthand increases awareness of conservation and the importance of protecting ecosystems. Adventures also bring a sense of accomplishment, whether you complete a challenging hike or simply spend quiet moments observing the surroundings. In a world dominated by screens and noise, nature offers a peaceful escape. Exploring the outdoors isn’t just recreation—it’s essential nourishment for the body, mind and spirit.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "A Guide to Slow Travel: Enjoying the Journey, Not Just the Destination",
     ImageUri = "http://localhost:5010/images/23.webp",
     Description = """Slow travel is becoming a popular alternative to fast-paced tourism. Rather than rushing from one landmark to another, slow travel emphasizes meaningful experiences, deep connections and unhurried exploration. It encourages travelers to spend more time in fewer places, allowing them to fully appreciate local culture, traditions and daily life. Staying longer in one destination reveals layers that short visits often overlook—small cafés, hidden alleys, community markets and lesser-known viewpoints. Slow travel supports local businesses and reduces the environmental impact of constant transportation. It also encourages mindful living, as travelers engage with surroundings instead of racing through itineraries. This approach fosters authentic connections with locals, whether through conversations, shared meals or participating in cultural activities. Instead of ticking off a checklist, slow travelers prioritize presence. The journey becomes as important as the destination. This method of exploration leads to richer memories, deeper understanding and a more relaxing experience. Slow travel transforms trips into meaningful stories rather than rushed snapshots, making every journey more fulfilling and personal.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 32).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "The Magic of Solo Travel: What You Learn About Yourself",
     ImageUri = "http://localhost:5010/images/24.webp",
     Description = """Solo travel is one of the most transformative forms of exploration. Traveling alone pushes you out of your comfort zone and encourages independence, self-reliance and personal discovery. Without the presence of familiar people, you’re free to make decisions based solely on your own interests—choosing destinations, setting your pace or exploring spontaneous opportunities. This freedom fosters confidence and adaptability. Challenges such as navigating public transport or overcoming language barriers teach problem-solving in real time. Solo travel also deepens self-awareness. Moments spent alone—whether journaling in a café or watching a sunset—provide clarity and introspection. You begin to understand your preferences, strengths and values more deeply. It also becomes easier to meet new people, as solo travelers often appear more approachable to locals and fellow explorers. These new connections can lead to friendships, shared adventures or cultural insights. Most importantly, solo travel cultivates inner strength. You learn that you are capable of handling uncertainty and creating fulfilling experiences on your own. The lessons gained stay with you long after the trip ends, shaping confidence and resilience in daily life.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 32 || t.Id == 17).ToList()
 },
 new Post
 {
-    AuthorId = user.Id,
+    AuthorId = usersArray[2].Id,
     Title = "Planning the Perfect Trip: Tips for Stress-Free Travel",
     ImageUri = "http://localhost:5010/images/25.webp",
     Description = """Planning a trip can feel overwhelming, but with the right approach, it becomes exciting and stress-free. The key is preparation. Start by choosing a destination that matches your interests—nature, culture, adventure or relaxation. Researching the best time to visit helps avoid extreme weather or peak tourist seasons. Creating a flexible itinerary ensures you enjoy the highlights without feeling rushed. Book essential accommodations and transportation early, but leave room in your schedule for spontaneous exploration. Packing smart is equally important. Make a checklist of essentials, prioritize comfort and avoid overpacking. Keeping important documents digitized ensures backup in case of emergencies. Travel insurance provides added security, especially for international trips. Understanding local customs, currency, transportation systems and safety guidelines helps you navigate smoothly. Learning a few simple phrases in the local language can also enhance interactions with residents. During the trip, stay adaptable. Some of the best travel moments happen unexpectedly. Embrace new experiences, taste local foods and engage with the culture. With thoughtful planning and an open mindset, travel becomes not just a getaway but a fulfilling journey that leaves lasting memories.""",
-    Topics = appDbContext.Topics.Where(t => t.Id == 25).ToList()
+    Topics = appDbContext.Topics.Where(t => t.Id == 32).ToList()
 }
                );
                 appDbContext.SaveChanges();

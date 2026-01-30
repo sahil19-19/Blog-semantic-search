@@ -31,7 +31,11 @@ public class MeiliSyncService : IMeiliSyncService
             id = p.Id.ToString(),
             title = p.Title,
             description = p.Description,
-            author = p.Author.Name,
+            imageUri = p.ImageUri
+            author =  new {
+                name = p.Author.Name,
+                img = p.Author.ImageUri
+            }
             topics = p.Topics.Select(t => t.Name).ToList(),
             dateCreated = p.DateCreated
         });
