@@ -102,7 +102,6 @@ public class PostRepository(
         var meiliResult = await _meiliSearchService.SearchPostsBySemantic(searchString, filterTopic, page, limit, ratio);
         // if (meiliResult == null || meiliResult.hits == null)
         //     return Enumerable.Empty<MeiliSearchResponse>();
-
         return meiliResult;
     }
 
