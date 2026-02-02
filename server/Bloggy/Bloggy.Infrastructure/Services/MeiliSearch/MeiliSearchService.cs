@@ -73,7 +73,7 @@ public class MeiliSearchService
                     embedder = "blogs-embedder",
                     semanticRatio = ratio
                 },
-                filter = $"topics == '{filterTopic}'",
+                filter = $"topics = '{filterTopic}'",
                 limit = limit,
                 offset = (page - 1) * limit
             };
