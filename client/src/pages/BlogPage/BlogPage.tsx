@@ -197,7 +197,7 @@ const BlogPage = () => {
                           <div className={s.postMeta}>
                             <span className={s.avatar}>
                               <img
-                                src={item.author?.imageUri}
+                                src={item.author?.image}
                                 alt="Author"
                               />
                             </span>
