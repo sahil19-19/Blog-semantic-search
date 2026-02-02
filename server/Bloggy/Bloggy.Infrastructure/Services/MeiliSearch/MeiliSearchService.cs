@@ -62,21 +62,29 @@ public class MeiliSearchService
     {
         try
         {
-            var searchRequest = new
+            // Create search request using dictionary to conditionally include filter
+            var searchRequestDict = new Dictionary<string, object>
             {
-                q = query,
-                attributesToHighlight= new[] {"title", "description"},
-                highlightPreTag = "<mark>",
-                highlightPostTag = "</mark>",
-                hybrid = new
+                ["q"] = query,
+                ["attributesToHighlight"] = new[] { "title", "description" },
+                ["highlightPreTag"] = "<mark>",
+                ["highlightPostTag"] = "</mark>",
+                ["hybrid"] = new
                 {
                     embedder = "blogs-embedder",
                     semanticRatio = ratio
                 },
-                filter = $"topics = '{filterTopic}'",
-                limit = limit,
-                offset = (page - 1) * limit
+                ["limit"] = limit,
+                ["offset"] = (page - 1) * limit
             };
+
+            // Conditionally add filter if filterTopic is provided
+            if (!string.IsNullOrEmpty(filterTopic))
+            {
+                searchRequestDict["filter"] = $"topics = '{filterTopic}'";
+            }
+
+            var searchRequest = searchRequestDict;
 
             var json = JsonSerializer.Serialize(searchRequest);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
