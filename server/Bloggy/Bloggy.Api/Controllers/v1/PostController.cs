@@ -24,7 +24,7 @@ public class PostController(
         [FromQuery] int limit = 10,
         [FromQuery] double ratio = 0.5
     ){ 
-        var result = await _mediator.Send(new GetSemanticSearchRequest(page, limit, body.Search, ratio));
+        var result = await _mediator.Send(new GetSemanticSearchRequest(page, limit, body.Search, body.FilterTopic, ratio));
         return Ok(result);
     }
 
@@ -37,7 +37,6 @@ public class PostController(
 
     [HttpPost]
     public IActionResult Create([FromBody] CreateRequest request) => Ok(_mediator.Send(request));
-
 
     // //_mediator.Send(new GetSemanticSearchRequest(page, limit, body.Search))
     //         [FromQuery] int page = 0,
