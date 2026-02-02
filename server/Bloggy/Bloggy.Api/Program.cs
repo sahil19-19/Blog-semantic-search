@@ -4,7 +4,6 @@ using Bloggy.Infrastructure;
 using Bloggy.Infrastructure.Persistense;
 using Bloggy.Infrastructure.Services.MeiliSearch;
 using Microsoft.OpenApi.Models;
-using 
 
 internal class Program
 {
