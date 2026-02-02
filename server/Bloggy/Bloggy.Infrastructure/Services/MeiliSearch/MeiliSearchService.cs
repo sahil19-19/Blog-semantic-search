@@ -58,7 +58,7 @@ public class MeiliSearchService
     }
 
     // Method to perform a semantic search
-    public async Task<MeiliSearchResponse> SearchPostsBySemantic(string query, int page, int limit, double ratio)
+    public async Task<MeiliSearchResponse> SearchPostsBySemantic(string query, string filterTopic, int page, int limit, double ratio)
     {
         try
         {
@@ -73,6 +73,7 @@ public class MeiliSearchService
                     embedder = "blogs-embedder",
                     semanticRatio = ratio
                 },
+                filter = $"topics == '{filterTopic}'",
                 limit = limit,
                 offset = (page - 1) * limit
             };
