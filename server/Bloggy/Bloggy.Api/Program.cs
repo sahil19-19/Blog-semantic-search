@@ -4,6 +4,7 @@ using Bloggy.Infrastructure;
 using Bloggy.Infrastructure.Persistense;
 using Bloggy.Infrastructure.Services.MeiliSearch;
 using Microsoft.OpenApi.Models;
+using 
 
 internal class Program
 {
@@ -162,7 +163,8 @@ internal class Program
                     {
                         AuthorId = usersArray[0].Id,
                         Title = "Lorem Ipsum",
-                        ImageUri = "http://localhost:5010/images/1.jpg",
+                        ImageUri = "/images/1.jpg",
+                        // ImageUri = "../../"
                         Description = """
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam metus nibh, volutpat id tellus non, imperdiet vehicula sapien.
 Vivamus venenatis cursus mi, vitae tincidunt sapien tempus vitae. Donec pellentesque efficitur ex quis posuere.
@@ -208,7 +210,7 @@ Aliquam tempus ante ac tellus imperdiet luctus. Maecenas et suscipit erat. Morbi
                     {
                         AuthorId = usersArray[0].Id,
                         Title = "The Best To-Do List App",
-                        ImageUri = "http://localhost:5010/images/3.webp",
+                        ImageUri = "/images/3.webp",
                         Description = """
 Mastering your to-do list can seem like a Sisyphean task, but a good to-do list app should help
 you regain control over your routines and make it possible to keep chaos at bay.
@@ -223,7 +225,7 @@ address your obligations, and enter new tasks—then get right back to the doing
                     {
                         AuthorId = usersArray[0].Id,
                         Title = "No Oversight: Inside a Boom-Time Start-Up Fraud and Its Unraveling",
-                        ImageUri = "http://localhost:5010/images/4.webp",
+                        ImageUri = "/images/4.webp",
                         Description = """
 False claims and risky trades at the Silicon Valley start-up HeadSpin were part
 of a pattern of trouble emerging at young companies that lacked controls.
@@ -234,7 +236,7 @@ of a pattern of trouble emerging at young companies that lacked controls.
                     {
                         AuthorId = usersArray[0].Id,
                         Title = "Slow Rollout of National Charging System Could Hinder E.V. Adoption",
-                        ImageUri = "http://localhost:5010/images/2.webp",
+                        ImageUri = "/images/2.webp",
                         Description = """
 Lawmakers approved $5 billion for states to build a network of fast chargers two years ago.
 Although some states have made progress in recent weeks, most have not yet awarded contracts or started construction.
