@@ -39,6 +39,8 @@ const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
 
+  const [hasSearched, setHasSearched] = useState(false);// here
+
   const { ref, inView } = useInView({
     threshold: 0,
   });
@@ -49,6 +51,8 @@ const BlogPage = () => {
     setHasMore(true);
     setProcessingTimeMs(null);
     setEstimatedTotalHits(null);
+
+    setHasSearched(false); //here
   };
 
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,12 +68,18 @@ const BlogPage = () => {
   };
 
   const handleHomeTabClick = () => {
-    setQuery('');
-    setSelectedCategory('');
-    resetSearchState();
+    if(query || selectedCategory) {
+      setQuery('');
+      setSelectedCategory('');
+      resetSearchState();
+    }
   };
 
   const handleCategoryClick = (categoryName: string) => {
+    // If the same category is clicked again, do nothing
+    if (selectedCategory === categoryName) {
+      return;
+    }
     setSelectedCategory(categoryName);
     resetSearchState();
   };
@@ -108,6 +118,7 @@ const BlogPage = () => {
       console.error("Semantic Search Error:", err);
     } finally {
       setLoading(false);
+      setHasSearched(true); //here
     }
   }, [loading, selectedCategory, limit, semanticRatio]);
 
@@ -250,7 +261,9 @@ const BlogPage = () => {
 
               <div className={s.postList}>
                 {
-                  results.length > 0 ?
+                  loading ? (
+                    <div className={s.searchingMessage}>Searching...</div>
+                  ) : results.length > 0 ? (
                     results.map((item) => (
                       <article className={s.post} key={item.id}>
                         <div>
@@ -316,7 +329,9 @@ const BlogPage = () => {
                         </div>
                       </article>
                     ))
-                    : !loading ? 'No documents available' : ''
+                  ) :  hasSearched ? (
+                    <div className={s.noResultsMessage}>No results found</div>
+                  ) : null
                 }
                 {results.length > 0 && !loading && (
                   <div ref={ref} className={s.loadingSentinel}></div>
