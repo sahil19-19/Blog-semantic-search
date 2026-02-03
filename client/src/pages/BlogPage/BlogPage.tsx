@@ -1,22 +1,43 @@
 import s from './BlogPage.module.scss';
 import logo from '../../assets/img/logo.png';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 import $api from '@/assets/utils/axios';
-import { clearObserving } from 'mobx/dist/internal';
+import PostService from '../../service/PostsService';
+
+interface ICategory {
+  id: number;
+  name: string;
+}
+
+interface IPostResult {
+  id: string;
+  title: string;
+  description: string;
+  imageUri: string;
+  topics: string[];
+  author?: {
+    name: string;
+    img: string;
+  };
+}
 
 const BlogPage = () => {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<IPostResult[]>([]);
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const limit = 10;
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const [semanticRatio, setSemanticRatio] = useState(0.0);
   const [processingTimeMs, setProcessingTimeMs] = useState<number | null>(null);
   const [estimatedTotalHits, setEstimatedTotalHits] = useState<number | null>(null);
+
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -44,23 +65,34 @@ const BlogPage = () => {
 
   const handleHomeTabClick = () => {
     setQuery('');
+    setSelectedCategory('');
     resetSearchState();
   };
 
-  const fetchResults = async (searchValue: string, pageNum: number) => {
+  const handleCategoryClick = (categoryName: string) => {
+    setSelectedCategory(categoryName);
+    resetSearchState();
+  };
+
+  const fetchResults = useCallback(async (searchValue: string, pageNum: number) => {
     if (loading) return;
 
     setLoading(true);
 
     try {
+      const requestBody: Record<string, string> = { search: searchValue };
+      if (selectedCategory) {
+        requestBody.FilterTopic = selectedCategory;
+      }
+
       const res = await $api.post(
         `/posts/semantic?page=${pageNum}&limit=${limit}&ratio=${semanticRatio}`,
-        { search: searchValue }
+        requestBody
       );
 
       const data = res.data;
 
-      const extracted = Array.isArray(data?.result?.hits)
+      const extracted: IPostResult[] = Array.isArray(data?.result?.hits)
         ? data.result.hits
         : [];
 
@@ -77,16 +109,16 @@ const BlogPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loading, selectedCategory, limit, semanticRatio]);
 
-  // 🔹 Debounce ONLY search + slider
+  // 🔹 Debounce ONLY search + slider + category
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchResults(query, 1);
     }, 350);
 
     return () => clearTimeout(timer);
-  }, [query, semanticRatio]);
+  }, [query, semanticRatio, selectedCategory]);
 
   // 🔹 Infinite scroll (NO debounce)
   useEffect(() => {
@@ -99,7 +131,20 @@ const BlogPage = () => {
     if (page > 1) {
       fetchResults(query, page);
     }
-  }, [page]);
+  }, [page, query]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await PostService.fetchCategory();
+      setCategories(response.data.result.topics);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
 
   return (
@@ -188,6 +233,21 @@ const BlogPage = () => {
                 {/* <div className={`${s.tab} ${s.active}`}>Popular</div> */}
               </div>
 
+              {results.length > 0 && (processingTimeMs !== null || estimatedTotalHits !== null) && (
+                <div className={s.searchMeta}>
+                  {processingTimeMs !== null && (
+                    <span className={s.searchMetaItem}>
+                      Search took {processingTimeMs}ms
+                    </span>
+                  )}
+                  {estimatedTotalHits !== null && (
+                    <span className={s.searchMetaItem}>
+                      ~{estimatedTotalHits.toLocaleString()} results
+                    </span>
+                  )}
+                </div>
+              )}
+
               <div className={s.postList}>
                 {
                   results.length > 0 ?
@@ -258,7 +318,7 @@ const BlogPage = () => {
                     ))
                     : !loading ? 'No documents available' : ''
                 }
-                {!query && results.length > 0 && !loading && (
+                {results.length > 0 && !loading && (
                   <div ref={ref} className={s.loadingSentinel}></div>
                 )}
               </div>
@@ -268,21 +328,30 @@ const BlogPage = () => {
               <h3>Blog Categories</h3>
 
               <ul className={s.categoryList}>
-                <li><a href="#">Gaming</a></li>
-                <li><a href="#">Sports</a></li>
-                <li><a href="#">Business</a></li>
-                <li><a href="#">Crypto</a></li>
-                <li><a href="#">Television</a></li>
-                <li><a href="#">Celebrity</a></li>
-                <li><a href="#">Animal and Pets</a></li>
-                <li><a href="#">Anime</a></li>
-                <li><a href="#">Art</a></li>
-                <li><a href="#">Cars and Motor Vehicles</a></li>
-                <li><a href="#">Crafts and DIY</a></li>
-                <li><a href="#">Culture, Race, and Ethnicity</a></li>
+                {categories.slice(0, categoriesOpen ? categories.length : 12).map((category) => (
+                  <li key={category.id}>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleCategoryClick(category.name);
+                      }}
+                      className={selectedCategory === category.name ? s.active : ''}
+                    >
+                      {category.name}
+                    </a>
+                  </li>
+                ))}
               </ul>
 
-              <a className={s.seeMore} href="#">See more</a>
+              {categories.length > 12 && (
+                <button
+                  className={s.seeMore}
+                  onClick={() => setCategoriesOpen(current => !current)}
+                >
+                  {categoriesOpen ? "See less" : "See more"}
+                </button>
+              )}
             </aside>
           </div>
 
