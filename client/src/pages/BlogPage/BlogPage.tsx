@@ -304,7 +304,7 @@ const BlogPage = () => {
 
               <div className={s.postList}>
                 {
-                  loading ? (
+                  (loading && page === 1) ? (
                     <div className={s.searchingMessage}>Searching...</div>
                   ) : results.length > 0 ? (
                     results.map((item) => (
@@ -376,7 +376,7 @@ const BlogPage = () => {
                     <div className={s.noResultsMessage}>No results found</div>
                   ) : null
                 }
-                {results.length > 0 && !loading && (
+                {results.length > 0 && (
                   <div ref={ref} className={s.loadingSentinel}></div>
                 )}
               </div>
