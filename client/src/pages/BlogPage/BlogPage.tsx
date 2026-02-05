@@ -68,7 +68,7 @@ const BlogPage = () => {
   };
 
   const handleHomeTabClick = () => {
-    if(query || selectedCategory) {
+    if (query || selectedCategory) {
       setQuery('');
       setSelectedCategory('');
       resetSearchState();
@@ -190,7 +190,7 @@ const BlogPage = () => {
               </span>
             </Link>
 
-            <div className={s.navSearch}>
+            {/* <div className={s.navSearch}>
               <div className={s.searchBox}>
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path
@@ -228,7 +228,7 @@ const BlogPage = () => {
                   <b>{semanticRatio.toFixed(1)}</b>
                 </label>
               </div>
-            </div>
+            </div> */}
 
             <a className={`${s.btn} ${s.btnPrimary}`} href="#">Login</a>
           </div>
@@ -240,9 +240,92 @@ const BlogPage = () => {
           <div className={s.blogLayout}>
             <section>
               <div className={s.tabs}>
-                <div className={`${s.tab} ${s.active}`} onClick={handleHomeTabClick}>Home</div>
+                {/* <div className={`${s.tab} ${s.active}`} onClick={handleHomeTabClick}>Home</div> */}
                 {/* <div className={`${s.tab} ${s.active}`}>Popular</div> */}
+                <div className={s.navSearch}>
+                  <div className={s.searchBox}>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path
+                        d="M10.5 18.5c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8Z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        opacity="0.8"
+                      />
+                      <path
+                        d="M16.5 16.5 21 21"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        opacity="0.8"
+                      />
+                    </svg>
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      value={query}
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                    />
+                  </div>
+
+
+                  <div className={s.sliderContainer}>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.1"
+                      value={semanticRatio}
+                      onChange={handleSliderChange}
+                      className={s.slider}
+                    />
+                    <label className={s.sliderLabel}>
+                      <b>{semanticRatio.toFixed(1)}</b>
+                    </label>
+                  </div>
+                </div>
               </div>
+
+              {/* <div className={s.navSearch}>
+                <div className={s.searchBox}>
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path
+                      d="M10.5 18.5c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      opacity="0.8"
+                    />
+                    <path
+                      d="M16.5 16.5 21 21"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      opacity="0.8"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={query}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                  />
+                </div>
+
+
+                <div className={s.sliderContainer}>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={semanticRatio}
+                    onChange={handleSliderChange}
+                    className={s.slider}
+                  />
+                  <label className={s.sliderLabel}>
+                    <b>{semanticRatio.toFixed(1)}</b>
+                  </label>
+                </div>
+              </div> */}
 
               {results.length > 0 && (processingTimeMs !== null || estimatedTotalHits !== null) && (
                 <div className={s.searchMeta}>
@@ -329,7 +412,7 @@ const BlogPage = () => {
                         </div>
                       </article>
                     ))
-                  ) :  hasSearched ? (
+                  ) : hasSearched ? (
                     <div className={s.noResultsMessage}>No results found</div>
                   ) : null
                 }
@@ -341,7 +424,7 @@ const BlogPage = () => {
 
             <aside className={s.sidebar}>
               <h3>Blog Categories</h3>
-
+              <div className={`${s.tab} ${s.active}`} onClick={handleHomeTabClick}>Home</div>
               <ul className={s.categoryList}>
                 {categories.slice(0, categoriesOpen ? categories.length : 12).map((category) => (
                   <li key={category.id}>
