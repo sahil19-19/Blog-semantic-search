@@ -48,6 +48,7 @@ main {
 .btnPrimary {
   background: var(--brand);
   color: #fff;
+  width: 100px;
 }
 
 /* --- HEADER / NAV --- */
@@ -61,8 +62,8 @@ header {
 
 .nav {
   height: 75px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 18px;
 }

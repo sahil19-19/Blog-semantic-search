@@ -190,46 +190,6 @@ const BlogPage = () => {
               </span>
             </Link>
 
-            {/* <div className={s.navSearch}>
-              <div className={s.searchBox}>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M10.5 18.5c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    opacity="0.8"
-                  />
-                  <path
-                    d="M16.5 16.5 21 21"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    opacity="0.8"
-                  />
-                </svg>
-                <input
-                  type="text"
-                  placeholder="Search"
-                  value={query}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                />
-              </div>
-              <div className={s.sliderContainer}>
-              <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.1"
-                  value={semanticRatio}
-                  onChange={handleSliderChange}
-                  className={s.slider}
-                />
-                <label className={s.sliderLabel}>
-                  <b>{semanticRatio.toFixed(1)}</b>
-                </label>
-              </div>
-            </div> */}
-
             <a className={`${s.btn} ${s.btnPrimary}`} href="#">Login</a>
           </div>
         </div>
