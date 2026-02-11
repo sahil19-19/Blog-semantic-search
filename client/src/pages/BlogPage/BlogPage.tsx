@@ -67,7 +67,7 @@ const BlogPage = () => {
     resetSearchState();
   };
 
-  const handleHomeTabClick = () => {
+  const handleAllTabClick = () => {
     if (query || selectedCategory) {
       setQuery('');
       setSelectedCategory('');
@@ -384,7 +384,7 @@ const BlogPage = () => {
 
             <aside className={s.sidebar}>
               <h3>Blog Categories</h3>
-              <div className={`${s.tab} ${s.active}`} onClick={handleHomeTabClick}>Home</div>
+              <div className={`${s.tab} ${s.active}`} onClick={handleAllTabClick}>All</div>
               <ul className={s.categoryList}>
                 {categories.slice(0, categoriesOpen ? categories.length : 12).map((category) => (
                   <li key={category.id}>
