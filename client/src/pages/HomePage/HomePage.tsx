@@ -51,7 +51,7 @@ const HomePage = () => {
               <div className={s.heroActions}>
                 <button
                   className={`${s.btn} ${s.btnPrimary}`}
-                  onClick={() => navigate('/blogs')}
+                  onClick={() => navigate('/demos/semantic-search')}
                 >
                   Try it Now
                 </button>
