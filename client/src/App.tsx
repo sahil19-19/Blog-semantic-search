@@ -41,11 +41,11 @@ const App: FC = () => {
             <Route path="/post/:id" element={<SinglePage />} />
             <Route path="/create-post" element={<CreatePostPage />} />
             <Route path="/account" element={<AccountPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
             <Route path="/normal-search" element={<OldHomePage/>} />
-            <Route path="/blogs" element={<BlogPage/>} />
-            <Route path="/" element={<HomePage />} />
+            <Route path="/demos/semantic-search" element={<BlogPage/>} />
+            <Route path="/demos" element={<HomePage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         {/* </Sidebar> */}

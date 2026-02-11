@@ -11,7 +11,7 @@ const LoginPage = () => {
                     <img className={s.login__logo} src={logo} alt="logo" />
                     <h2 className={s.login__title}>Welcome back</h2>
                     <FormLogin />
-                    <p className={s.login__small_text}>Don't have an account yet? <span><Link to={'/registration'} className={s.login__link}>Register</Link></span></p>
+                    <p className={s.login__small_text}>Don't have an account yet? <span><Link to={'#'} className={s.login__link}>Register</Link></span></p>
                 </div>
             </div>
         </section>
