@@ -8,5 +8,5 @@ public interface ITopicRepository
     void Remove(Topic topic);
     void Update(Topic topic);
     Topic? GetById(int topicId);
-    IEnumerable<Topic> GetAll();
+    IQueryable<Topic> GetAll();
 }
