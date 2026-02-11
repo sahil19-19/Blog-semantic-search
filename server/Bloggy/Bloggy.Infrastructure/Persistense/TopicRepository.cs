@@ -13,7 +13,7 @@ public class TopicRepository(
         _appDbContext.SaveChanges();
     }
 
-    public IEnumerable<Topic> GetAll()
+    public IQueryable<Topic> GetAll()
     {
         return _appDbContext.Topics;
     }

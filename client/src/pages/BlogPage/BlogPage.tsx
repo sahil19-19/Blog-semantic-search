@@ -9,6 +9,7 @@ import PostService from '../../service/PostsService';
 interface ICategory {
   id: number;
   name: string;
+  postCount: number;
 }
 
 interface IPostResult {
@@ -396,7 +397,7 @@ const BlogPage = () => {
                       }}
                       className={selectedCategory === category.name ? s.active : ''}
                     >
-                      {category.name}
+                      {category.name} [{category.postCount}]
                     </a>
                   </li>
                 ))}
