@@ -3,6 +3,7 @@ export interface CategoryResponse {
         topics: {
             id: number;
             name: string;
+            postCount: number;
         }[];
     };
 }
