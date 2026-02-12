@@ -16,6 +16,7 @@ import SearchPage from './pages/SearchPage/SearchPage';
 import SemanticSearch from './pages/SemanticSearch/SemanticSearch';
 import OldHomePage from './pages/OldHomePage/OldHomePage';
 import BlogPage from './pages/BlogPage/BlogPage';
+import NewLoginPage from './pages/NewLoginPage/NewLoginPage';
 
 const App: FC = () => {
   const { store } = useContext(Context)
@@ -41,7 +42,8 @@ const App: FC = () => {
             <Route path="/post/:id" element={<SinglePage />} />
             <Route path="/create-post" element={<CreatePostPage />} />
             <Route path="/account" element={<AccountPage />} />
-            <Route path="/" element={<LoginPage />} />
+            {/* <Route path="/" element={<LoginPage />} /> */}
+            <Route path="/" element={<NewLoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
             <Route path="/normal-search" element={<OldHomePage/>} />
             <Route path="/demos/semantic-search" element={<BlogPage/>} />
