@@ -303,6 +303,12 @@ const BlogPage = () => {
                 </div>
               )}
 
+          		<div className={s.mobileCategoryRow}>
+          		  <span>Category :</span>
+          		  <b>All</b>
+          		  <a href="#">Change</a>
+          		</div>
+
               <div className={s.postList}>
                 {
                   (loading && page === 1) ? (
