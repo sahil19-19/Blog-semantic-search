@@ -1,24 +1,34 @@
 import s from './NewLoginPage.module.scss';
+import logo from '../../assets/img/logo.png';
+import { Link } from 'react-router-dom';
+import platHomePageImage from '../../assets/img/plat-homepage.png';
 
 const NewLoginPage = () => {
     return (
       <div className={s.container}>
         {/* Left Side: Image/Branding */}
         <section
-          className={s.imageSection}
-          role="img"
-          aria-label="Application branding"
-        >
-          <div className={s.brandContent}>
-            <h1></h1>
-            <p></p>
-          </div>
+            className={s.imageSection}
+            role="img"
+            aria-label="Application branding"
+            style={{
+              backgroundImage: `url(${platHomePageImage})`,
+            }}
+          >
         </section>
   
         {/* Right Side: Sign In Form */}
         <section className={s.formSection}>
           <div className={s.formContainer}>
             <header className={s.formHeader}>
+              <Link className={s.brand} to="/demos">
+                <img src={logo} alt="Application Logo" className={s.logoImg} 
+                    onError={(e) => {
+                    (e.currentTarget.style.display = 'none')
+                    const fallback = document.getElementById('fallbackLogo')
+                    if (fallback) fallback.style.display = 'block'
+                  }}/>
+                </Link>
               <h2>Welcome Back</h2>
               <p>Enter your credentials to access your account</p>
             </header>
@@ -55,7 +65,7 @@ const NewLoginPage = () => {
               </div>
   
               <button type="submit" className={s.btnSignin}>
-                Sign In
+                Login
               </button>
             </form>
           </div>

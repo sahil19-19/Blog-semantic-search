@@ -180,7 +180,7 @@ const BlogPage = () => {
       <header>
         <div className={s.container}>
           <div className={s.nav}>
-            <Link className={s.brand} to="/">
+            <Link className={s.brand} to="/demos">
               <img
                 src={logo}
                 alt="Levelworks Logo"
@@ -313,21 +313,36 @@ const BlogPage = () => {
                   )}
                   {estimatedTotalHits !== null && (
                     <span className={s.searchMetaItem}>
-                      ~{estimatedTotalHits.toLocaleString()} results
+                      {estimatedTotalHits.toLocaleString()} results
                     </span>
                   )}
                 </div>
               )}
 
           		<div className={s.mobileCategoryRow} ref={mobileDropdownRef}>
-          		  <span>Category :</span>
+          		  {/* <span>Category :</span>
           		  <b>{selectedCategory || 'All'}</b>
           		  <button 
           		    className={s.changeBtn}
           		    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
           		  >
           		    Change
-          		  </button>
+          		  </button> */}
+                <span>Category :</span>
+                <b
+                    className={s.selectedCategory}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setMobileDropdownOpen(prev => !prev)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setMobileDropdownOpen(prev => !prev);
+                      }
+                    }}
+                  >
+                    {selectedCategory || 'All'}
+                </b>
           		  {mobileDropdownOpen && (
           		    <div className={s.mobileDropdown}>
           		      <div 
@@ -395,8 +410,6 @@ const BlogPage = () => {
                             <div className={s.postTags}>
                               <span className={s.pill}>{item.topics[0]}</span>
                               <span>3 min read</span>
-                              <span>·</span>
-                              <span>Selected for you</span>
                             </div>
 
                             {/* <div className="post-actions">
@@ -443,7 +456,7 @@ const BlogPage = () => {
               <h3>Blog Categories</h3>
               <div className={`${s.tab} ${s.active}`} onClick={handleAllTabClick}>All</div>
               <ul className={s.categoryList}>
-                {categories.slice(0, categoriesOpen ? categories.length : 12).map((category) => (
+                {categories.map((category) => (
                   <li key={category.id}>
                     <a
                       href="#"
@@ -458,15 +471,6 @@ const BlogPage = () => {
                   </li>
                 ))}
               </ul>
-
-              {categories.length > 12 && (
-                <button
-                  className={s.seeMore}
-                  onClick={() => setCategoriesOpen(current => !current)}
-                >
-                  {categoriesOpen ? "See less" : "See more"}
-                </button>
-              )}
             </aside>
           </div>
 

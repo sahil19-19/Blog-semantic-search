@@ -27,7 +27,7 @@ const HomePage = () => {
 
             <button
               className={`${s.btn} ${s.btnPrimary}`}
-              onClick={() => navigate('#')}
+              onClick={() => navigate('/')}
             >
               Login
             </button>
@@ -70,7 +70,7 @@ const HomePage = () => {
         {/* QUICK WINS */}
         <section className={s.section} id='quick-wins'>
           <div className={s.container}>
-            <h2 className={s.sectionTitle}>Other Quick Wins</h2>
+            <h2 className={s.sectionTitle}>Quick Wins</h2>
 
             <div className={s.grid}>
               <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
@@ -86,7 +86,7 @@ const HomePage = () => {
                 </div>
               </article>
 
-              <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
+              <article className={s.card} onClick={() => navigate('#')}>
                 <div className={s.cardMedia}>
                   <img
                     src="https://images.unsplash.com/photo-1553877522-43269d4ea984"
@@ -101,7 +101,7 @@ const HomePage = () => {
                 </div>
               </article>
 
-              <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
+              <article className={s.card} onClick={() => navigate('#')}>
                 <div className={s.cardMedia}>
                   <img
                     src="https://images.unsplash.com/photo-1677442136019-21780ecad995"
@@ -116,7 +116,7 @@ const HomePage = () => {
                 </div>
               </article>
 
-              <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
+              <article className={s.card} onClick={() => navigate('#')}>
                 <div className={s.cardMedia}>
                   <img
                     src="https://images.unsplash.com/photo-1551288049-bebda4e38f71"
