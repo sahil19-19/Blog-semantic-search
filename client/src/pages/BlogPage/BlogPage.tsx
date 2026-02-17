@@ -1,6 +1,6 @@
 import s from './BlogPage.module.scss';
 import logo from '../../assets/img/logo.png';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 import $api from '@/assets/utils/axios';
@@ -39,8 +39,11 @@ const BlogPage = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState<boolean>(false);
 
   const [hasSearched, setHasSearched] = useState(false);// here
+
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -158,6 +161,19 @@ const BlogPage = () => {
     }
   };
 
+  // Close mobile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
+        setMobileDropdownOpen(false);
+      }
+    };
+
+    if (mobileDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [mobileDropdownOpen]);
 
   return (
     <>
@@ -303,10 +319,44 @@ const BlogPage = () => {
                 </div>
               )}
 
-          		<div className={s.mobileCategoryRow}>
+          		<div className={s.mobileCategoryRow} ref={mobileDropdownRef}>
           		  <span>Category :</span>
-          		  <b>All</b>
-          		  <a href="#">Change</a>
+          		  <b>{selectedCategory || 'All'}</b>
+          		  <button 
+          		    className={s.changeBtn}
+          		    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+          		  >
+          		    Change
+          		  </button>
+          		  {mobileDropdownOpen && (
+          		    <div className={s.mobileDropdown}>
+          		      <div 
+          		        className={s.dropdownItem}
+          		        onClick={() => {
+          		          setSelectedCategory('');
+          		          resetSearchState();
+          		          setMobileDropdownOpen(false);
+          		        }}
+          		      >
+          		        All
+          		      </div>
+          		      {categories.map((category) => (
+          		        <div 
+          		          key={category.id}
+          		          className={`${s.dropdownItem} ${selectedCategory === category.name ? s.active : ''}`}
+          		          onClick={() => {
+          		            if (selectedCategory !== category.name) {
+          		              setSelectedCategory(category.name);
+          		              resetSearchState();
+          		            }
+          		            setMobileDropdownOpen(false);
+          		          }}
+          		        >
+          		          {category.name} [{category.postCount}]
+          		        </div>
+          		      ))}
+          		    </div>
+          		  )}
           		</div>
 
               <div className={s.postList}>
