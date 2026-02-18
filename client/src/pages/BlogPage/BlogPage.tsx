@@ -42,8 +42,7 @@ const BlogPage = () => {
   const [selectedCategoryDocCount, setSelectedCategoryDocCount] = useState<number | null>(null);
   const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<boolean>(false);
-
-  const [hasSearched, setHasSearched] = useState(false);// here
+  const [hasSearched, setHasSearched] = useState(false);
 
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -58,8 +57,7 @@ const BlogPage = () => {
     setHasMore(true);
     setProcessingTimeMs(null);
     setEstimatedTotalHits(null);
-
-    setHasSearched(false); //here
+    setHasSearched(false);
   };
 
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -127,7 +125,7 @@ const BlogPage = () => {
       console.error("Semantic Search Error:", err);
     } finally {
       setLoading(false);
-      setHasSearched(true); //here
+      setHasSearched(true);
     }
   }, [loading, selectedCategory, limit, semanticRatio]);
 
@@ -223,8 +221,6 @@ const BlogPage = () => {
           <div className={s.blogLayout}>
             <section>
               <div className={s.tabs}>
-                {/* <div className={`${s.tab} ${s.active}`} onClick={handleHomeTabClick}>Home</div> */}
-                {/* <div className={`${s.tab} ${s.active}`}>Popular</div> */}
                 <div className={s.navSearch}>
                   <div className={s.searchBox}>
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -344,14 +340,6 @@ const BlogPage = () => {
               )}
 
           		<div className={s.mobileCategoryRow} ref={mobileDropdownRef}>
-          		  {/* <span>Category :</span>
-          		  <b>{selectedCategory || 'All'}</b>
-          		  <button 
-          		    className={s.changeBtn}
-          		    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
-          		  >
-          		    Change
-          		  </button> */}
                 <span>Category :</span>
                 <b
                     className={s.selectedCategory}
@@ -408,17 +396,6 @@ const BlogPage = () => {
                     results.map((item) => (
                       <article className={s.post} key={item.id}>
                         <div>
-                          {/* <div className={s.postMeta}>
-
-                            <span>
-                              <strong style={{ fontWeight: 500, color: '#6b7280' }}>
-                                {item.author?.name}
-                              </strong>
-                            </span>
-                            <span>•</span>
-                            <span>4 days ago</span>
-                          </div> */}
-
                           <h2 className={s.postTitle}>
                             {item.title}
                           </h2>
@@ -427,52 +404,58 @@ const BlogPage = () => {
                             {item.description}
                           </p>
 
+                          {/* <div className={s.postFooter}>
+                            <div className={s.postMeta}>
+                              <span className={s.avatar}>
+                                <img
+                                  src={item.author?.img}
+                                  alt={item.author?.name || "Author"}
+                                />
+                              </span>
+                              <span>
+                                <strong style={{ fontWeight: 500, color: '#6b7280' }}>
+                                  {item.author?.name}
+                                </strong>
+                              </span>
+                              <span>•</span>
+                              <span>4 days ago</span>
+                              <span>•</span>
+                              <span>3 min read</span>
+                              <span>•</span>
+                              <div className={s.postTags}>
+                                <span className={s.pill}>{item.topics[0]}</span>
+                              </div>
+                            </div>
+                          </div> */}
+
                           <div className={s.postFooter}>
                             <div className={s.postMeta}>
-                            <span className={s.avatar}>
-                              <img
-                                src={item.author?.img}
-                                alt="Author"
-                              />
-                            </span>
-                            <span>
-                              <strong style={{ fontWeight: 500, color: '#6b7280' }}>
-                                {item.author?.name}
-                              </strong>
-                            </span>
-                            <span>•</span>
-                            <span>4 days ago</span>
-                            <span>•</span>
-                            <span>3 min read</span>
-                            <span>•</span>
-                            <div className={s.postTags}>
-                              <span className={s.pill}>{item.topics[0]}</span>
+                              {/* Row 1: image, name, date */}
+                              <div className={s.row}>
+                                <div className={s.avatar}>
+                                  <img
+                                    src={item.author?.img}
+                                    alt={item.author?.name || "Author"}
+                                  />
+                                </div>
+                                <span className={s.authorName}>
+                                  <strong style={{ fontWeight: 500, color: '#6b7280' }}>
+                                    {item.author?.name}
+                                  </strong>
+                                </span>
+                                <span className={s.date}>4 days ago</span>
+                              </div>
+                              <span className={s.separator}>•</span>
+                              {/* Row 2: read time and topics */}
+                              <div className={s.row}>
+                                <span className={s.readTime}>3 min read</span>
+                                <span className={s.postTags}>
+                                  <span className={s.pill}>{item.topics[0]}</span>
+                                </span>
+                              </div>
                             </div>
                           </div>
-                            {/* <div className={s.postTags}>
-                              <span className={s.pill}>{item.topics[0]}</span>
-                            </div> */}
 
-                            {/* <div className="post-actions">
-                                <div className="icon-btn">
-                                  <svg viewBox="0 0 24 24" fill="none">
-                                    <path
-                                      d="M6 3h12a1 1 0 0 1 1 1v18l-7-4-7 4V4a1 1 0 0 1 1-1Z"
-                                      stroke="currentColor"
-                                      strokeWidth="1.8"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
-                                </div>
-                                <div className="icon-btn">
-                                  <svg viewBox="0 0 24 24" fill="none">
-                                    <circle cx="6" cy="12" r="1.6" fill="currentColor" />
-                                    <circle cx="12" cy="12" r="1.6" fill="currentColor" />
-                                    <circle cx="18" cy="12" r="1.6" fill="currentColor" />
-                                  </svg>
-                                </div>
-                              </div> */}
-                          </div>
                         </div>
 
                         <div className={s.thumb}>

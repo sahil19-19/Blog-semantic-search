@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Bloggy.Application.Common.MeiliSearch;
 using Bloggy.Application.Persistense;
@@ -13,6 +14,11 @@ public class PostRepository(
     MeiliSearchService _meiliSearchService
 ) : IPostRepository
 {
+    public int GetCount()
+    {
+        return _appDbContext.Posts
+            .Count();
+    }
     public void Add(Post post)
     {
         _appDbContext.Posts.Add(post);
