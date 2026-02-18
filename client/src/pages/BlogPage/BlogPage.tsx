@@ -404,7 +404,7 @@ const BlogPage = () => {
                             {item.description}
                           </p>
 
-                          {/* <div className={s.postFooter}>
+                          <div className={s.postFooter}>
                             <div className={s.postMeta}>
                               <span className={s.avatar}>
                                 <img
@@ -426,11 +426,10 @@ const BlogPage = () => {
                                 <span className={s.pill}>{item.topics[0]}</span>
                               </div>
                             </div>
-                          </div> */}
+                          </div>
 
-                          <div className={s.postFooter}>
+                          {/* <div className={s.postFooter}>
                             <div className={s.postMeta}>
-                              {/* Row 1: image, name, date */}
                               <div className={s.row}>
                                 <div className={s.avatar}>
                                   <img
@@ -446,7 +445,6 @@ const BlogPage = () => {
                                 <span className={s.date}>4 days ago</span>
                               </div>
                               <span className={s.separator}>•</span>
-                              {/* Row 2: read time and topics */}
                               <div className={s.row}>
                                 <span className={s.readTime}>3 min read</span>
                                 <span className={s.postTags}>
@@ -454,7 +452,7 @@ const BlogPage = () => {
                                 </span>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
 
                         </div>
 

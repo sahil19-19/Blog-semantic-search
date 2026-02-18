@@ -282,7 +282,6 @@ header {
 }
 
 .postMeta {
-    // justify-content: space-between;
     flex-wrap: wrap;
     display: flex;
     align-items: center;
@@ -585,23 +584,6 @@ footer {
 
     .postMeta {
         font-size: 11px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .postMeta .row {
-        width: 100%;
-        justify-content: flex-start;
-        margin-bottom: 0.12rem;
-    }
-
-    .postMeta .separator {
-        display: none;
-    }
-
-    .postMeta .row span::before {
-        content: "";    
-        margin: 0;
     }
 
     .pill {
