@@ -137,6 +137,12 @@
     gap: 22px;
     align-items: stretch;
   }
+
+  @media (max-width: 600px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
   
   /* CARD */
   .card {

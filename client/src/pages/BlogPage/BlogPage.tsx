@@ -25,6 +25,7 @@ interface IPostResult {
 }
 
 const BlogPage = () => {
+  const [totalCount, setTotalCount] = useState(0);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<IPostResult[]>([]);
   const [page, setPage] = useState(1);
@@ -38,12 +39,14 @@ const BlogPage = () => {
 
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedCategoryDocCount, setSelectedCategoryDocCount] = useState<number | null>(null);
   const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<boolean>(false);
 
   const [hasSearched, setHasSearched] = useState(false);// here
 
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -75,16 +78,18 @@ const BlogPage = () => {
     if (query || selectedCategory) {
       setQuery('');
       setSelectedCategory('');
+      setSelectedCategoryDocCount(null);
       resetSearchState();
     }
   };
 
-  const handleCategoryClick = (categoryName: string) => {
+  const handleCategoryClick = (categoryName: string, categoryDocCount: number) => {
     // If the same category is clicked again, do nothing
     if (selectedCategory === categoryName) {
       return;
     }
     setSelectedCategory(categoryName);
+    setSelectedCategoryDocCount(categoryDocCount);
     resetSearchState();
   };
 
@@ -156,6 +161,7 @@ const BlogPage = () => {
     try {
       const response = await PostService.fetchCategory();
       setCategories(response.data.result.topics);
+      setTotalCount(response.data.result.totalCount);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -207,7 +213,7 @@ const BlogPage = () => {
               </span>
             </Link>
 
-            <a className={`${s.btn} ${s.btnPrimary}`} href="#">Login</a>
+            <a className={`${s.btn} ${s.btnPrimary}`} href="/">Login</a>
           </div>
         </div>
       </header>
@@ -237,11 +243,29 @@ const BlogPage = () => {
                       />
                     </svg>
                     <input
+                      ref={searchInputRef}
                       type="text"
                       placeholder="Search"
                       value={query}
                       onChange={(e) => handleSearchChange(e.target.value)}
                     />
+                    {query && (
+                      <button
+                        type="button"
+                        className={s.clearBtn}
+                        aria-label="Clear search"
+                        onClick={() => {
+                          setQuery('');
+                          resetSearchState();
+                          searchInputRef.current?.focus();
+                        }}
+                      >
+                        <svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="cross" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" >
+                          <path id="primary" d="M19,19,5,5M19,5,5,19" style={{ fill: "none", stroke: "rgb(0, 0, 0)", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2 }}>
+                          </path>
+                        </svg> 
+                      </button>
+                    )}
                   </div>
 
 
@@ -341,19 +365,20 @@ const BlogPage = () => {
                       }
                     }}
                   >
-                    {selectedCategory || 'All'}
+                    {selectedCategory ? `${selectedCategory} [${selectedCategoryDocCount}]` : `All ${totalCount > 0 && `[${totalCount}]`}`}
                 </b>
           		  {mobileDropdownOpen && (
           		    <div className={s.mobileDropdown}>
           		      <div 
-          		        className={s.dropdownItem}
+          		        className={`${s.dropdownItem} ${!selectedCategory ? s.active : ''}`}
           		        onClick={() => {
           		          setSelectedCategory('');
+          		          setSelectedCategoryDocCount(null);
           		          resetSearchState();
           		          setMobileDropdownOpen(false);
           		        }}
           		      >
-          		        All
+          		        All {totalCount > 0 && `[${totalCount}]`}
           		      </div>
           		      {categories.map((category) => (
           		        <div 
@@ -362,6 +387,7 @@ const BlogPage = () => {
           		          onClick={() => {
           		            if (selectedCategory !== category.name) {
           		              setSelectedCategory(category.name);
+                            setSelectedCategoryDocCount(category.postCount);
           		              resetSearchState();
           		            }
           		            setMobileDropdownOpen(false);
@@ -382,7 +408,27 @@ const BlogPage = () => {
                     results.map((item) => (
                       <article className={s.post} key={item.id}>
                         <div>
-                          <div className={s.postMeta}>
+                          {/* <div className={s.postMeta}>
+
+                            <span>
+                              <strong style={{ fontWeight: 500, color: '#6b7280' }}>
+                                {item.author?.name}
+                              </strong>
+                            </span>
+                            <span>•</span>
+                            <span>4 days ago</span>
+                          </div> */}
+
+                          <h2 className={s.postTitle}>
+                            {item.title}
+                          </h2>
+
+                          <p className={s.postExcerpt}>
+                            {item.description}
+                          </p>
+
+                          <div className={s.postFooter}>
+                            <div className={s.postMeta}>
                             <span className={s.avatar}>
                               <img
                                 src={item.author?.img}
@@ -396,21 +442,16 @@ const BlogPage = () => {
                             </span>
                             <span>•</span>
                             <span>4 days ago</span>
-                          </div>
-
-                          <h2 className={s.postTitle}>
-                            {item.title}
-                          </h2>
-
-                          <p className={s.postExcerpt}>
-                            {item.description}
-                          </p>
-
-                          <div className={s.postFooter}>
+                            <span>•</span>
+                            <span>3 min read</span>
+                            <span>•</span>
                             <div className={s.postTags}>
                               <span className={s.pill}>{item.topics[0]}</span>
-                              <span>3 min read</span>
                             </div>
+                          </div>
+                            {/* <div className={s.postTags}>
+                              <span className={s.pill}>{item.topics[0]}</span>
+                            </div> */}
 
                             {/* <div className="post-actions">
                                 <div className="icon-btn">
@@ -454,15 +495,26 @@ const BlogPage = () => {
 
             <aside className={s.sidebar}>
               <h3>Blog Categories</h3>
-              <div className={`${s.tab} ${s.active}`} onClick={handleAllTabClick}>All</div>
               <ul className={s.categoryList}>
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAllTabClick();
+                    }}
+                    className={!selectedCategory ? s.active : ''}
+                  >
+                    All {totalCount > 0 && `[${totalCount}]`}
+                  </a>
+                </li>
                 {categories.map((category) => (
                   <li key={category.id}>
                     <a
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        handleCategoryClick(category.name);
+                        handleCategoryClick(category.name, category.postCount);
                       }}
                       className={selectedCategory === category.name ? s.active : ''}
                     >
