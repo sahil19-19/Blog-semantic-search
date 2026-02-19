@@ -395,39 +395,46 @@ const BlogPage = () => {
                   ) : results.length > 0 ? (
                     results.map((item) => (
                       <article className={s.post} key={item.id}>
-                        <div>
-                          <h2 className={s.postTitle}>
-                            {item.title}
-                          </h2>
+                        <div className={s.postContent}>
+                          <div>
+                            <h2 className={s.postTitle}>
+                              {item.title}
+                            </h2>
 
-                          <p className={s.postExcerpt}>
-                            {item.description}
-                          </p>
-
-                          <div className={s.postFooter}>
-                            <div className={s.postMeta}>
-                              <span className={s.avatar}>
-                                <img
-                                  src={item.author?.img}
-                                  alt={item.author?.name || "Author"}
-                                />
-                              </span>
-                              <span>
-                                <strong style={{ fontWeight: 500, color: '#6b7280' }}>
-                                  {item.author?.name}
-                                </strong>
-                              </span>
-                              <span>•</span>
-                              <span>4 days ago</span>
-                              <span>•</span>
-                              <span>3 min read</span>
-                              <span>•</span>
-                              <div className={s.postTags}>
-                                <span className={s.pill}>{item.topics[0]}</span>
-                              </div>
+                            <p className={s.postExcerpt}>
+                              {item.description}
+                            </p>
+                          </div>
+                          <div className={s.thumb}>
+                            <img
+                              src={item.imageUri}
+                              alt="Thumbnail"
+                            />
+                          </div>
+                        </div>
+                        <div className={s.postFooter}>
+                          <div className={s.postMeta}>
+                            <span className={s.avatar}>
+                              <img
+                                src={item.author?.img}
+                                alt={item.author?.name || "Author"}
+                              />
+                            </span>
+                            <span>
+                              <strong style={{ fontWeight: 500, color: '#6b7280' }}>
+                                {item.author?.name}
+                              </strong>
+                            </span>
+                            <span>•</span>
+                            <span>4 days ago</span>
+                            <span>•</span>
+                            <span>3 min read</span>
+                            <span>•</span>
+                            <div className={s.postTags}>
+                              <span className={s.pill}>{item.topics[0]}</span>
                             </div>
                           </div>
-
+                        </div>
                           {/* <div className={s.postFooter}>
                             <div className={s.postMeta}>
                               <div className={s.row}>
@@ -453,15 +460,6 @@ const BlogPage = () => {
                               </div>
                             </div>
                           </div> */}
-
-                        </div>
-
-                        <div className={s.thumb}>
-                          <img
-                            src={item.imageUri}
-                            alt="Thumbnail"
-                          />
-                        </div>
                       </article>
                     ))
                   ) : hasSearched ? (
