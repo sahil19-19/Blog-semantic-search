@@ -29,7 +29,7 @@ const HomePage = () => {
               className={`${s.btn} ${s.btnPrimary}`}
               onClick={() => navigate('/')}
             >
-              Login
+              Sign In
             </button>
           </div>
         </div>
@@ -73,7 +73,7 @@ const HomePage = () => {
             <h2 className={s.sectionTitle}>Quick Wins</h2>
 
             <div className={s.grid}>
-              <article className={s.card} onClick={() => navigate('#')} style={{ cursor: 'pointer' }}>
+              <article className={s.card} onClick={() => navigate('#')}>
                 <div className={s.cardMedia}>
                   <img src={semantic} alt="Semantic Search" />
                 </div>
