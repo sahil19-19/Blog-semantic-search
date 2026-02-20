@@ -75,7 +75,20 @@ const NewLoginPage = () => {
               <button type="submit" className={s.btnSignin}>
                 Sign In
               </button>
+
             </form>
+            
+            <hr className={s.separator}></hr>
+
+            <div className={s.infoTile}>
+              <div className={s.infoTileContent}>
+                  <h3 className={s.infoTileTitle}>Featured Demo: Semantic Search</h3>
+                  <p className={s.infoTileText}>Help users find what matters faster with meaning-aware search that understands intent, context, and natural language.</p>
+              </div>
+              <div className={s.infoTileImage}>
+                  <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format&fit=crop&q=80" alt="Homestead cabin in the woods"/>
+              </div>
+            </div>
           </div>
         </section>
       </div>
