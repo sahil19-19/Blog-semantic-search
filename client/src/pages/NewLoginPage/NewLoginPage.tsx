@@ -1,6 +1,5 @@
 import s from './NewLoginPage.module.scss';
 import logo from '../../assets/img/logo.png';
-import { Link } from 'react-router-dom';
 import platHomePageImage from '../../assets/img/plat-homepage.png';
 
 const NewLoginPage = () => {
@@ -21,14 +20,23 @@ const NewLoginPage = () => {
         <section className={s.formSection}>
           <div className={s.formContainer}>
             <header className={s.formHeader}>
-              <Link className={s.brand} to="/demos">
-                <img src={logo} alt="Application Logo" className={s.logoImg} 
-                    onError={(e) => {
+              <a
+                className={s.brand}
+                href="https://www.levelworks.co/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={logo}
+                  alt="Application Logo"
+                  className={s.logoImg}
+                  onError={(e) => {
                     (e.currentTarget.style.display = 'none')
                     const fallback = document.getElementById('fallbackLogo')
                     if (fallback) fallback.style.display = 'block'
-                  }}/>
-                </Link>
+                  }}
+                />
+              </a>
               <h2>Welcome Back</h2>
               <p>Enter your credentials to access your account</p>
             </header>
@@ -65,9 +73,22 @@ const NewLoginPage = () => {
               </div>
   
               <button type="submit" className={s.btnSignin}>
-                Login
+                Sign In
               </button>
+
             </form>
+            
+            <hr className={s.separator}></hr>
+
+            <div className={s.infoTile}>
+              <div className={s.infoTileContent}>
+                  <h3 className={s.infoTileTitle}>Featured Demo: Semantic Search</h3>
+                  <p className={s.infoTileText}>Help users find what matters faster with meaning-aware search that understands intent, context, and natural language.</p>
+              </div>
+              <div className={s.infoTileImage}>
+                  <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format&fit=crop&q=80" alt="Homestead cabin in the woods"/>
+              </div>
+            </div>
           </div>
         </section>
       </div>

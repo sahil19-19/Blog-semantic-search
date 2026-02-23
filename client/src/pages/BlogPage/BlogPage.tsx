@@ -2,7 +2,7 @@ import s from './BlogPage.module.scss';
 import logo from '../../assets/img/logo.png';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import $api from '@/assets/utils/axios';
 import PostService from '../../service/PostsService';
 
@@ -25,6 +25,7 @@ interface IPostResult {
 }
 
 const BlogPage = () => {
+  const navigate = useNavigate();
   const [totalCount, setTotalCount] = useState(0);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<IPostResult[]>([]);
@@ -211,7 +212,7 @@ const BlogPage = () => {
               </span>
             </Link>
 
-            <a className={`${s.btn} ${s.btnPrimary}`} href="/">Login</a>
+            <a className={`${s.btn} ${s.btnPrimary}`} href="/">Sign In</a>
           </div>
         </div>
       </header>
@@ -326,14 +327,14 @@ const BlogPage = () => {
 
               {results.length > 0 && (processingTimeMs !== null || estimatedTotalHits !== null) && (
                 <div className={s.searchMeta}>
-                  {processingTimeMs !== null && (
-                    <span className={s.searchMetaItem}>
-                      Search took {processingTimeMs}ms
-                    </span>
-                  )}
                   {estimatedTotalHits !== null && (
                     <span className={s.searchMetaItem}>
                       {estimatedTotalHits.toLocaleString()} results
+                    </span>
+                  )}
+                  {processingTimeMs !== null && (
+                    <span className={s.searchMetaItem}>
+                      Search took {processingTimeMs}ms
                     </span>
                   )}
                 </div>
@@ -394,7 +395,11 @@ const BlogPage = () => {
                     <div className={s.searchingMessage}>Searching...</div>
                   ) : results.length > 0 ? (
                     results.map((item) => (
-                      <article className={s.post} key={item.id}>
+                      <article 
+                        className={s.post} 
+                        key={item.id}
+                        onClick={() => navigate(`/post/${item.id}`)}
+                        >
                         <div className={s.postContent}>
                           <div>
                             <h2 className={s.postTitle}>
