@@ -1,5 +1,16 @@
+Deploy command
 ```
 ssh -t -v -i C:\Users\user\.ssh\digitalOcean_key deploy@139.59.79.149 deploy-plat-levelworks.sh
+```
+
+Add migrations
+```
+docker compose run --rm migrator
+```
+
+Run Seeder
+```
+docker exec -it backend-demo-service dotnet Bloggy.Api.dll --seed
 ```
 
 ## Technology Stack
