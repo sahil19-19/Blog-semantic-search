@@ -6,7 +6,6 @@ import { IPost } from "@/models/IPost";
 
 const NewSinglePage = () => {
   const { id: postId } = useParams();
-  console.log("postId:", postId);
 
   const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);
