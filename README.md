@@ -7,6 +7,9 @@ Add migrations
 ```
 docker compose run --rm migrator
 ```
+```
+docker compose --profile tools up
+```
 
 Run Seeder
 ```
