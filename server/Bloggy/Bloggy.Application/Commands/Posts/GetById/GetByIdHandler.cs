@@ -12,11 +12,13 @@ public class GetByIdHandler(
 {
     public Task<GetByIdResponse> Handle(GetByIdRequest request, CancellationToken cancellationToken)
     {
-        if (_postRepository.GetById(request.Id) is not Post post)
+        
+        var post = _postRepository.GetById(request.Id);
+
+        if (post is null)
         {
             throw new ApplicationException("Post with given id not found");
         }
-
         post.Views++;
         _postRepository.Update(post);
 
