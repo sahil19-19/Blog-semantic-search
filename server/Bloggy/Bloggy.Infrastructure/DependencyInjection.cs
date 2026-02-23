@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bloggy.Infrastructure;
 
@@ -26,7 +27,14 @@ public static class DependencyInjection
         services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 
         services.AddAuthentication(configuration);
-        services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("Bloggy.Db"));
+        // services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("Bloggy.Db"));
+        services.AddDbContext<AppDbContext>((sp, options) =>
+            {
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+                options
+                    .UseNpgsql(connectionString)
+                    .UseSnakeCaseNamingConvention();
+            });
 
         return services;
     }

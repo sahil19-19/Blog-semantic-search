@@ -70,10 +70,31 @@ public class PostRepository(
 
     public Post? GetById(Guid postId)
     {
-        return _appDbContext.Posts
+        // Console.WriteLine("### total posts: "+ _appDbContext.Posts.Count());
+        
+        // var post =  _appDbContext.Posts
+        //     .Include(p => p.Author)
+        //     .Include(p => p.Topics)
+        //     .FirstOrDefault(p => p.Id == postId);
+        
+        // Console.WriteLine("### post: ");
+        // Console.WriteLine(post);
+        Console.WriteLine("### total posts: " + _appDbContext.Posts.Count());
+        Console.WriteLine("### Request ID: " + postId);
+    
+        foreach (var p in _appDbContext.Posts)
+        {
+            Console.WriteLine($"DB ID: {p.Id} | Equal? {p.Id == postId}");
+        }
+    
+        var post = _appDbContext.Posts
             .Include(p => p.Author)
             .Include(p => p.Topics)
             .FirstOrDefault(p => p.Id == postId);
+    
+        Console.WriteLine(post == null ? "### NOT FOUND" : "### FOUND");
+
+        return post;
     }
 
     public void Remove(Post post)
