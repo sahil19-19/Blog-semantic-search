@@ -11,6 +11,6 @@ export interface PostsResponse {
             author: IUser;
             imageUri: string;
             dateCreated: string;
-        }[]
+        }
     }
 }
