@@ -1,3 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --muted-2: #94a3b8;
+  --border: rgba(15, 23, 42, 0.08);
+  --brand: #f58b2c;
+  --brand-600: #ea7b18;
+  --focus: #ff7815;
+  --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.06);
+  --radius-lg: 18px;
+  --container: 1100px;
+}
+
+main {
+  padding-top: 22px;
+}
+
+header .container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 22px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btnPrimary {
+    background: var(--brand);
+    color: #fff;
+    width: 100px;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    z-index: 999;
+}
+
+.nav {
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.logoImg {
+    height: 22px;
+}
+
+.brandMark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+
 .page {
   background: #f9fafb;
   min-height: 100vh;
@@ -6,10 +83,10 @@
   justify-content: center;
 }
 
-.container {
-  max-width: 800px;
-  width: 100%;
-}
+// main .container {
+//   max-width: 800px;
+//   width: 100%;
+// }
 
 .title {
   font-size: 48px;
@@ -21,8 +98,7 @@
 .metaRow {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #6b7280;
+  color: #8b94a2;
   font-size: 14px;
   margin-bottom: 30px;
 
@@ -33,6 +109,16 @@
   }
 }
 
+.pill{
+  background: rgba(245, 139, 44, 0.1);
+  color: var(--brand);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
 .heroImage {
   width: 100%;
   border-radius: 12px;
@@ -40,7 +126,7 @@
 }
 
 .content {
-  font-size: 20px;
+  font-size: 12px;
   line-height: 1.8;
   color: #374151;
 
@@ -51,5 +137,19 @@
   h2 {
     margin-top: 40px;
     margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 32px;
+  }
+
+  .metaRow {
+    font-size: 13px;
+  }
+
+  .content {
+    font-size: 14px;
   }
 }
