@@ -3,7 +3,7 @@ import { IUser } from "../IUser";
 
 export interface PostsResponse {
     result: {
-        posts: {
+        post: {
             id: string;
             title: string;
             description: string;

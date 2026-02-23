@@ -19,7 +19,7 @@ const NewSinglePage = () => {
         setError(null);
         const res = await PostsService.GetSinglePosts(postId);
         console.log("Fetched post data:", res.data);
-        setPost(res.data.result.posts[0]);
+        setPost(res.data.result.post);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : "Failed to fetch post";
         console.error("Failed to fetch post", err);
