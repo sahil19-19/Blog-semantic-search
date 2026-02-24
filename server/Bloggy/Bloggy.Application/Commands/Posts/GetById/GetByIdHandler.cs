@@ -30,7 +30,7 @@ public class GetByIdHandler(
                     Author = new UserWithoutPasswordDto
                     {
                         Id = post.Author.Id.ToString(),
-                        ImageUri = post.ImageUri,
+                        ImageUri = post.Author.ImageUri,
                         Name = post.Author.Name,
                         Email = post.Author.Email,
                     },
