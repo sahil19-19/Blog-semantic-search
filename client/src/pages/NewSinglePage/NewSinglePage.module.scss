@@ -84,7 +84,7 @@ header {
 }
 
 main .container {
-  max-width: var(--container);
+  max-width: 900px;
 }
 
 .title {
@@ -122,6 +122,7 @@ main .container {
 .heroImage {
   width: 80%;
   border-radius: 12px;
+  margin: auto;
   margin-bottom: 40px;
   height: 400px;
   display: block;
@@ -130,7 +131,7 @@ main .container {
 }
 
 .content {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
   color: #374151;
 
