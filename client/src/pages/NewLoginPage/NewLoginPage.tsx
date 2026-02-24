@@ -8,14 +8,8 @@ const NewLoginPage = () => {
     return (
       <div className={s.container}>
         {/* Left Side: Image/Branding */}
-        <section
-            className={s.imageSection}
-            role="img"
-            aria-label="Application branding"
-            style={{
-              backgroundImage: `url(${platHomePageImage})`,
-            }}
-          >
+        <section className={s.imageSection}>
+            <img src={platHomePageImage} alt="Branding" className={s.sideImage} />
         </section>
   
         {/* Right Side: Sign In Form */}
