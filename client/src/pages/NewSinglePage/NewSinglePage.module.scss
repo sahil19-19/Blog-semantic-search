@@ -120,10 +120,13 @@ main .container {
 
 
 .heroImage {
-  width: 100%;
+  width: 80%;
   border-radius: 12px;
   margin-bottom: 40px;
   height: 400px;
+  display: block;
+  height: 350px;
+  object-fit: cover;
 }
 
 .content {
@@ -144,6 +147,11 @@ main .container {
 @media (max-width: 600px) {
   .title {
     font-size: 32px;
+  }
+
+  .heroImage {
+    width: 90%;
+    height: 220px;
   }
 
   .metaRow {

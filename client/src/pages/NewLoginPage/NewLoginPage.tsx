@@ -1,8 +1,10 @@
 import s from './NewLoginPage.module.scss';
 import logo from '../../assets/img/logo.png';
 import platHomePageImage from '../../assets/img/plat-homepage.png';
+import { useNavigate } from 'react-router-dom';
 
 const NewLoginPage = () => {
+    const navigate = useNavigate();
     return (
       <div className={s.container}>
         {/* Left Side: Image/Branding */}
@@ -80,7 +82,7 @@ const NewLoginPage = () => {
             
             <hr className={s.separator}></hr>
 
-            <div className={s.infoTile}>
+            <div className={s.infoTile} onClick={() => navigate(`/demos/semantic-search`)}>
               <div className={s.infoTileContent}>
                   <h3 className={s.infoTileTitle}>Featured Demo: Semantic Search</h3>
                   <p className={s.infoTileText}>Help users find what matters faster with meaning-aware search that understands intent, context, and natural language.</p>
